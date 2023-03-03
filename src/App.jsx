@@ -4,6 +4,7 @@ import ProductList from "./components/ProductList"
 import { useState } from "react"
 import { useEffect } from "react"
 import {v4 as uuidv4} from 'uuid';
+import ShoppingCart from "./components/ShoppingCart/ShoppingCart"
 
 function App() {
   const [products, setProducts] = useState([])
@@ -41,6 +42,7 @@ function App() {
     <div style={{display: "flex" , height: "100%"}}>
     <LeftNavigation></LeftNavigation>
     <ProductList products={products}></ProductList>
+    <ShoppingCart></ShoppingCart>
     </div>
     </>
   )
