@@ -1,6 +1,9 @@
 import "./Navbar.css";
 
-const Product = ({product}) => {
+const Product = ({product, addItemToCart}) => {
+    const addItemToCartHandler = () => {
+        addItemToCart(product.id)
+    }
     return (
         <>
        <div style={{width: "calc(calc(100%/4)", margin: "10px 5px", height: "20%", borderStyle: "solid", borderWidth: "5px", borderColor: "#dcdcdc", alignSelf: "flex-start", textAlign: "center", backgroundColor: "rgba(51,51,51,.04)", zIndex: "5", flex: "1", aspectRatio: "1 / 1"}}>
@@ -12,7 +15,7 @@ const Product = ({product}) => {
                     <div> 10.99 TL</div>
                     <div> {product.name} </div>
                 </div>
-                <div style={{width: "40px", height: "100%", borderRadius: "50%", display: "flex", justifyContent: "center", borderStyle: "solid", gridColumn: "add"}}> Al</div>
+                <div onClick={addItemToCartHandler} style={{width: "40px", height: "100%", borderRadius: "50%", display: "flex", justifyContent: "center", borderStyle: "solid", gridColumn: "add"}}> Al</div>
             </div>
         </div>
         </>

@@ -8,7 +8,7 @@ import ShoppingCart from "./components/ShoppingCart/ShoppingCart"
 
 function App() {
   const [products, setProducts] = useState([])
-  const [shopingCart, setShoppingCart] = useState([])
+  const [shoppingCart, setShoppingCart] = useState([])
 
   useEffect(() => {
     setProducts(oldArray => {
@@ -35,14 +35,22 @@ function App() {
     setProducts(oldArray => {
       return [...oldArray, {name: "muz", id: uuidv4()}]
     })
+    setShoppingCart(oldArray => {
+      return [...oldArray, {name: "muz", id: uuidv4()}]
+    })
   }, [])
+  const addItemToCart = (id) =>{
+    setShoppingCart(oldArray => {
+      [...oldArray, products.find(product => product.id === id)]
+    })
+  }
   return(
     <>
     <Navbar></Navbar>
     <div style={{display: "flex" , height: "100%"}}>
     <LeftNavigation></LeftNavigation>
-    <ProductList products={products}></ProductList>
-    <ShoppingCart></ShoppingCart>
+    <ProductList products={products} addItemToCart={addItemToCart}></ProductList>
+    <ShoppingCart shoppingCart={shoppingCart}></ShoppingCart>
     </div>
     </>
   )
