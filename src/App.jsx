@@ -9,47 +9,45 @@ import ShoppingCart from "./components/ShoppingCart/ShoppingCart"
 function App() {
   const [products, setProducts] = useState([])
   const [shoppingCart, setShoppingCart] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState("All")
 
   useEffect(() => {
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4()}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL", category: "Meyve"}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "elma", id: uuidv4()}]
+      return [...oldArray, {name: "elma", id: uuidv4(), price: "100 TL", category: "Sebze"}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "çilek", id: uuidv4()}]
+      return [...oldArray, {name: "çilek", id: uuidv4(), price: "100 TL"}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4()}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL"}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4()}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL"}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4()}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL"}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4()}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL"}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4()}]
-    })
-    setShoppingCart(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4()}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL"}]
     })
   }, [])
   const addItemToCart = (id) =>{
     setShoppingCart(oldArray => {
-      [...oldArray, products.find(product => product.id === id)]
+      return [...oldArray, products.find(product => product.id === id)]
     })
   }
   return(
     <>
     <Navbar></Navbar>
     <div style={{display: "flex" , height: "100%"}}>
-    <LeftNavigation></LeftNavigation>
-    <ProductList products={products} addItemToCart={addItemToCart}></ProductList>
+    <LeftNavigation setSelectedCategory={setSelectedCategory}></LeftNavigation>
+    <ProductList products={products} addItemToCart={addItemToCart} selectedCategory={selectedCategory}></ProductList>
     <ShoppingCart shoppingCart={shoppingCart}></ShoppingCart>
     </div>
     </>
