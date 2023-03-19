@@ -1,11 +1,11 @@
-const LeftNavigationItem = ({title, setSelectedCategory}) => {
+const LeftNavigationItem = ({title, text, setSelectedCategory, selectedCategory}) => {
     const setSelectedCategoryHandler = () => {
         setSelectedCategory(title)
     }
     return (
         <>
-        <div style={{width: "100%", height: "5%", borderTop: "2px solid #dcdcdc", textAlign: "center"}} onClick={setSelectedCategoryHandler}>
-            {title}
+        <div style={{width: "100%", height: "5%", textAlign: "center", backgroundColor: (selectedCategory == title ? "#cacaca":"")}} onClick={setSelectedCategoryHandler}>
+            {text}
         </div>
         </>
     )
