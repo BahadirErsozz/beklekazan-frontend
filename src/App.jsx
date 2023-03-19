@@ -13,28 +13,28 @@ function App() {
 
   useEffect(() => {
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL", category: "Meyve"}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: 100, category: "Meyve"}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "elma", id: uuidv4(), price: "100 TL", category: "Sebze"}]
+      return [...oldArray, {name: "elma", id: uuidv4(), price: 100, category: "Sebze"}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "çilek", id: uuidv4(), price: "100 TL"}]
+      return [...oldArray, {name: "çilek", id: uuidv4(), price: 100}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL"}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: 100}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL"}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: 100}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL"}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: 100}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL"}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: 100}]
     })
     setProducts(oldArray => {
-      return [...oldArray, {name: "muz", id: uuidv4(), price: "100 TL"}]
+      return [...oldArray, {name: "muz", id: uuidv4(), price: 100}]
     })
   }, [])
   const addItemToCart = (id) =>{
@@ -45,11 +45,14 @@ function App() {
   return(
     <>
     <Navbar></Navbar>
+    <div style={{backgroundImage: "url(https://images.deliveryhero.io/image/fd-tr/LH/g3w6-hero.jpg)", height: "272px", display: "block", width: "100%", backgroundSize: "cover"}}></div>
+    <div style={{height: "69px", display: "block", width: "100%", backgroundSize: "cover", borderBottom: "solid 1px #dcdcdc", }}> Some Text</div>
     <div style={{display: "flex" , height: "100%"}}>
-    <LeftNavigation setSelectedCategory={setSelectedCategory}></LeftNavigation>
+    <LeftNavigation setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory}></LeftNavigation>
     <ProductList products={products} addItemToCart={addItemToCart} selectedCategory={selectedCategory}></ProductList>
-    <ShoppingCart shoppingCart={shoppingCart}></ShoppingCart>
+    
     </div>
+    <ShoppingCart shoppingCart={shoppingCart}></ShoppingCart>
     </>
   )
 }
