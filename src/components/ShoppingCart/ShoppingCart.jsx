@@ -13,6 +13,11 @@ const ShoppingCart = ({shoppingCart}) => {
         </div>
         <ShoppingItems shoppingCart={shoppingCart}></ShoppingItems>
         <CartSummary totalPrice={shoppingCart.reduce((partialSum, a) => partialSum + a.price, 0)}></CartSummary>
+        <div style={{textAlign: "center", backgroundColor: "#ea004b", color: "white", height: "30px", justifyContent: "center", display: "flex", alignItems: "center"}}> 
+            <div>
+                Siparişi Tamamla
+            </div>
+        </div>
         </div>
        </div>
         </>

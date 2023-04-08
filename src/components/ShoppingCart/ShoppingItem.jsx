@@ -24,12 +24,17 @@ const ShoppingItem = ({ shoppingItem }) => {
               }}
             ></img>
           </div>
-          <div style={{ width: "30%", alignSelf: "center" }}>
+          <div style={{ width: "30%", alignSelf: "center", textAlign: "center", alignContent: "center", display: "flex", flexDirection: "column"}}>
             <div>
             {shoppingItem.name}
             </div>
             <div>
             {shoppingItem.price}
+            </div>
+            <div style={{display: "flex", height: "30px", width: "70%", border: "solid", alignItems: "center", textAlign: "center", alignSelf: "center"}}>
+              <div style={{width: "33%", borderRight: "solid", height: "100%", textAlign: "center", justifyContent: "center", alignItems: "center", display: "flex"}}> - </div>
+              <div style={{width: "33%", borderRight: "solid", height: "100%", textAlign: "center", justifyContent: "center", alignItems: "center", display: "flex"}}> 1 </div>
+              <div style={{ width: "33%"}}> + </div>
             </div>
           </div>
         </div>
