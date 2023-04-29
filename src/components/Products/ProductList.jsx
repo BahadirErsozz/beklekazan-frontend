@@ -1,4 +1,3 @@
-import "./Navbar.css";
 import Product from "./Product";
 
 const ProductList = ({products, addItemToCart, selectedCategory}) => {

@@ -1,5 +1,5 @@
-import CartSummary from "./CartSummary";
-import ShoppingItems from "./ShoppingItems";
+import CartSummary from "./components/CartSummary";
+import ShoppingItems from "./components/ShoppingItems";
 
 const ShoppingCart = ({shoppingCart}) => {
 
