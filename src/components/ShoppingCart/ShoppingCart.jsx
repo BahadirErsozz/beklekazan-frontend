@@ -1,7 +1,7 @@
 import CartSummary from "./components/CartSummary";
 import ShoppingItems from "./components/ShoppingItems";
 
-const ShoppingCart = ({shoppingCart}) => {
+const ShoppingCart = ({shoppingCart, addOrder}) => {
 
     return (
         <>
@@ -14,7 +14,7 @@ const ShoppingCart = ({shoppingCart}) => {
         <ShoppingItems shoppingCart={shoppingCart}></ShoppingItems>
         <CartSummary totalPrice={shoppingCart.reduce((partialSum, a) => partialSum + a.price, 0)}></CartSummary>
         <div style={{textAlign: "center", backgroundColor: "#ea004b", color: "white", height: "30px", justifyContent: "center", display: "flex", alignItems: "center"}}> 
-            <div>
+            <div onClick={addOrder}>
                 Siparişi Tamamla
             </div>
         </div>
