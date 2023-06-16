@@ -1,4 +1,10 @@
-const ShoppingItem = ({ shoppingItem }) => {
+const ShoppingItem = ({ addItemToCart, shoppingItem, removeItemFromCart }) => {
+  const removeItemFromCartHandler = () => {
+    removeItemFromCart(shoppingItem.id)
+  }
+  const addItemToCartHandler = () => {
+    addItemToCart(shoppingItem.id)
+  }
   return (
     <>
       <div
@@ -32,9 +38,9 @@ const ShoppingItem = ({ shoppingItem }) => {
             {shoppingItem.price}
             </div>
             <div style={{display: "flex", height: "30px", width: "70%", border: "solid", alignItems: "center", textAlign: "center", alignSelf: "center"}}>
-              <div style={{width: "33%", borderRight: "solid", height: "100%", textAlign: "center", justifyContent: "center", alignItems: "center", display: "flex"}}> - </div>
-              <div style={{width: "33%", borderRight: "solid", height: "100%", textAlign: "center", justifyContent: "center", alignItems: "center", display: "flex"}}> 1 </div>
-              <div style={{ width: "33%"}}> + </div>
+              <div onClick={removeItemFromCartHandler} style={{width: "33%", borderRight: "solid", height: "100%", textAlign: "center", justifyContent: "center", alignItems: "center", display: "flex"}}> - </div>
+              <div style={{width: "33%", borderRight: "solid", height: "100%", textAlign: "center", justifyContent: "center", alignItems: "center", display: "flex"}}> {shoppingItem.count} </div>
+              <div onClick={addItemToCartHandler} style={{ width: "33%"}}> + </div>
             </div>
           </div>
         </div>

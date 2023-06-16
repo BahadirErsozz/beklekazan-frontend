@@ -18,13 +18,15 @@ function Home() {
   const [updateOrders, setupdateOrders] = useState(0)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loggedInUser, setLoggedInUser] = useState("")
+  const [lastStatus, setLastStatus] = useState(false)
+  const [triggerIsLoggedIn, setTriggerIsLoggedIn] = useState(false)
+
   useEffect(() => {
     fetch('http://localhost:3000/products',{
       'credentials': 'include',
     })
          .then((res) => res.json())
          .then((data) => {
-          console.log("wtf")
           for (let i = 0; i < data.length; i++) {
             setProducts(oldArray => {
               return [...oldArray, {name: data[i].name, id: uuidv4(), price: data[i].price, category: "Meyve", deadline: data[i].deadline}]
@@ -33,18 +35,7 @@ function Home() {
          .catch((err) => {
             console.log(err);
          });
-    fetch('http://localhost:3000/users/isLoggedIn',{
-      'credentials': 'include',
-    })
-         .then((res) => res.json())
-         .then((data) => {
-          console.log("isloggedin: " + data.isLoggedIn)
-          setIsLoggedIn(data.isLoggedIn)
-          setLoggedInUser(data.email)
-         })
-         .catch((err) => {
-            console.log(err);
-         });     
+    
     // setProducts(oldArray => {
     //   return [...oldArray, {name: "muz", id: uuidv4(), price: 100, category: "Meyve"}]
     // })
@@ -70,11 +61,54 @@ function Home() {
     //   return [...oldArray, {name: "muz", id: uuidv4(), price: 100}]
     // })
   }, [])
-  const addItemToCart = (id) =>{
-    setShoppingCart(oldArray => {
-      return [...oldArray, products.find(product => product.id === id)]
+  useEffect(() => {
+    fetch('http://localhost:3000/users/isLoggedIn',{
+      'credentials': 'include',
     })
+         .then((res) => res.json())
+         .then((data) => {
+          console.log("isloggedin: " + data.isLoggedIn)
+          setIsLoggedIn(data.isLoggedIn)
+          setLoggedInUser(data.email)
+         })
+         .catch((err) => {
+            console.log(err);
+         });     
+  }, [triggerIsLoggedIn])
+
+  const addItemToCart = (id) => {
+    if (itemExistsOnCart(id)) {
+      const newShoppingCart = shoppingCart.map(obj => {
+        if (obj.id === id){
+          return {...obj, count: obj.count + 1}
+        }
+        return obj
+      })
+      setShoppingCart(newShoppingCart)
+    }
+    else {
+      setShoppingCart(oldArray => {
+        const product = products.find(product => product.id === id);
+        product.count = 1
+        return [...oldArray, product]
+      })
+    }
   }
+
+  const removeItemFromCart = (id) => {
+    const newShoppingCart = shoppingCart.map(obj => {
+      if (obj.id === id){
+        return {...obj, count: obj.count - 1}
+      }
+      return obj
+    })
+    setShoppingCart(newShoppingCart.filter(obj => obj.count > 0))
+  }
+
+  const itemExistsOnCart = (id) => {
+    return shoppingCart.find(product => product.id === id) !== undefined;
+  }
+
   const handleClickLogin = () => {
       setclickedLogin(true)
       setclickedRegister(false)
@@ -113,6 +147,7 @@ function Home() {
       }
     ).then((data) => setupdateOrders(updateOrders + 1));
   }
+
   const login = async (email, password) => {
     return await fetch(
       "http://localhost:3000/users/login",
@@ -125,13 +160,21 @@ function Home() {
         body: JSON.stringify({email: email, password: password}),
       }
     )
-    .then((res) => res.json())
+    .then((res) => {
+      setLastStatus(res.status)
+      return res.json()
+    })
     .then((data) => {
       console.log(data.message)
-      setIsLoggedIn(data.isLoggedIn)
-      setLoggedInUser(data.email)
+      if ( lastStatus == 200 ) {
+        setTriggerIsLoggedIn(!triggerIsLoggedIn)
+        setIsLoggedIn(data.isLoggedIn)
+        setLoggedInUser(data.email)
+        handleQuitLogin()
+      }
     });
   }
+
   const register = async (email, password) => {
     return await fetch(
       "http://localhost:3000/users/register",
@@ -144,16 +187,55 @@ function Home() {
         body: JSON.stringify({email: email, password: password}),
       }
     )
-    .then((res) => res.json())
-    .then((data) => console.log(data.message));
+    .then((res) => {
+      console.log("stat" + res.status)
+      setLastStatus(res.status)
+      return res.json()
+    })
+    .then((data) => {
+      if ( lastStatus == 200 ) {
+        setTriggerIsLoggedIn(!triggerIsLoggedIn)
+        console.log("successfull register" + data.status)
+        setclickedRegister(false)
+      } else {
+        console.log(lastStatus)
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    });
   }
 
+  const logout = async () => {
+    return await fetch(
+      "http://localhost:3000/users/logout",
+      {
+        method: "POST",
+        'credentials': 'include',
+      }
+    )
+    .then((res) => {
+      setLastStatus(res.status)
+      return res.json()
+    })
+    .then((data) => {
+      if ( lastStatus == 200 ) {
+        setTriggerIsLoggedIn(!triggerIsLoggedIn)
+        console.log(data.status)
+      } else {
+        console.log("hata")
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    });
+  }
   return(
     <>
     {clickedLogin ?<Login handleQuitLogin={handleQuitLogin} handleClickRegister={handleClickRegister} login={login}></Login> : ""}
     {clickedRegister ?<Register handleQuitRegister={handleQuitRegister} handleClickLogin={handleClickLogin} register={register}></Register> : ""}
     <div style={{opacity: (clickedLogin || clickedRegister) ? "0.3" : ""}}>
-    <Navbar handleClickLogin={handleClickLogin} isLoggedIn={isLoggedIn} loggedInUser={loggedInUser}></Navbar>
+    <Navbar handleLogout={logout} handleClickLogin={handleClickLogin} isLoggedIn={isLoggedIn} loggedInUser={loggedInUser}></Navbar>
     <div style={{backgroundImage: "url(https://images.deliveryhero.io/image/fd-tr/LH/g3w6-hero.jpg)", height: "272px", display: "block", width: "100%", backgroundSize: "cover"}}></div>
     <div style={{height: "69px", display: "block", width: "100%", backgroundSize: "cover", borderBottom: "solid 1px #dcdcdc", }}>
     {Array.isArray(orders) ? orders.map(product => {
@@ -165,7 +247,7 @@ function Home() {
     <ProductList products={products} addItemToCart={addItemToCart} selectedCategory={selectedCategory}></ProductList>
     
     </div>
-    <ShoppingCart shoppingCart={shoppingCart} addOrder={addOrder}></ShoppingCart>
+    <ShoppingCart addItemToCart={addItemToCart} removeItemFromCart={removeItemFromCart} shoppingCart={shoppingCart} addOrder={addOrder}></ShoppingCart>
     </div>
     </>
   )

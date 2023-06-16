@@ -1,7 +1,7 @@
 import CartSummary from "./components/CartSummary";
 import ShoppingItems from "./components/ShoppingItems";
 
-const ShoppingCart = ({shoppingCart, addOrder}) => {
+const ShoppingCart = ({addItemToCart, shoppingCart, addOrder, removeItemFromCart}) => {
 
     return (
         <>
@@ -11,7 +11,7 @@ const ShoppingCart = ({shoppingCart, addOrder}) => {
             <div>Sepetiniz</div>
             <div style={{margin: "10px 0px"}}>Sepetinize ürün ekleyin</div>
         </div>
-        <ShoppingItems shoppingCart={shoppingCart}></ShoppingItems>
+        <ShoppingItems addItemToCart={addItemToCart} removeItemFromCart={removeItemFromCart} shoppingCart={shoppingCart}></ShoppingItems>
         <CartSummary totalPrice={shoppingCart.reduce((partialSum, a) => partialSum + a.price, 0)}></CartSummary>
         <div style={{textAlign: "center", backgroundColor: "#ea004b", color: "white", height: "30px", justifyContent: "center", display: "flex", alignItems: "center"}}> 
             <div onClick={addOrder}>
