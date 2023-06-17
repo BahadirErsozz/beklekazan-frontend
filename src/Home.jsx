@@ -73,7 +73,7 @@ function Home() {
          })
          .catch((err) => {
             console.log(err);
-         });     
+         });
   }, [triggerIsLoggedIn])
 
   const addItemToCart = (id) => {
@@ -143,9 +143,13 @@ function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({shoppingCart: shoppingCart, orderDate: Date.now(), orderStatus: 0}),
+        body: JSON.stringify({shopping_cart: shoppingCart, order_date: Date.now(), order_status: 0, order_address: "empty address"}),
       }
-    ).then((data) => setupdateOrders(updateOrders + 1));
+    ).then((data) => {
+        setupdateOrders(updateOrders + 1)
+        console.log(shoppingCart)
+      }
+    );
   }
 
   const login = async (email, password) => {
@@ -161,17 +165,20 @@ function Home() {
       }
     )
     .then((res) => {
-      setLastStatus(res.status)
+      if (res.status !== 200) {
+        throw new Error(response.status);
+      }
       return res.json()
     })
     .then((data) => {
       console.log(data.message)
-      if ( lastStatus == 200 ) {
-        setTriggerIsLoggedIn(!triggerIsLoggedIn)
-        setIsLoggedIn(data.isLoggedIn)
-        setLoggedInUser(data.email)
-        handleQuitLogin()
-      }
+      setTriggerIsLoggedIn(!triggerIsLoggedIn)
+      setIsLoggedIn(data.isLoggedIn)
+      setLoggedInUser(data.email)
+      setclickedLogin(false)
+    })
+    .catch((err) => {
+      console.log(err)
     });
   }
 
@@ -188,18 +195,14 @@ function Home() {
       }
     )
     .then((res) => {
-      console.log("stat" + res.status)
-      setLastStatus(res.status)
+      if (res.status !== 200) {
+        throw new Error(response.status);
+      }
       return res.json()
     })
     .then((data) => {
-      if ( lastStatus == 200 ) {
-        setTriggerIsLoggedIn(!triggerIsLoggedIn)
-        console.log("successfull register" + data.status)
-        setclickedRegister(false)
-      } else {
-        console.log(lastStatus)
-      }
+      setTriggerIsLoggedIn(!triggerIsLoggedIn)
+      setclickedRegister(false)
     })
     .catch((err) => {
       console.log(err)
@@ -215,16 +218,14 @@ function Home() {
       }
     )
     .then((res) => {
-      setLastStatus(res.status)
+      if (res.status !== 200) {
+        throw new Error(response.status);
+      }
       return res.json()
     })
     .then((data) => {
-      if ( lastStatus == 200 ) {
-        setTriggerIsLoggedIn(!triggerIsLoggedIn)
-        console.log(data.status)
-      } else {
-        console.log("hata")
-      }
+      setTriggerIsLoggedIn(!triggerIsLoggedIn)
+      console.log(data.status)
     })
     .catch((err) => {
       console.log(err)
