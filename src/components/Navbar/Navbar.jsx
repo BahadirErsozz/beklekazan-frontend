@@ -1,4 +1,4 @@
-const Navbar = ({ handleLogout, handleClickLogin, isLoggedIn, loggedInUser}) => {
+const Navbar = ({ addresses, handleClickAddress, handleLogout, handleClickLogin, isLoggedIn, loggedInUser}) => {
     return (
         <>
         <div style={{width: "100%", height: "64px", display: "flex", position: "sticky", borderWidth: "10px:", boxShadow: "0 0.2rem 1rem rgb(0 0 0 / 12%)", top: "0px", backgroundColor: "white"}}>
@@ -6,7 +6,7 @@ const Navbar = ({ handleLogout, handleClickLogin, isLoggedIn, loggedInUser}) => 
                 <div style={{textAlign: "center", paddingLeft: "5px"}}>Market</div>
             </div>
             <div style={{display: "flex", alignItems: "center", width: "20%", justifyContent: "center", borderLeft: "2px solid #dcdcdc"}}>
-                <div style={{textAlign: "center", paddingLeft: "5px"}}>Adres Seçiniz</div>
+                <div onClick={handleClickAddress} style={{textAlign: "center", paddingLeft: "5px"}}>Adres Seçiniz</div>
             </div>
             <div style={{display: "flex", alignItems: "center", width: "20%", justifyContent: "center", borderLeft: "2px solid #dcdcdc", marginLeft: "auto", marginRight: "0"}}>
                 <div style={{textAlign: "center", paddingLeft: "5px"}}>Teslimat Zamanı Seçiniz</div>
