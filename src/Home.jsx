@@ -7,6 +7,8 @@ import {v4 as uuidv4} from 'uuid';
 import ShoppingCart from "./components/ShoppingCart/ShoppingCart"
 import Login from "./components/Login/Login"
 import Register from "./components/Register/Register"
+import Address from "./components/Address/Address"
+import config from "./datas/config.json"
 
 function Home() {
   const [products, setProducts] = useState([])
@@ -14,11 +16,13 @@ function Home() {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [clickedLogin, setclickedLogin] = useState(false)
   const [clickedRegister, setclickedRegister] = useState(false)
+  const [clickedAddress, setclickedAddress] = useState(false)
   const [orders, setOrders] = useState([])
+  const [addresses, setAddresses] = useState([])
   const [updateOrders, setupdateOrders] = useState(0)
+  const [updateAddresses, setupdateAddresses] = useState(0)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loggedInUser, setLoggedInUser] = useState("")
-  const [lastStatus, setLastStatus] = useState(false)
   const [triggerIsLoggedIn, setTriggerIsLoggedIn] = useState(false)
 
   useEffect(() => {
@@ -76,6 +80,33 @@ function Home() {
          });
   }, [triggerIsLoggedIn])
 
+  useEffect(() => {
+    fetch('http://localhost:3000/addresses',{
+      'credentials': 'include',
+    })
+         .then((res) => res.json())
+         .then((data) => {
+          setAddresses(data.addresses)
+         })
+         .catch((err) => {
+            console.log(err);
+         });
+  }, [updateAddresses])
+
+  useEffect(() => {
+    fetch('http://localhost:3000/orders', {
+      'credentials': 'include',
+    })
+         .then((res) => res.json())
+         .then((dataa) => {
+          console.log("hey" + dataa)
+          setOrders(dataa.orders)
+         })
+         .catch((err) => {
+            console.log(err.message);
+         });
+  }, [updateOrders]) 
+
   const addItemToCart = (id) => {
     if (itemExistsOnCart(id)) {
       const newShoppingCart = shoppingCart.map(obj => {
@@ -112,28 +143,28 @@ function Home() {
   const handleClickLogin = () => {
       setclickedLogin(true)
       setclickedRegister(false)
+      setclickedAddress(false)
   }
   const handleClickRegister = () => {
     setclickedRegister(true)
     setclickedLogin(false)
-}
+    setclickedAddress(false)
+  }
+  const handleClickAddress = () => {
+    setclickedAddress(true)
+    setclickedRegister(false)
+    setclickedLogin(false)
+  } 
   const handleQuitLogin = () => {
     setclickedLogin(false)
   }
   const handleQuitRegister = () => {
     setclickedRegister(false)
   }
-  useEffect(() => {
-    fetch('http://localhost:3000/orders')
-         .then((res) => res.json())
-         .then((dataa) => {
-          console.log("hey" + dataa)
-          setOrders(dataa.orders)
-         })
-         .catch((err) => {
-            console.log(err.message);
-         });
-  }, [updateOrders]) 
+  const handleQuitAddress = () => {
+    setclickedAddress(false)
+  }
+
   const addOrder = async () => {
     return await fetch(
       "http://localhost:3000/orders",
@@ -176,6 +207,7 @@ function Home() {
       setIsLoggedIn(data.isLoggedIn)
       setLoggedInUser(data.email)
       setclickedLogin(false)
+      setupdateOrders(updateOrders + 1)
     })
     .catch((err) => {
       console.log(err)
@@ -203,6 +235,7 @@ function Home() {
     .then((data) => {
       setTriggerIsLoggedIn(!triggerIsLoggedIn)
       setclickedRegister(false)
+      setupdateOrders(updateOrders + 1)
     })
     .catch((err) => {
       console.log(err)
@@ -225,23 +258,47 @@ function Home() {
     })
     .then((data) => {
       setTriggerIsLoggedIn(!triggerIsLoggedIn)
+      setupdateOrders(updateOrders + 1)
       console.log(data.status)
     })
     .catch((err) => {
       console.log(err)
     });
   }
+
+  const createAddress = async (address_details) => {
+    return await fetch(
+      "http://localhost:3000/addresses",
+      {
+        method: "POST",
+        'credentials': 'include',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({address_details: address_details, created_at: Date.now()}),
+      }
+    ).then((data) => {
+        setupdateOrders(updateOrders + 1)
+        setclickedAddress(false)
+        console.log(shoppingCart)
+      }
+    );
+  }
+
   return(
     <>
-    {clickedLogin ?<Login handleQuitLogin={handleQuitLogin} handleClickRegister={handleClickRegister} login={login}></Login> : ""}
-    {clickedRegister ?<Register handleQuitRegister={handleQuitRegister} handleClickLogin={handleClickLogin} register={register}></Register> : ""}
-    <div style={{opacity: (clickedLogin || clickedRegister) ? "0.3" : ""}}>
-    <Navbar handleLogout={logout} handleClickLogin={handleClickLogin} isLoggedIn={isLoggedIn} loggedInUser={loggedInUser}></Navbar>
+    {clickedLogin ?<Login handleQuitLogin={handleQuitLogin} handleClickRegister={handleClickRegister} login={login}/> : ""}
+    {clickedRegister ?<Register handleQuitRegister={handleQuitRegister} handleClickLogin={handleClickLogin} register={register}/> : ""}
+    {clickedAddress ?<Address handleQuitAddress={handleQuitAddress} createAddress={createAddress}/> : ""}
+    <div style={{opacity: (clickedLogin || clickedRegister || clickedAddress) ? "0.3" : ""}}>
+    <Navbar addresses={addresses} handleClickAddress={handleClickAddress} handleLogout={logout} handleClickLogin={handleClickLogin} isLoggedIn={isLoggedIn} loggedInUser={loggedInUser}/>
     <div style={{backgroundImage: "url(https://images.deliveryhero.io/image/fd-tr/LH/g3w6-hero.jpg)", height: "272px", display: "block", width: "100%", backgroundSize: "cover"}}></div>
     <div style={{height: "69px", display: "block", width: "100%", backgroundSize: "cover", borderBottom: "solid 1px #dcdcdc", }}>
     {Array.isArray(orders) ? orders.map(product => {
-                return JSON.stringify(product)
-        }) : ""}
+                const product_status = product.order_status + ""
+                console.log(product_status)
+                return <div key={uuidv4()}> {product.order_date} : {product.order_address} : {config.ORDER_STATUS[product_status]}</div>
+        }) : "hey"}
     </div>
     <div style={{display: "flex" , height: "100%"}}>
     <LeftNavigation setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory}></LeftNavigation>

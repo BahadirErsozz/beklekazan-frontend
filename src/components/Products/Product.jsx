@@ -9,7 +9,6 @@ const Product = ({product, addItemToCart}) => {
     const [time, setTime] = useState(30);
     const updateTime = (timeNow) => {
         setTime(timeNow - 1)
-        console.log("burdayım")
     }
     useEffect(() => {
         const interval = setInterval(() => updateTime(time), 1000);
