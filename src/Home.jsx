@@ -87,6 +87,7 @@ function Home() {
          .then((res) => res.json())
          .then((data) => {
           setAddresses(data.addresses)
+          console.log(data.addresses)
          })
          .catch((err) => {
             console.log(err);
@@ -140,6 +141,10 @@ function Home() {
     return shoppingCart.find(product => product.id === id) !== undefined;
   }
 
+  const updateEverything = () => {
+    setupdateAddresses(updateAddresses + 1)
+    setupdateOrders(updateOrders + 1)
+  }
   const handleClickLogin = () => {
       setclickedLogin(true)
       setclickedRegister(false)
@@ -207,7 +212,7 @@ function Home() {
       setIsLoggedIn(data.isLoggedIn)
       setLoggedInUser(data.email)
       setclickedLogin(false)
-      setupdateOrders(updateOrders + 1)
+      updateEverything()
     })
     .catch((err) => {
       console.log(err)
@@ -235,7 +240,7 @@ function Home() {
     .then((data) => {
       setTriggerIsLoggedIn(!triggerIsLoggedIn)
       setclickedRegister(false)
-      setupdateOrders(updateOrders + 1)
+      updateEverything()
     })
     .catch((err) => {
       console.log(err)
@@ -258,7 +263,7 @@ function Home() {
     })
     .then((data) => {
       setTriggerIsLoggedIn(!triggerIsLoggedIn)
-      setupdateOrders(updateOrders + 1)
+      updateEverything()
       console.log(data.status)
     })
     .catch((err) => {
@@ -277,12 +282,19 @@ function Home() {
         },
         body: JSON.stringify({address_details: address_details, created_at: Date.now()}),
       }
-    ).then((data) => {
-        setupdateOrders(updateOrders + 1)
-        setclickedAddress(false)
-        console.log(shoppingCart)
+    ).then((res) => {
+      if (res.status !== 200) {
+        throw new Error(response.status);
       }
-    );
+      return res.json()
+    })
+    .then((data) => {
+      setupdateAddresses(updateAddresses + 1)
+      setclickedAddress(false)
+    })
+    .catch((err) => {
+      console.log(err)
+    });
   }
 
   return(
@@ -297,8 +309,8 @@ function Home() {
     {Array.isArray(orders) ? orders.map(product => {
                 const product_status = product.order_status + ""
                 console.log(product_status)
-                return <div key={uuidv4()}> {product.order_date} : {product.order_address} : {config.ORDER_STATUS[product_status]}</div>
-        }) : "hey"}
+                return <div style={{marginLeft: "30%"}} key={uuidv4()}> {product.order_date} : {product.order_address} : {config.ORDER_STATUS[product_status]}</div>
+        }) : ""}
     </div>
     <div style={{display: "flex" , height: "100%"}}>
     <LeftNavigation setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory}></LeftNavigation>

@@ -67,7 +67,7 @@ const Address = ({handleQuitAddress, createAddress}) => {
         <div style={{ display: "flex", flexDirection: "column" , position: "fixed", borderRadius: "0.25em", top: "10%", right: "25%", zIndex: "9999", height: "auto", width: "50%", backgroundColor: "white", borderStyle: "solid", borderColor:"#cacaca"}}>
         <div style={{ display: "flex"}}>
             <div style={{ margin: "10px 0px 0px 32px", fontSize: "20px"}}> Adres Ekle</div>
-            <div onClick={handleQuitAddress} style={{marginRight: "10px", marginTop: "10px", marginLeft: "auto", borderStyle: "", borderRadius: "50%", minHeight: "30px", aspectRatio: "1 / 1", backgroundSize: "100%", backgroundImage: "url(https://img.freepik.com/free-icon/x-symbol_318-1407.jpg)"}}></div>
+            <div onClick={handleQuitAddress} style={{marginRight: "10px", marginTop: "10px", marginLeft: "auto", borderStyle: "", borderRadius: "50%", minHeight: "30px", aspectRatio: "1 / 1", backgroundSize: "100%", backgroundImage: "url(https://thumbs.dreamstime.com/b/red-cross-symbol-icon-as-delete-remove-fail-failure-incorr-incorrect-answer-89999776.jpg)"}}></div>
         </div>    
         <div style={{  display: "flex", flexDirection: "column", padding: "2em", paddingBottom: "0px", height: "100%"}}>
             <div style={{ display: "flex", flexGrow: "1", flexDirection: "row", justifyContent: "space-between", width: "100%"}}>
@@ -121,7 +121,7 @@ const Address = ({handleQuitAddress, createAddress}) => {
             <label> Cep Telefonu</label>
             <input onChange={handlePhoneNumberChange} value={phoneNumber} style={{ width: "calc(100% - 70px)",padding: "16px 40px 16px 30px", left: "15%", alignItems: "center", alignContent: "center", display: "flex", border: "1px solid #d2d8d8"}}/>
         </div>
-        <div onClick={handleCreateAddress} style={{  width: "70%", borderStyle: "solid", marginLeft: "15%", marginRight: "15%", textAlign: "center", padding: "10px 0px", marginTop: "20px", marginBottom: "20px"}}> Adres Ekle</div>
+        <div onClick={handleCreateAddress} style={{  width: "70%", borderStyle: "solid", marginLeft: "15%", marginRight: "15%", textAlign: "center", padding: "10px 0px", marginTop: "20px", marginBottom: "20px", backgroundColor: "#ea004b", color: "white"}}> Adres Ekle</div>
         
 
         </div>
