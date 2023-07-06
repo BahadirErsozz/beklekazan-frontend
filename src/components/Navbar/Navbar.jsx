@@ -1,4 +1,5 @@
 const Navbar = ({ addresses, handleClickAddress, handleLogout, handleClickLogin, isLoggedIn, loggedInUser}) => {
+    const testAddress = [{addrees_name: "add1"}];
     return (
         <>
         <div style={{width: "100%", height: "64px", display: "flex", position: "sticky", justifyContent: "space-between", borderWidth: "10px:", boxShadow: "0 0.2rem 1rem rgb(0 0 0 / 12%)", top: "0px", backgroundColor: "white"}}>
@@ -10,8 +11,14 @@ const Navbar = ({ addresses, handleClickAddress, handleLogout, handleClickLogin,
                 </div>
                 <ul style={{border: "2px solid #dcdcdc", marginTop: "0px", paddingLeft: "0px", listStyleType: "none"}}>
                     <li style={{border: "2px solid #dcdcdc", backgroundColor: "white", height: "70px", display: "flex"}}>
-                        <input type="radio" onClick={(event) => { event.target.checked = false}} style={{}}></input>
-                        <div style={{marginRight: "0px", marginLeft: "auto"}}>Adres</div>
+                        <input type="radio" onClick={(event) => { event.target.checked = true}} style={{}} checked></input>
+                        <div style={{minWidth: "0"}}>
+                            <div >Adres</div>
+                            <div> Lorem ipsum sadsandkwqnedkşwqndwqkşdqwnkşdşwqnknkşdqwnkdwqnkşwq</div>
+                        </div>
+                        <div style={{display: "flex", alignItems: "center", minWidth: "0"}}>
+                            edit
+                        </div>
                     </li>
                     <li style={{border: "2px solid #dcdcdc"}}>hey</li>
                     <li style={{border: "2px solid #dcdcdc"}}>hey</li>
