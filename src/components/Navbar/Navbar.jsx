@@ -1,4 +1,4 @@
-const Navbar = ({ addresses, handleClickAddress, handleLogout, handleClickLogin, isLoggedIn, loggedInUser}) => {
+const Navbar = ({ addresses, handleClickAddresses, clickedAddresses, handleClickAddress, handleLogout, handleClickLogin, isLoggedIn, loggedInUser}) => {
     const testAddress = [{addrees_name: "add1"}];
     return (
         <>
@@ -6,26 +6,32 @@ const Navbar = ({ addresses, handleClickAddress, handleLogout, handleClickLogin,
             <div style={{display: "flex", alignItems: "center", width: "20%", justifyContent: "center"}}>
                 <div style={{textAlign: "center", paddingLeft: "5px"}}>Market</div>
             </div>
-            <div style={{display: "block", alignItems: "center", width: "20%", justifyContent: "center", borderLeft: "2px solid #dcdcdc", borderRight: "2px solid #dcdcdc", flexGrow: "0.6"}}>
-                <div onClick={handleClickAddress} style={{textAlign: "center", paddingLeft: "5px", width: "100%", height: "100%"}}>{addresses?.length > 0  ? JSON.parse(addresses[0].address_details).address_name :"adres seçiniz"}
+            <div  style={{display: "block", alignItems: "center", width: "20%", justifyContent: "center", borderLeft: "2px solid #dcdcdc", borderRight: "2px solid #dcdcdc", flexGrow: "0.6"}}>
+                <div onClick={handleClickAddresses} style={{textAlign: "center", paddingLeft: "5px", width: "100%", height: "100%"}}>{addresses?.length > 0  ? JSON.parse(addresses[0].address_details).address_name :"adres seçiniz"}
                 </div>
+                {Array.isArray(addresses) && isLoggedIn && clickedAddresses? 
                 <ul style={{border: "2px solid #dcdcdc", marginTop: "0px", paddingLeft: "0px", listStyleType: "none"}}>
-                    <li style={{border: "2px solid #dcdcdc", backgroundColor: "white", height: "70px", display: "flex"}}>
-                        <input type="radio" onClick={(event) => { event.target.checked = true}} style={{}} checked></input>
-                        <div style={{minWidth: "0"}}>
-                            <div >Adres</div>
-                            <div> Lorem ipsum sadsandkwqnedkşwqndwqkşdqwnkşdşwqnknkşdqwnkdwqnkşwq</div>
-                        </div>
-                        <div style={{display: "flex", alignItems: "center", minWidth: "0"}}>
-                            edit
-                        </div>
+                    {addresses.map(address => {
+                            const address_details = JSON.parse(address.address_details)
+                            return <li style={{border: "2px solid #dcdcdc", backgroundColor: "white", height: "70px", display: "flex"}}>
+                                <input type="radio" onClick={(event) => { event.target.checked = true}} style={{}} checked></input>
+                            <div style={{minWidth: "0"}}>
+                                <div>{address_details.address_name}</div>
+                                <div>{address_details.neighborhood} / {address_details.state} / {address_details.city}</div>
+                            </div>
+                            
+                            <div style={{display: "flex", alignItems: "center", minWidth: "0", marginLeft: "auto"}}>
+                                düzenle
+                            </div>
+                            </li>
+                        })}
+                    <li onClick={handleClickAddress} style={{border: "2px solid #dcdcdc", backgroundColor: "white", height: "70px", display: "flex"}}>
+                            <div style={{alignSelf: "center", height: "50%", backgroundSize: "100%", aspectRatio: "1 / 1", backgroundImage: "url(https://thumbs.dreamstime.com/b/red-cross-symbol-icon-as-delete-remove-fail-failure-incorr-incorrect-answer-89999776.jpg)"}}></div>
+                            <div style={{minWidth: "0", alignSelf: "center"}}>
+                                <div> Yeni Adres Ekle</div>
+                            </div>
                     </li>
-                    <li style={{border: "2px solid #dcdcdc"}}>hey</li>
-                    <li style={{border: "2px solid #dcdcdc"}}>hey</li>
-                    <li style={{border: "2px solid #dcdcdc"}}>hey</li>
-                    <li style={{border: "2px solid #dcdcdc"}}>hey</li>
-
-                </ul>
+                </ul>: ""}
             </div>
             <div style={{display: "flex", alignItems: "center", width: "20%", justifyContent: "center", marginRight: "0"}}>
                 <div style={{textAlign: "center", paddingLeft: "5px"}}>Teslimat Zamanı Seçiniz</div>

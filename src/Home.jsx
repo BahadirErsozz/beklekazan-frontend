@@ -17,6 +17,7 @@ function Home() {
   const [clickedLogin, setclickedLogin] = useState(false)
   const [clickedRegister, setclickedRegister] = useState(false)
   const [clickedAddress, setclickedAddress] = useState(false)
+  const [clickedAddresses, setclickedAddresses] = useState(false)
   const [orders, setOrders] = useState([])
   const [addresses, setAddresses] = useState([])
   const [updateOrders, setupdateOrders] = useState(0)
@@ -159,7 +160,12 @@ function Home() {
     setclickedAddress(true)
     setclickedRegister(false)
     setclickedLogin(false)
-  } 
+  }
+  
+  const handleClickAddresses = () => {
+    setclickedAddresses(!clickedAddresses)
+  }
+
   const handleQuitLogin = () => {
     setclickedLogin(false)
   }
@@ -303,7 +309,7 @@ function Home() {
     {clickedRegister ?<Register handleQuitRegister={handleQuitRegister} handleClickLogin={handleClickLogin} register={register}/> : ""}
     {clickedAddress ?<Address handleQuitAddress={handleQuitAddress} createAddress={createAddress}/> : ""}
     <div style={{opacity: (clickedLogin || clickedRegister || clickedAddress) ? "0.3" : ""}}>
-    <Navbar addresses={addresses} handleClickAddress={handleClickAddress} handleLogout={logout} handleClickLogin={handleClickLogin} isLoggedIn={isLoggedIn} loggedInUser={loggedInUser}/>
+    <Navbar handleClickAddresses={handleClickAddresses} clickedAddresses={clickedAddresses} addresses={addresses} handleClickAddress={handleClickAddress} handleLogout={logout} handleClickLogin={handleClickLogin} isLoggedIn={isLoggedIn} loggedInUser={loggedInUser}/>
     <div style={{backgroundImage: "url(https://images.deliveryhero.io/image/fd-tr/LH/g3w6-hero.jpg)", height: "272px", display: "block", width: "100%", backgroundSize: "cover"}}></div>
     <div style={{height: "69px", display: "block", width: "100%", backgroundSize: "cover", borderBottom: "solid 1px #dcdcdc", }}>
     {Array.isArray(orders) ? orders.map(product => {

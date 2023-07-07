@@ -64,11 +64,12 @@ const Address = ({handleQuitAddress, createAddress}) => {
     return (
         <>
 
-        <div style={{ display: "flex", flexDirection: "column" , position: "fixed", borderRadius: "0.25em", top: "10%", right: "25%", zIndex: "9999", height: "auto", width: "50%", backgroundColor: "white", borderStyle: "solid", borderColor:"#cacaca"}}>
+        <div style={{ display: "flex", flexDirection: "column" , position: "fixed", borderRadius: "0.25em", top: "10%", right: "25%", zIndex: "9999", height: "auto", maxHeight: "80%", width: "50%", backgroundColor: "white", borderStyle: "solid", borderColor:"#cacaca"}}>
         <div style={{ display: "flex"}}>
             <div style={{ margin: "10px 0px 0px 32px", fontSize: "20px"}}> Adres Ekle</div>
             <div onClick={handleQuitAddress} style={{marginRight: "10px", marginTop: "10px", marginLeft: "auto", borderStyle: "", borderRadius: "50%", minHeight: "30px", aspectRatio: "1 / 1", backgroundSize: "100%", backgroundImage: "url(https://thumbs.dreamstime.com/b/red-cross-symbol-icon-as-delete-remove-fail-failure-incorr-incorrect-answer-89999776.jpg)"}}></div>
-        </div>    
+        </div>
+        <div style={{overflowY: "scroll"}}>    
         <div style={{  display: "flex", flexDirection: "column", padding: "2em", paddingBottom: "0px", height: "100%"}}>
             <div style={{ display: "flex", flexGrow: "1", flexDirection: "row", justifyContent: "space-between", width: "100%"}}>
                 <div style={{width: "50%"}}>
@@ -125,7 +126,7 @@ const Address = ({handleQuitAddress, createAddress}) => {
         
 
         </div>
-        
+        </div>
         </>
     )
 };
