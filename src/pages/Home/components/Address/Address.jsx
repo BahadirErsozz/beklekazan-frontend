@@ -59,7 +59,7 @@ const Address = ({handleQuitAddress, createAddress}) => {
 
     const handleCreateAddress = () => {
         const address_details = {city: city, state: state, neighborhood: neighborhood, street: street, building_number: buildingNumber, flat_number: flatNumber, address_details: addressDetails, address_name: addressName, first_name: firstName, last_name: lastName, phone_number: phoneNumber}
-        createAddress(address_details)
+        createAddress(address_details);
     }
     return (
         <>

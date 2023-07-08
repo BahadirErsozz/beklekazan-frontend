@@ -1,4 +1,4 @@
-const Navbar = ({ addresses, handleClickAddresses, clickedAddresses, handleClickAddress, handleLogout, handleClickLogin, isLoggedIn, loggedInUser}) => {
+const Navbar = ({ addresses, selectAddress, handleClickAddresses, clickedAddresses, handleClickAddress, handleLogout, handleClickLogin, isLoggedIn, loggedInUser}) => {
     const testAddress = [{addrees_name: "add1"}];
     return (
         <>
@@ -13,8 +13,8 @@ const Navbar = ({ addresses, handleClickAddresses, clickedAddresses, handleClick
                 <ul style={{border: "2px solid #dcdcdc", marginTop: "0px", paddingLeft: "0px", listStyleType: "none"}}>
                     {addresses.map(address => {
                             const address_details = JSON.parse(address.address_details)
-                            return <li style={{border: "2px solid #dcdcdc", backgroundColor: "white", height: "70px", display: "flex"}}>
-                                <input type="radio" onClick={(event) => { event.target.checked = true}} style={{}} checked></input>
+                            return <li onClick={selectAddress(address.address_id)} style={{border: "2px solid #dcdcdc", backgroundColor: "white", height: "70px", display: "flex"}}>
+                                <input type="radio" onClick={(event) => { event.target.checked = address.selected}} style={{}} checked></input>
                             <div style={{minWidth: "0"}}>
                                 <div>{address_details.address_name}</div>
                                 <div>{address_details.neighborhood} / {address_details.state} / {address_details.city}</div>

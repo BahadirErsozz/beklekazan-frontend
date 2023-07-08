@@ -1,5 +1,5 @@
-import Home from "./Home"
-import Admin from "./Admin"
+import Home from "./pages/Home/Home"
+import Admin from "./pages/Admin/Admin"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {

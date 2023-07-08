@@ -20,6 +20,7 @@ function Home() {
   const [clickedAddresses, setclickedAddresses] = useState(false)
   const [orders, setOrders] = useState([])
   const [addresses, setAddresses] = useState([])
+  const [selectedAddress, setSelectedAddress] = useState(0);
   const [updateOrders, setupdateOrders] = useState(0)
   const [updateAddresses, setupdateAddresses] = useState(0)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -32,6 +33,7 @@ function Home() {
     })
          .then((res) => res.json())
          .then((data) => {
+          setProducts([])
           for (let i = 0; i < data.length; i++) {
             setProducts(oldArray => {
               return [...oldArray, {name: data[i].name, id: uuidv4(), price: data[i].price, category: "Meyve", deadline: data[i].deadline}]
@@ -277,6 +279,31 @@ function Home() {
     });
   }
 
+  const selectAddress = async (address_id) => {
+    await fetch(
+      "http://localhost:3000/addresses/select",
+      {
+        method: "POST",
+        'credentials': 'include',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({address_id: address_id}),
+      }
+    ).then((res) => {
+      if (res.status !== 200) {
+        throw new Error(response.status);
+      }
+      return res.json()
+    })
+    .then((data) => {
+      setSelectedAddress(address_id);
+    })
+    .catch((err) => {
+      console.log(err)
+    });
+  } 
+  
   const createAddress = async (address_details) => {
     return await fetch(
       "http://localhost:3000/addresses",
@@ -297,6 +324,7 @@ function Home() {
     .then((data) => {
       setupdateAddresses(updateAddresses + 1)
       setclickedAddress(false)
+      selectAddress(data.address_id)
     })
     .catch((err) => {
       console.log(err)
@@ -309,7 +337,7 @@ function Home() {
     {clickedRegister ?<Register handleQuitRegister={handleQuitRegister} handleClickLogin={handleClickLogin} register={register}/> : ""}
     {clickedAddress ?<Address handleQuitAddress={handleQuitAddress} createAddress={createAddress}/> : ""}
     <div style={{opacity: (clickedLogin || clickedRegister || clickedAddress) ? "0.3" : ""}}>
-    <Navbar handleClickAddresses={handleClickAddresses} clickedAddresses={clickedAddresses} addresses={addresses} handleClickAddress={handleClickAddress} handleLogout={logout} handleClickLogin={handleClickLogin} isLoggedIn={isLoggedIn} loggedInUser={loggedInUser}/>
+    <Navbar selectAddress={selectAddress} handleClickAddresses={handleClickAddresses} clickedAddresses={clickedAddresses} addresses={addresses} handleClickAddress={handleClickAddress} handleLogout={logout} handleClickLogin={handleClickLogin} isLoggedIn={isLoggedIn} loggedInUser={loggedInUser}/>
     <div style={{backgroundImage: "url(https://images.deliveryhero.io/image/fd-tr/LH/g3w6-hero.jpg)", height: "272px", display: "block", width: "100%", backgroundSize: "cover"}}></div>
     <div style={{height: "69px", display: "block", width: "100%", backgroundSize: "cover", borderBottom: "solid 1px #dcdcdc", }}>
     {Array.isArray(orders) ? orders.map(product => {
