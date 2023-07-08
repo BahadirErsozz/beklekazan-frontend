@@ -3,5 +3,6 @@
     "Sipariş alındı",
     "Sipariş hazırlanıyor",
     "Sipariş teslim edildi"
-  ]
+  ],
+  "BORDER_COLOR": "#dcdcdc"
 }

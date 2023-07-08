@@ -1,9 +1,12 @@
-import Navbar from "./components/Navbar/Navbar"
-import LeftNavigation from "./components//LeftNav/LeftNavigation"
-import ProductList from "./components//Products/ProductList"
 import { useState } from "react"
 import { useEffect } from "react"
 import {v4 as uuidv4} from 'uuid';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import Navbar from "./components/Navbar/Navbar"
+import LeftNavigation from "./components//LeftNav/LeftNavigation"
+import ProductList from "./components//Products/ProductList"
 import ShoppingCart from "./components/ShoppingCart/ShoppingCart"
 import Login from "./components/Login/Login"
 import Register from "./components/Register/Register"
@@ -165,7 +168,13 @@ function Home() {
   }
   
   const handleClickAddresses = () => {
-    setclickedAddresses(!clickedAddresses)
+    if (!isLoggedIn) {
+      showToastInfoMessage("Adres seçmeden önce giriş yapmalısınız", toast.POSITION.TOP_CENTER)
+      handleClickLogin()
+    }
+    else {
+      setclickedAddresses(!clickedAddresses)
+    }
   }
 
   const handleQuitLogin = () => {
@@ -178,22 +187,56 @@ function Home() {
     setclickedAddress(false)
   }
 
+  const showToastSuccessMessage = (mesage, poisition) => {
+    toast.success(mesage, {
+        position: poisition
+    });
+  };
+
+  const showToastErrorMessage = (mesage, poisition) => {
+    toast.error(mesage, {
+        position: poisition
+    });
+  };
+
+  const showToastInfoMessage = (mesage, poisition) => {
+    toast.info(mesage, {
+        position: poisition
+    });
+  };
+
+
   const addOrder = async () => {
-    return await fetch(
-      "http://localhost:3000/orders",
-      {
-        method: "POST",
-        'credentials': 'include',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({shopping_cart: shoppingCart, order_date: Date.now(), order_status: 0, order_address: "empty address"}),
-      }
-    ).then((data) => {
-        setupdateOrders(updateOrders + 1)
-        console.log(shoppingCart)
-      }
-    );
+    if (!isLoggedIn) {
+      showToastInfoMessage("Sipariş vermeden önce giriş yapmalısınız", toast.POSITION.TOP_CENTER)
+      handleClickLogin()
+    }
+    else {
+      return await fetch(
+        "http://localhost:3000/orders",
+        {
+          method: "POST",
+          'credentials': 'include',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({shopping_cart: shoppingCart, order_date: Date.now(), order_status: 0, order_address: "empty address"}),
+        }
+      ).then((res) => {
+        if (res.status !== 200) {
+          throw new Error(response.status);
+        }
+        return res.json()
+      })
+      .then((data) => {
+          setupdateOrders(updateOrders + 1)
+          console.log(shoppingCart)
+        }
+      )
+      .catch((err) => {
+        showToastErrorMessage('Sipariş oluşturulurken bir hata oluştu', toast.POSITION.TOP_CENTER)
+      });
+    }
   }
 
   const login = async (email, password) => {
@@ -215,15 +258,15 @@ function Home() {
       return res.json()
     })
     .then((data) => {
-      console.log(data.message)
       setTriggerIsLoggedIn(!triggerIsLoggedIn)
       setIsLoggedIn(data.isLoggedIn)
       setLoggedInUser(data.email)
       setclickedLogin(false)
       updateEverything()
+      showToastSuccessMessage('Başarıyla giriş yapıldı', toast.POSITION.TOP_CENTER)
     })
     .catch((err) => {
-      console.log(err)
+      showToastErrorMessage('Giriş yaparken bir hata oluştu', toast.POSITION.TOP_CENTER)
     });
   }
 
@@ -339,20 +382,24 @@ function Home() {
     <div style={{opacity: (clickedLogin || clickedRegister || clickedAddress) ? "0.3" : ""}}>
     <Navbar selectAddress={selectAddress} handleClickAddresses={handleClickAddresses} clickedAddresses={clickedAddresses} addresses={addresses} handleClickAddress={handleClickAddress} handleLogout={logout} handleClickLogin={handleClickLogin} isLoggedIn={isLoggedIn} loggedInUser={loggedInUser}/>
     <div style={{backgroundImage: "url(https://images.deliveryhero.io/image/fd-tr/LH/g3w6-hero.jpg)", height: "272px", display: "block", width: "100%", backgroundSize: "cover"}}></div>
-    <div style={{height: "69px", display: "block", width: "100%", backgroundSize: "cover", borderBottom: "solid 1px #dcdcdc", }}>
+    <div style={{height: "calc(100vh - 353px)" , paddingLeft: "10%"}}>
+    <div style={{minHeight: "69px", display: "block", width: "100%", backgroundSize: "cover", border: "solid 1px "+ config.BORDER_COLOR, borderRight: "solid 0px black" }}>
     {Array.isArray(orders) ? orders.map(product => {
                 const product_status = product.order_status + ""
                 console.log(product_status)
                 return <div style={{marginLeft: "30%"}} key={uuidv4()}> {product.order_date} : {product.order_address} : {config.ORDER_STATUS[product_status]}</div>
         }) : ""}
     </div>
-    <div style={{display: "flex" , height: "100%"}}>
-    <LeftNavigation setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory}></LeftNavigation>
+    <div style={{ height: "calc(100% - 74px)", border: "solid 1px "+ config.BORDER_COLOR, borderRight: "solid 0px black"}}>
+    <div style={{display: "flex"}}>
+    {/* <LeftNavigation setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory}></LeftNavigation> */}
     <ProductList products={products} addItemToCart={addItemToCart} selectedCategory={selectedCategory}></ProductList>
-    
+    </div>
+    </div>
     </div>
     <ShoppingCart addItemToCart={addItemToCart} removeItemFromCart={removeItemFromCart} shoppingCart={shoppingCart} addOrder={addOrder}></ShoppingCart>
     </div>
+    <ToastContainer />
     </>
   )
 }

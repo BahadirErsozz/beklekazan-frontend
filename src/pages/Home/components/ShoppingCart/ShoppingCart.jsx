@@ -1,14 +1,15 @@
 import CartSummary from "./components/CartSummary";
 import ShoppingItems from "./components/ShoppingItems";
+import config from "../../datas/config.json"
 
 const ShoppingCart = ({addItemToCart, shoppingCart, addOrder, removeItemFromCart}) => {
 
     return (
         <>
-       <div style={{position: "fixed", display: "flex", flexDirection: "column" , width: "20%", height: "100%", borderStyle: "", borderWidth: "1px", borderColor: "black", right: "0px", zIndex: "200", top: "64px", backgroundColor: "white", boxShadow: "0 0.3rem 2rem rgba(0,0,0,.1)"}}>
+       <div style={{position: "fixed", display: "flex", flexDirection: "column" , width: "20%", height: "100%", borderStyle: "solid", borderWidth: "1px", borderColor: config.BORDER_COLOR, right: "0px", zIndex: "200", top: "64px", backgroundColor: "white", boxShadow: "0 0.3rem 2rem rgba(0,0,0,.1)", borderRight: "solid 0px black"}}>
         <div style={{width: "auto", margin: "0px 10px"}}>
         <div style={{width: "100%", height: "auto", textAlign: "center"}}>
-            <div>Sepetiniz</div>
+            {shoppingCart.length > 0 ? <div>Sepetiniz</div> : ""}
             <div style={{margin: "10px 0px"}}>Sepetinize ürün ekleyin</div>
         </div>
         <ShoppingItems addItemToCart={addItemToCart} removeItemFromCart={removeItemFromCart} shoppingCart={shoppingCart}></ShoppingItems>
