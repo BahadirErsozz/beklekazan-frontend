@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const User = ({user}) => {
+const Order = ({order}) => {
     const [email, setEmail] = useState('');
     
     const handlePasswordChange = event => {
@@ -14,11 +14,13 @@ const User = ({user}) => {
     return (
         <>
             <tr>
-            <td><input type="text" defaultValue={user.email}></input></td>
-            <td>{user.created_at}</td>
+            <td><input type="text" defaultValue={order.email}></input></td>
+            <td><input type="text" defaultValue={order.address_details}></input></td>
+            <td><input type="text" defaultValue={order.order_status}></input></td>
+            <td>{order.created_at}</td>
         </tr>
         </>
     )
 };
 
-export default User;
+export default Order;

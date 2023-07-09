@@ -220,7 +220,7 @@ function Home() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({shopping_cart: shoppingCart, order_date: Date.now(), order_status: 0, order_address: "empty address"}),
+          body: JSON.stringify({shopping_cart: shoppingCart, order_date: Date.now(), order_status: 0, order_address: "empty address", address_id: selectedAddress}),
         }
       ).then((res) => {
         if (res.status !== 200) {

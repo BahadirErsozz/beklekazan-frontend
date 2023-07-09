@@ -1,6 +1,6 @@
 import User from "./User";
 
-const UserList = ({users, addItemToCart, selectedCategory}) => {
+const UserList = ({users}) => {
     return (
         <>
        <table>
@@ -16,8 +16,7 @@ const UserList = ({users, addItemToCart, selectedCategory}) => {
         </tr>
     
         {users?.map(user => {
-            if(selectedCategory === "All" || user.category === selectedCategory)
-                return <User user={user} key={user.id} addItemToCart={addItemToCart}/>
+                return <User user={user} key={user.id}/>
         })}
         </tbody>
     </table>
