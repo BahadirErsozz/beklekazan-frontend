@@ -46,9 +46,12 @@ function Home() {
             console.log(err);
          });
     
-    // setProducts(oldArray => {
-    //   return [...oldArray, {name: "muz", id: uuidv4(), price: 100, category: "Meyve"}]
-    // })
+    for (let i = 0; i < 10; i++){
+      setProducts(oldArray => {
+        return [...oldArray, {name: "muz", id: uuidv4(), price: 100, category: "Meyve", deadline: "09 Jul 2023 16:00:00 GMT"}]
+      })
+    }
+    
     // setProducts(oldArray => {
     //   return [...oldArray, {name: "elma", id: uuidv4(), price: 100, category: "Sebze"}]
     // })
@@ -382,7 +385,7 @@ function Home() {
     <div style={{opacity: (clickedLogin || clickedRegister || clickedAddress) ? "0.3" : ""}}>
     <Navbar selectAddress={selectAddress} handleClickAddresses={handleClickAddresses} clickedAddresses={clickedAddresses} addresses={addresses} handleClickAddress={handleClickAddress} handleLogout={logout} handleClickLogin={handleClickLogin} isLoggedIn={isLoggedIn} loggedInUser={loggedInUser}/>
     <div style={{backgroundImage: "url(https://images.deliveryhero.io/image/fd-tr/LH/g3w6-hero.jpg)", height: "272px", display: "block", width: "100%", backgroundSize: "cover"}}></div>
-    <div style={{height: "calc(100vh - 353px)" , paddingLeft: "10%"}}>
+    <div style={{minHeight: "calc(100vh - 353px)" , paddingLeft: "10%", paddingRight: "20%"}}>
     <div style={{minHeight: "69px", display: "block", width: "100%", backgroundSize: "cover", border: "solid 1px "+ config.BORDER_COLOR, borderRight: "solid 0px black" }}>
     {Array.isArray(orders) ? orders.map(product => {
                 const product_status = product.order_status + ""

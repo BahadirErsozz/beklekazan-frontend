@@ -9,7 +9,7 @@ const Timer = ({deadline}) => {
 
   const getTime = () => {
     const time = Date.parse(deadline) - Date.now();
-
+    
     setDays(Math.floor(time / (1000 * 60 * 60 * 24)));
     setHours(Math.floor((time / (1000 * 60 * 60)) % 24));
     setMinutes(Math.floor((time / 1000 / 60) % 60));
@@ -23,14 +23,14 @@ const Timer = ({deadline}) => {
   }, []);
 
   return (
-    <>
+    <>  
         <div>
-            {days} Gün&nbsp;
-            {hours} Saat
-        </div>
-        <div>
-            {minutes} dakika&nbsp; 
-            {seconds} Saniye
+            {days > 0 || hours > 0 || minutes > 0 || seconds > 0 ? "Kalan Süre: " : ""}
+            {days > 0 ? days + " Gün " + hours + " Saat" : ""}
+            {days <= 0 && hours > 0 ? hours + " Saat " + minutes + " Dakika " : ""}
+            {days <= 0 && hours <= 0 && minutes > 0 ? minutes + " Dakika " + seconds + " Saniye " : ""}
+            {days <= 0 && hours <= 0 && minutes <= 0 && seconds > 0 ? seconds + " Saniye" : ""}
+            {days <= 0 && hours <= 0 && minutes <=0 && seconds <= 0 ? "Süre Bitti" : ""}
         </div>
     </>
   );
