@@ -17,7 +17,7 @@ const Login = ({handleQuitLogin, handleClickRegister, login}) => {
     return (
         <>
 
-        <div style={{ display: "flex", flexDirection: "column" , position: "fixed", borderRadius: "0.25em", top: "15%", right: "30%", zIndex: "9999", height: "70%", width: "40%", backgroundColor: "white", borderStyle: "", borderColor:"#cacaca"}}>
+        <div style={{ boxShadow: "0 0.1rem 0.5rem rgba(0,0,0,.15)", display: "flex", flexDirection: "column" , position: "fixed", borderRadius: "0.25em", top: "15%", right: "30%", zIndex: "9999", height: "70%", width: "40%", backgroundColor: "white", borderStyle: "", borderColor:"#cacaca"}}>
         <div onClick={handleQuitLogin} style={{marginRight: "10px", marginTop: "10px", marginLeft: "auto", borderStyle: "", borderRadius: "50%", height: "10%", aspectRatio: "1 / 1", backgroundSize: "100%", backgroundImage: "url(https://thumbs.dreamstime.com/b/red-cross-symbol-icon-as-delete-remove-fail-failure-incorr-incorrect-answer-89999776.jpg)"}}></div>
             <div style={{  padding: "2em", paddingBottom: "0px"}}>
             E-Mail
