@@ -1,3 +1,11 @@
+import "../../css/bootstrap.min.css"
+import "../../css/font-awesome.min.css"
+import "../../css/prettyPhoto.css"
+import "../../css/price-range.css"
+import "../../css/animate.css"
+import "../../css/main.css"
+import "../../css/responsive.css"
+
 import config from "../../datas/config.json"
 import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import { useState } from "react";
@@ -5,7 +13,113 @@ import { useState } from "react";
 const Navbar = ({ handleQuitShoppingCartMenu, handleHoverShoppingCartMenu, addresses, selectAddress, handleClickAddresses, clickedAddresses, handleClickAddress, handleLogout, handleClickLogin, isLoggedIn, loggedInUser}) => {
     return (
         <>
-        <div style={{width: "auto", height: "64px", display: "flex", position: "sticky", borderWidth: "10px:", boxShadow: "0 6px 20px #a4a4a452", top: "0px", backgroundColor: "white", zIndex: "100000", padding: "0px 7rem"}}>
+        <header id="header">
+      {/*header*/}
+      <div className="header_top">
+        {/*header_top*/}
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-6">
+              <div className="contactinfo">
+                <ul className="nav nav-pills">
+                  <li>
+                    <a href="#">
+                      <i className="fa fa-phone" /> +2 95 01 88 821
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i className="fa fa-envelope" /> info@domain.com
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="col-sm-6">
+              <div className="social-icons pull-right">
+                <ul className="nav navbar-nav">
+                  <li>
+                    <a href="#">
+                      <i className="fa fa-facebook" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i className="fa fa-twitter" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i className="fa fa-linkedin" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i className="fa fa-dribbble" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i className="fa fa-google-plus" />
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/*/header_top*/}
+      <div className="header-middle">
+        {/*header-middle*/}
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-4">
+              <div className="logo pull-left">
+                <a href="index.html">
+                  <div style={{color: "black"}}> Market</div>
+                </a>
+              </div>
+              <div className="btn-group pull-right">
+              </div>
+            </div>
+            <div className="col-sm-8">
+              <div className="shop-menu pull-right">
+                <ul className="nav navbar-nav">
+                  <li>
+                    <a href="#">
+                      <i className="fa fa-user" /> Hesabım
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i className="fa fa-star" /> Favorilerim
+                    </a>
+                  </li>
+                  <li>
+                    <a href="checkout.html">
+                      <i className="fa fa-crosshairs" /> Checkout
+                    </a>
+                  </li>
+                  <li>
+                    <a href="cart.html">
+                      <i className="fa fa-shopping-cart" /> Cart
+                    </a>
+                  </li>
+                  <li>
+                    <a href="login">
+                      <i className="fa fa-lock" /> Login
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/*/header-middle*/}
+    </header>
+        {/* <div style={{width: "auto", height: "64px", display: "flex", position: "sticky", borderWidth: "10px:", boxShadow: "0 6px 20px #a4a4a452", top: "0px", backgroundColor: "white", zIndex: "100000", padding: "0px 7rem"}}>
             <div style={{display: "flex", alignItems: "center", minWidth: "25%", justifyContent: "center"}}>
                 <div style={{textAlign: "center", paddingLeft: "5px"}}>Market</div>
             </div>
@@ -55,7 +169,7 @@ const Navbar = ({ handleQuitShoppingCartMenu, handleHoverShoppingCartMenu, addre
                 <div style={{alignSelf: "center"}}> Sepetim
                 </div>
             </div>
-        </div>
+        </div> */}
         </>
     )
 };
