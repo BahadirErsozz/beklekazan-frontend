@@ -42,10 +42,10 @@ const Navbar = ({ handleQuitShoppingCartMenu, handleHoverShoppingCartMenu, addre
                 ? 
                 <>
                 <div> {loggedInUser} </div>
-                <div onClick={handleLogout}> logout </div>
+                <div onClick={handleLogout} style={{cursor: "pointer"}}> logout </div>
                 </>
                 :
-                <div onClick={handleClickLogin}> Giriş Yap / Kayıt Ol</div>
+                <div onClick={handleClickLogin} style={{cursor: "pointer"}}>  Giriş Yap / Kayıt Ol</div>
                 }
             </div>
             <div onMouseEnter={handleHoverShoppingCartMenu} onMouseLeave={handleQuitShoppingCartMenu} style={{ display: "flex", flexDirection: "row" , minWidth: "10%", height: "100%", marginRight: "0", justifyContent: "center", borderLeft: "2px solid " + config.BORDER_COLOR }}> 

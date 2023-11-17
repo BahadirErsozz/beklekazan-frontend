@@ -3,9 +3,10 @@ import Product from "./Product";
 const ProductList = ({products, addItemToCart, selectedCategory}) => {
     return (
         <>
-        <div className="features_items">
+        <div style={{width: "auto", height: "100%", borderStyle: "", borderWidth: "5px", borderColor: "#dcdcdc", marginRight: "0px", display: "flex", flexWrap: "wrap", alignContent: "flex-start"}}>
         {products.map(product => {
-            return <Product product={product} key={product.id} addItemToCart={addItemToCart}></Product>
+            if(selectedCategory === "All" || product.category === selectedCategory)
+                return <Product product={product} key={product.id} addItemToCart={addItemToCart}></Product>
         })}
         </div>
         </>
