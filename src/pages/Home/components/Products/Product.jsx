@@ -22,9 +22,10 @@ const Product = ({ product, addItemToCart }) => {
           maxWidth: "200px",
           minWidth: "200px",
           aspectRatio: "1/1",
-          height: "300px",
+          height: "auto",
           border: "1px solid #dcdcdc",
           margin: "8px",
+          padding: "8px 8px",
           borderRadius: "8px",
         }}
       >
@@ -41,33 +42,30 @@ const Product = ({ product, addItemToCart }) => {
             style={{ width: "100%", height: "100%", background: "transparent" }}
           ></img>
         </div>
+        <div style={{ marginBottom: "30px" }}> {product.name} </div>
+        <div style={{ marginBottom: "10px", fontWeight: "bold" }}>
+          {" "}
+          {product.price} TL
+        </div>
+
         <div
+          onClick={addItemToCartHandler}
           style={{
-            gridTemplateColumns: "calc(100% - 40px)",
-            display: "grid",
-            height: "40px",
-            maxWidth: "100%",
+            minWidth: "105px",
+            maxWidth: "105px",
+            height: "20px",
+            padding: "8px",
+            border: "1px solid #dcdcdc",
+            borderRadius: "8px",
+            backgroundColor: "#034C8E",
+            color: "white",
+            textAlign: "center",
+            margin: "0 auto",
+            cursor: "pointer",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <div> {product.price} TL</div>
-            <div> {product.name} </div>
-          </div>
-          <div
-            onClick={addItemToCartHandler}
-            style={{
-              width: "40px",
-              height: "100%",
-              borderRadius: "5px",
-              display: "flex",
-              justifyContent: "center",
-              borderStyle: "solid",
-              gridColumn: "add",
-            }}
-          >
-            {" "}
-            Al
-          </div>
+          {" "}
+          Sepete Ekle
         </div>
       </div>
     </>

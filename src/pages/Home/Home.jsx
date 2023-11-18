@@ -65,9 +65,9 @@ function Home() {
         return [
           ...oldArray,
           {
-            name: "muz",
+            name: "Yerli Muz 500 G",
             id: uuidv4(),
-            price: 100,
+            price: 100.75,
             category: "Meyve",
             deadline: "20 Jul 2024 16:00:00 GMT",
             sold_amount: "70/100",
