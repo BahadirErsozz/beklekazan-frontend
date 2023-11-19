@@ -1,20 +1,161 @@
-import config from "../../datas/config.json";
-import ShoppingCart from "../ShoppingCart/ShoppingCart";
-import { useState } from "react";
+import config from "../../pages/Home/datas/config.json";
+import ShoppingCart from "../../pages/Home/components/ShoppingCart/ShoppingCart";
+import Login from "../Popups/Login";
+import { Link } from "react-router-dom";
 
-const Navbar = ({
-  handleQuitShoppingCartMenu,
-  handleHoverShoppingCartMenu,
-  addresses,
-  selectAddress,
-  handleClickAddresses,
-  clickedAddresses,
-  handleClickAddress,
-  handleLogout,
-  handleClickLogin,
-  isLoggedIn,
-  loggedInUser,
-}) => {
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setclickedLogin } from "../../redux/clickedLogin";
+import { setclickedAddress } from "../../redux/clickedAddress";
+import { setclickedRegister } from "../../redux/clickedRegister";
+import { ToastContainer, toast } from "react-toastify";
+
+const Navbar = ({}) => {
+  const [clickedShoppingCart, setClickedShoppingCart] = useState(false);
+  const [shoppingCartTotal, setShoppingCartTotal] = useState(0);
+  const [addresses, setAddresses] = useState([
+    {
+      address_details: JSON.stringify({
+        address_name: "isim",
+        address_id: "id",
+        neighborhood: "mahalle",
+        state: "state",
+        city: "city",
+      }),
+    },
+    {
+      address_details: JSON.stringify({
+        address_name: "isim2",
+        address_id: "id",
+        neighborhood: "mahalle",
+        state: "state",
+        city: "city",
+      }),
+    },
+  ]);
+  const [selectedAddress, setSelectedAddress] = useState(0);
+  const [clickedAddresses, setclickedAddresses] = useState(false);
+
+  const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
+  const loggedInUser = useSelector((state) => state.loggedInUser.loggedInUser);
+  const clickedLogin = useSelector((state) => state.clickedLogin.clickedLogin);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setShoppingCartTotal(
+      shoppingCart?.reduce((total, element) => {
+        return total + element.price * element.count;
+      }, 0)
+    );
+  }, [shoppingCart]);
+  const handleHoverShoppingCartMenu = () => {
+    setClickedShoppingCart(true);
+  };
+  const handleQuitShoppingCartMenu = () => {
+    setClickedShoppingCart(false);
+  };
+
+  const handleClickLogin = () => {
+    dispatch(setclickedLogin({ clickedLogin: true }));
+    dispatch(setclickedRegister({ clickedRegister: false }));
+    dispatch(setclickedAddress({ clickedAddress: false }));
+  };
+  const handleClickAddress = () => {
+    dispatch(setclickedLogin({ clickedLogin: false }));
+    dispatch(setclickedRegister({ clickedRegister: false }));
+    dispatch(setclickedAddress({ clickedAddress: true }));
+  };
+  const showToastInfoMessage = (mesage, poisition) => {
+    toast.info(mesage, {
+      position: poisition,
+    });
+  };
+
+  const showToastErrorMessage = (mesage, poisition) => {
+    toast.error(mesage, {
+      position: poisition,
+    });
+  };
+
+  const addOrder = async () => {
+    if (!isLoggedIn) {
+      showToastInfoMessage(
+        "Sipariş vermeden önce giriş yapmalısınız",
+        toast.POSITION.TOP_CENTER
+      );
+      handleClickLogin();
+    } else {
+      return await fetch("http://localhost:3000/orders", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          shopping_cart: shoppingCart,
+          order_date: Date.now(),
+          order_status: 0,
+          order_address: "empty address",
+          address_id: selectedAddress,
+        }),
+      })
+        .then((res) => {
+          if (res.status !== 200) {
+            throw new Error(response.status);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setupdateOrders(updateOrders + 1);
+          console.log(shoppingCart);
+        })
+        .catch((err) => {
+          showToastErrorMessage(
+            "Sipariş oluşturulurken bir hata oluştu",
+            toast.POSITION.TOP_CENTER
+          );
+        });
+    }
+  };
+
+  const selectAddress = async (address_id) => {
+    await fetch("http://localhost:3000/addresses/select", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ address_id: address_id }),
+    })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error(response.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setSelectedAddress(address_id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleClickAddresses = () => {
+    setclickedAddresses(!clickedAddresses);
+    return;
+    if (!isLoggedIn) {
+      showToastInfoMessage(
+        "Adres seçmeden önce giriş yapmalısınız",
+        toast.POSITION.TOP_CENTER
+      );
+      handleClickLogin();
+    } else {
+      setclickedAddresses(!clickedAddresses);
+    }
+  };
   return (
     <>
       <div
@@ -27,20 +168,23 @@ const Navbar = ({
           boxShadow: "0 6px 20px #a4a4a452",
           top: "0px",
           backgroundColor: "white",
-          zIndex: "100000",
+          zIndex: "1000",
           padding: "0px 7rem",
         }}
       >
-        <div
+        <Link
+          to="/"
           style={{
             display: "flex",
             alignItems: "center",
             minWidth: "25%",
             justifyContent: "center",
+            textDecoration: "none",
+            color: "black",
           }}
         >
           <div style={{ textAlign: "center", paddingLeft: "5px" }}>Market</div>
-        </div>
+        </Link>
         <div
           style={{
             display: "block",
@@ -59,6 +203,7 @@ const Navbar = ({
               paddingLeft: "5px",
               width: "100%",
               height: "100%",
+              cursor: "pointer",
             }}
           >
             {addresses?.length > 0
@@ -151,6 +296,7 @@ const Navbar = ({
             height: "100%",
             marginRight: "0",
             alignItems: "center",
+            cursor: "pointer",
           }}
         >
           <svg
@@ -186,24 +332,25 @@ const Navbar = ({
         </div>
         <div
           onMouseEnter={handleHoverShoppingCartMenu}
+          onClick={handleHoverShoppingCartMenu}
           onMouseLeave={handleQuitShoppingCartMenu}
           style={{
             display: "flex",
             flexDirection: "row",
-            minWidth: "10%",
+            minWidth: "20%",
             height: "100%",
             marginRight: "0",
-            justifyContent: "center",
             borderLeft: "2px solid " + config.BORDER_COLOR,
           }}
         >
           <div
             style={{
               display: "flex",
-              minWidth: "50%",
               height: "50%",
               alignSelf: "center",
               justifyContent: "flex-end",
+              paddingLeft: "10px",
+              cursor: "pointer",
             }}
           >
             <div
@@ -217,7 +364,18 @@ const Navbar = ({
               }}
             ></div>
           </div>
-          <div style={{ alignSelf: "center" }}> Sepetim</div>
+          <div
+            style={{
+              alignSelf: "center",
+              paddingLeft: "10px",
+              cursor: "pointer",
+            }}
+          >
+            {" "}
+            Sepetim
+            <div style={{ width: "100%" }}>{shoppingCartTotal} TL</div>
+          </div>
+          {clickedShoppingCart ? <ShoppingCart addOrder={addOrder} /> : ""}
         </div>
       </div>
     </>

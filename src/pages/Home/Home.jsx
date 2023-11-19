@@ -1,38 +1,60 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import LeftNavigation from "./components//LeftNav/LeftNavigation";
 import ProductList from "./components//Products/ProductList";
 import ShoppingCart from "./components/ShoppingCart/ShoppingCart";
-import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
-import Address from "./components/Address/Address";
+import Login from "../../components/Popups/Login";
+import Register from "../../components/Popups/Register";
+import Address from "../../components/Popups/Address";
+import GotoCart from "./components/GotoCart/GotoCart";
+import PopupsContainer from "../../components/Popups/PopupsContainer";
 import config from "./datas/config.json";
+
+import { setisLoggedIn } from "../../redux/isLoggedIn";
+import { setloggedInUser } from "../../redux/loggedInUser";
+import { setclickedLogin } from "../../redux/clickedLogin";
+import { setclickedAddress } from "../../redux/clickedAddress";
+import { setclickedRegister } from "../../redux/clickedRegister";
+import { incrementupdateIsLoggedIn } from "../../redux/updateIsLoggedIn";
+import { incrementupdateOrders } from "../../redux/updateOrders";
+import { incrementupdateAddresses } from "../../redux/updateAddresses";
 
 function Home() {
   const [products, setProducts] = useState([]);
-  const [shoppingCart, setShoppingCart] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
+  const loggedInUser = useSelector((state) => state.loggedInUser.loggedInUser);
+  const clickedLogin = useSelector((state) => state.clickedLogin.clickedLogin);
+  const clickedRegister = useSelector(
+    (state) => state.clickedRegister.clickedRegister
+  );
+  const clickedAddress = useSelector(
+    (state) => state.clickedAddress.clickedAddress
+  );
+  const updateIsLoggedIn = useSelector(
+    (state) => state.updateIsLoggedIn.updateIsLoggedIn
+  );
+  const updateOrders = useSelector((state) => state.updateOrders.updateOrders);
+  const updateAddresses = useSelector(
+    (state) => state.updateAddresses.updateAddresses
+  );
 
-  const [clickedLogin, setclickedLogin] = useState(false);
-  const [clickedRegister, setclickedRegister] = useState(false);
-  const [clickedAddress, setclickedAddress] = useState(false);
+  const dispatch = useDispatch();
+
   const [clickedAddresses, setclickedAddresses] = useState(false);
   const [clickedShoppingCart, setClickedShoppingCart] = useState(false);
   const [clickedShoppingCartMenu, setClickedShoppingCartMenu] = useState(false);
 
   const [orders, setOrders] = useState([]);
   const [addresses, setAddresses] = useState([]);
-  const [selectedAddress, setSelectedAddress] = useState(0);
-  const [updateOrders, setupdateOrders] = useState(0);
-  const [updateAddresses, setupdateAddresses] = useState(0);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState("");
-  const [triggerIsLoggedIn, setTriggerIsLoggedIn] = useState(false);
+  const [updateAddreasses, setupdateAddresses] = useState(0);
 
   useEffect(() => {
     fetch("http://localhost:3000/products", {
@@ -105,13 +127,13 @@ function Home() {
       .then((res) => res.json())
       .then((data) => {
         console.log("isloggedin: " + data.isLoggedIn);
-        setIsLoggedIn(data.isLoggedIn);
-        setLoggedInUser(data.email);
+        dispatch(setisLoggedIn({ isLoggedIn: data.isLoggedIn }));
+        dispatch(setloggedInUser({ loggedInUser: data.email }));
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [triggerIsLoggedIn]);
+  }, [updateIsLoggedIn]);
 
   useEffect(() => {
     fetch("http://localhost:3000/addresses", {
@@ -141,56 +163,19 @@ function Home() {
       });
   }, [updateOrders]);
 
-  const addItemToCart = (id) => {
-    if (itemExistsOnCart(id)) {
-      const newShoppingCart = shoppingCart.map((obj) => {
-        if (obj.id === id) {
-          return { ...obj, count: obj.count + 1 };
-        }
-        return obj;
-      });
-      setShoppingCart(newShoppingCart);
-    } else {
-      setShoppingCart((oldArray) => {
-        const product = products.find((product) => product.id === id);
-        product.count = 1;
-        return [...oldArray, product];
-      });
-    }
-  };
-
-  const removeItemFromCart = (id) => {
-    const newShoppingCart = shoppingCart.map((obj) => {
-      if (obj.id === id) {
-        return { ...obj, count: obj.count - 1 };
-      }
-      return obj;
-    });
-    setShoppingCart(newShoppingCart.filter((obj) => obj.count > 0));
-  };
-
-  const itemExistsOnCart = (id) => {
-    return shoppingCart.find((product) => product.id === id) !== undefined;
-  };
-
   const updateEverything = () => {
-    setupdateAddresses(updateAddresses + 1);
-    setupdateOrders(updateOrders + 1);
+    dispatch(incrementupdateAddresses({}));
+    dispatch(incrementupdateOrders({}));
   };
   const handleClickLogin = () => {
-    setclickedLogin(true);
-    setclickedRegister(false);
-    setclickedAddress(false);
-  };
-  const handleClickRegister = () => {
-    setclickedRegister(true);
-    setclickedLogin(false);
-    setclickedAddress(false);
+    dispatch(setclickedLogin({ clickedLogin: true }));
+    dispatch(setclickedRegister({ clickedRegister: false }));
+    dispatch(setclickedAddress({ clickedAddress: false }));
   };
   const handleClickAddress = () => {
-    setclickedAddress(true);
-    setclickedRegister(false);
-    setclickedLogin(false);
+    dispatch(setclickedLogin({ clickedLogin: false }));
+    dispatch(setclickedRegister({ clickedRegister: false }));
+    dispatch(setclickedAddress({ clickedAddress: true }));
   };
   const handleHoverShoppingCart = () => {
     setClickedShoppingCart(true);
@@ -206,9 +191,9 @@ function Home() {
   };
 
   const closeEverything = () => {
-    setclickedRegister(false);
-    setclickedAddress(false);
-    setclickedLogin(false);
+    dispatch(setclickedRegister({ clickedRegister: false }));
+    dispatch(setclickedAddress({ clickedAddress: false }));
+    dispatch(setclickedLogin({ clickedLogin: false }));
     setClickedShoppingCart(false);
   };
 
@@ -222,16 +207,6 @@ function Home() {
     } else {
       setclickedAddresses(!clickedAddresses);
     }
-  };
-
-  const handleQuitLogin = () => {
-    setclickedLogin(false);
-  };
-  const handleQuitRegister = () => {
-    setclickedRegister(false);
-  };
-  const handleQuitAddress = () => {
-    setclickedAddress(false);
   };
 
   const showToastSuccessMessage = (mesage, poisition) => {
@@ -252,106 +227,6 @@ function Home() {
     });
   };
 
-  const addOrder = async () => {
-    if (!isLoggedIn) {
-      showToastInfoMessage(
-        "Sipariş vermeden önce giriş yapmalısınız",
-        toast.POSITION.TOP_CENTER
-      );
-      handleClickLogin();
-    } else {
-      return await fetch("http://localhost:3000/orders", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          shopping_cart: shoppingCart,
-          order_date: Date.now(),
-          order_status: 0,
-          order_address: "empty address",
-          address_id: selectedAddress,
-        }),
-      })
-        .then((res) => {
-          if (res.status !== 200) {
-            throw new Error(response.status);
-          }
-          return res.json();
-        })
-        .then((data) => {
-          setupdateOrders(updateOrders + 1);
-          console.log(shoppingCart);
-        })
-        .catch((err) => {
-          showToastErrorMessage(
-            "Sipariş oluşturulurken bir hata oluştu",
-            toast.POSITION.TOP_CENTER
-          );
-        });
-    }
-  };
-
-  const login = async (email, password) => {
-    return await fetch("http://localhost:3000/users/login", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: email, password: password }),
-    })
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error(response.status);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setTriggerIsLoggedIn(!triggerIsLoggedIn);
-        setIsLoggedIn(data.isLoggedIn);
-        setLoggedInUser(data.email);
-        setclickedLogin(false);
-        updateEverything();
-        showToastSuccessMessage(
-          "Başarıyla giriş yapıldı",
-          toast.POSITION.TOP_CENTER
-        );
-      })
-      .catch((err) => {
-        showToastErrorMessage(
-          "Giriş yaparken bir hata oluştu",
-          toast.POSITION.TOP_CENTER
-        );
-      });
-  };
-
-  const register = async (email, password) => {
-    return await fetch("http://localhost:3000/users/register", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: email, password: password }),
-    })
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error(response.status);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setTriggerIsLoggedIn(!triggerIsLoggedIn);
-        setclickedRegister(false);
-        updateEverything();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const logout = async () => {
     return await fetch("http://localhost:3000/users/logout", {
       method: "POST",
@@ -364,32 +239,9 @@ function Home() {
         return res.json();
       })
       .then((data) => {
-        setTriggerIsLoggedIn(!triggerIsLoggedIn);
+        dispatch(incrementupdateIsLoggedIn({}));
         updateEverything();
         console.log(data.status);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const selectAddress = async (address_id) => {
-    await fetch("http://localhost:3000/addresses/select", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ address_id: address_id }),
-    })
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error(response.status);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setSelectedAddress(address_id);
       })
       .catch((err) => {
         console.log(err);
@@ -415,9 +267,8 @@ function Home() {
         return res.json();
       })
       .then((data) => {
-        setupdateAddresses(updateAddresses + 1);
-        setclickedAddress(false);
-        selectAddress(data.address_id);
+        dispatch(incrementupdateAddresses({}));
+        dispatch(setclickedAddress({ clickedAddress: false }));
       })
       .catch((err) => {
         console.log(err);
@@ -426,51 +277,16 @@ function Home() {
 
   return (
     <>
-      {clickedLogin ? (
-        <Login
-          handleQuitLogin={handleQuitLogin}
-          handleClickRegister={handleClickRegister}
-          login={login}
-        />
-      ) : (
-        ""
-      )}
-      {clickedRegister ? (
-        <Register
-          handleQuitRegister={handleQuitRegister}
-          handleClickLogin={handleClickLogin}
-          register={register}
-        />
-      ) : (
-        ""
-      )}
-      {clickedAddress ? (
-        <Address
-          handleQuitAddress={handleQuitAddress}
-          createAddress={createAddress}
-        />
-      ) : (
-        ""
-      )}
+      <ToastContainer></ToastContainer>
+      <PopupsContainer></PopupsContainer>
+
       <div
         style={{
           opacity:
             clickedLogin || clickedRegister || clickedAddress ? "0.3" : "",
         }}
       >
-        <Navbar
-          handleHoverShoppingCartMenu={handleHoverShoppingCartMenu}
-          handleQuitShoppingCartMenu={handleQuitShoppingCartMenu}
-          selectAddress={selectAddress}
-          handleClickAddresses={handleClickAddresses}
-          clickedAddresses={clickedAddresses}
-          addresses={addresses}
-          handleClickAddress={handleClickAddress}
-          handleLogout={logout}
-          handleClickLogin={handleClickLogin}
-          isLoggedIn={isLoggedIn}
-          loggedInUser={loggedInUser}
-        />
+        <Navbar />
         <div
           style={{
             backgroundImage:
@@ -519,16 +335,10 @@ function Home() {
           ></LeftNavigation>
           <ProductList
             products={products}
-            addItemToCart={addItemToCart}
             selectedCategory={selectedCategory}
           ></ProductList>
         </div>
-        <ShoppingCart
-          addItemToCart={addItemToCart}
-          removeItemFromCart={removeItemFromCart}
-          shoppingCart={shoppingCart}
-          addOrder={addOrder}
-        ></ShoppingCart>
+        <GotoCart></GotoCart>
       </div>
     </>
   );

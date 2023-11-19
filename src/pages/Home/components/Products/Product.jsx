@@ -1,9 +1,28 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addToShoppingCart } from "../../../../redux/shoppingCart";
+
 import Timer from "./Timer";
 
 const Product = ({ product, addItemToCart }) => {
+  const dispatch = useDispatch();
+  const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
+
   const addItemToCartHandler = () => {
-    addItemToCart(product.id);
+    const itemExists = itemExistsOnCart();
+    dispatch(
+      addToShoppingCart({
+        id: product.id,
+        product: product,
+        itemExists: itemExists,
+      })
+    );
+  };
+
+  const itemExistsOnCart = () => {
+    return (
+      shoppingCart.find((cartItem) => cartItem.id === product.id) !== undefined
+    );
   };
   const [time, setTime] = useState(30);
   const updateTime = (timeNow) => {
@@ -32,13 +51,13 @@ const Product = ({ product, addItemToCart }) => {
         <Timer deadline={product.deadline}></Timer>
         <div
           style={{
-            width: "100%",
-            height: "146px",
+            width: "",
+            height: "",
             backgroundColor: "rgba(51,51,51,.04)",
           }}
         >
           <img
-            src="https://images.deliveryhero.io/image/fd-tr/mahalleproductimages/00000002150561.jpg?height=140&dpi=2"
+            src="https://images.migrosone.com/sanalmarket/product/28290036/28290036-6a65f9-1650x1650.jpg"
             style={{ width: "100%", height: "100%", background: "transparent" }}
           ></img>
         </div>
