@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const GotoCart = ({
   addItemToCart,
   shoppingCart,
@@ -6,7 +8,8 @@ const GotoCart = ({
 }) => {
   return (
     <>
-      <div
+      <Link
+        to="/sepetim"
         style={{
           position: "fixed",
           border: "2px solid #dcdcdc",
@@ -21,10 +24,11 @@ const GotoCart = ({
           backgroundColor: "#034C8E",
           padding: "8px",
           cursor: "pointer",
+          textDecoration: "none",
         }}
       >
         Sepete Git &gt;
-      </div>
+      </Link>
     </>
   );
 };

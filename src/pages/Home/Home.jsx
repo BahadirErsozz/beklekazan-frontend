@@ -89,6 +89,7 @@ function Home() {
           {
             name: "Yerli Muz 500 G",
             id: uuidv4(),
+            linkId: "123",
             price: 100.75,
             category: "Meyve",
             deadline: "20 Jul 2024 16:00:00 GMT",

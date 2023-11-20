@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToShoppingCart } from "../../../../redux/shoppingCart";
+import { Link } from "react-router-dom";
 
 import Timer from "./Timer";
 
@@ -49,7 +50,8 @@ const Product = ({ product, addItemToCart }) => {
         }}
       >
         <Timer deadline={product.deadline}></Timer>
-        <div
+        <Link
+          to={"product/" + product.id}
           style={{
             width: "",
             height: "",
@@ -60,8 +62,18 @@ const Product = ({ product, addItemToCart }) => {
             src="https://images.migrosone.com/sanalmarket/product/28290036/28290036-6a65f9-1650x1650.jpg"
             style={{ width: "100%", height: "100%", background: "transparent" }}
           ></img>
-        </div>
-        <div style={{ marginBottom: "30px" }}> {product.name} </div>
+        </Link>
+        <Link
+          to={"product/" + product.id}
+          style={{
+            marginBottom: "30px",
+            textDecoration: "none",
+            color: "black",
+            display: "block",
+          }}
+        >
+          {product.name}
+        </Link>
         <div style={{ marginBottom: "10px", fontWeight: "bold" }}>
           {" "}
           {product.price} TL
