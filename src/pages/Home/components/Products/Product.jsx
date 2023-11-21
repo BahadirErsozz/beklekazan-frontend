@@ -59,7 +59,7 @@ const Product = ({ product, addItemToCart }) => {
           }}
         >
           <img
-            src="https://images.migrosone.com/sanalmarket/product/28290036/28290036-6a65f9-1650x1650.jpg"
+            src={"http://localhost:3000/products/product/" + product.id + "/image"}
             style={{ width: "100%", height: "100%", background: "transparent" }}
           ></img>
         </Link>

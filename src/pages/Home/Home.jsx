@@ -24,9 +24,11 @@ import { setclickedRegister } from "../../redux/clickedRegister";
 import { incrementupdateIsLoggedIn } from "../../redux/updateIsLoggedIn";
 import { incrementupdateOrders } from "../../redux/updateOrders";
 import { incrementupdateAddresses } from "../../redux/updateAddresses";
+import { addToProducts } from "../../redux/products";
+import { resetProducts } from "../../redux/products";
 
 function Home() {
-  const [products, setProducts] = useState([]);
+  const [produacts, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
   const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
@@ -42,6 +44,7 @@ function Home() {
     (state) => state.updateIsLoggedIn.updateIsLoggedIn
   );
   const updateOrders = useSelector((state) => state.updateOrders.updateOrders);
+  const products = useSelector((state) => state.products.products);
  
 
   const dispatch = useDispatch();
@@ -55,25 +58,21 @@ function Home() {
   const [updateProductCounts, setupdateProductCounts] = useState(0);
 
   useEffect(() => {
+    dispatch(resetProducts({}));
     fetch("http://localhost:3000/products", {
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
-        setProducts([]);
         for (let i = 0; i < data.length; i++) {
-          setProducts((oldArray) => {
-            return [
-              ...oldArray,
-              {
-                name: data[i].name,
-                id: uuidv4(),
-                price: data[i].price,
-                category: data[i].category,
-                deadline: data[i].deadline,
-              },
-            ];
-          });
+          const product = {
+            name: data[i].name,
+            id: data[i].product_id,
+            price: data[i].price,
+            category: data[i].category,
+            deadline: data[i].deadline,
+          }
+          dispatch(addToProducts({ product: product }));
         }
       })
       .catch((err) => {

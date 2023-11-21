@@ -1,5 +1,6 @@
 import { useState, useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import Navbar from "../../components/Navbar/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import PopupsContainer from "../../components/Popups/PopupsContainer";
@@ -9,16 +10,11 @@ import {
   removeFromShoppingCart,
 } from "../../redux/shoppingCart";
 import { useDispatch, useSelector } from "react-redux";
+import { getProductById } from "../../redux/products";
 
 function Product() {
   let { productId } = useParams();
-  const [product, setProduct] = useState({
-    name: "Yerli Muz 500 G",
-    price: 100.75,
-    category: "Meyve",
-    deadline: "20 Jul 2024 16:00:00 GMT",
-    sold_amount: "70/100",
-  });
+  const [product, setProduct] = useState({});
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
   const dispatch = useDispatch();
 
@@ -38,46 +34,24 @@ function Product() {
       shoppingCart.find((cartItem) => cartItem.id === product.id) !== undefined
     );
   };
-  useLayoutEffect(() => {
-    setProduct({
-      name: "Yerli Muz 500 G",
-      price: 100.75,
-      category: "Meyve",
-      deadline: "20 Jul 2024 16:00:00 GMT",
-      sold_amount: "70/100",
-    });
-  }, []);
   useEffect(() => {
-    // fetch("http://localhost:3000/products", {
-    //   credentials: "include",
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     for (let i = 0; i < data.length; i++) {
-    //       setProduct((oldArray) => {
-    //         return [
-    //           ...oldArray,
-    //           {
-    //             name: data[i].name,
-    //             id: uuidv4(),
-    //             price: data[i].price,
-    //             category: "Meyve",
-    //             deadline: data[i].deadline,
-    //           },
-    //         ];
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    setProduct({
-      name: "Yerli Muz 500 G",
-      price: 100.75,
-      category: "Meyve",
-      deadline: "20 Jul 2024 16:00:00 GMT",
-      sold_amount: "70/100",
-    });
+    fetch("http://localhost:3000/products/product/" + productId, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const product = {
+          name: data[0].name,
+          id: uuidv4(),
+          price: data[0].price,
+          category: data[0].category,
+          deadline: data[0].deadline,
+        }
+        setProduct(product);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -112,7 +86,7 @@ function Product() {
             }}
           >
             <img
-              src="https://images.migrosone.com/sanalmarket/product/28290036/28290036-6a65f9-1650x1650.jpg"
+              src={"http://localhost:3000/products/product/" + productId + "/image"}
               style={{
                 width: "100%",
                 height: "100%",

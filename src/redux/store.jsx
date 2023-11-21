@@ -9,6 +9,7 @@ import selectedAddressReducer from "./selectedAddress";
 import updateIsLoggedInReducer from "./updateIsLoggedIn";
 import updateOrdersReducer from "./updateOrders";
 import updateAddressesReducer from "./updateAddresses";
+import productsReducer from "./products";
 
 export const store = configureStore({
   reducer: {
@@ -22,5 +23,6 @@ export const store = configureStore({
     updateIsLoggedIn: updateIsLoggedInReducer,
     updateOrders: updateOrdersReducer,
     updateAddresses: updateAddressesReducer,
+    products: productsReducer
   },
 });

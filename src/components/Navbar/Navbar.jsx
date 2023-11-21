@@ -4,7 +4,7 @@ import Login from "../Popups/Login";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setclickedLogin } from "../../redux/clickedLogin";
 import { setclickedAddress } from "../../redux/clickedAddress";
@@ -14,14 +14,17 @@ import { incrementupdateIsLoggedIn } from "../../redux/updateIsLoggedIn";
 import { incrementupdateOrders } from "../../redux/updateOrders";
 import { incrementupdateAddresses } from "../../redux/updateAddresses";
 import Account from "../HoverMenus/Account";
+import SearchBarItems from "../HoverMenus/SearchBarItems";
 
 const Navbar = ({}) => {
   const [clickedShoppingCart, setClickedShoppingCart] = useState(false);
   const [clickedAccount, setClickedAccount] = useState(false);
+  const [clickedSearchBar, setClickedSearchBar] = useState(false);
   const [shoppingCartTotal, setShoppingCartTotal] = useState(0);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState({});
   const [clickedAddresses, setclickedAddresses] = useState(false);
+  const [serachValue, setSearchValue] = useState("");
 
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
   const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
@@ -32,12 +35,27 @@ const Navbar = ({}) => {
   );
   const dispatch = useDispatch();
 
+  const searcBarRef = useRef();
+
+  const handleClickOutside = e => {
+    if (!searcBarRef.current.contains(e.target)) {
+      setClickedSearchBar(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  });
+
   useEffect(() => {
     fetch("http://localhost:3000/addresses", {
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
+        if (data.message != null) return
+        console.log(data.addresses)
         setAddresses(data.addresses);
         const selected_address = data.addresses.find((element) => {
           console.log(element);
@@ -58,6 +76,12 @@ const Navbar = ({}) => {
       }, 0)
     );
   }, [shoppingCart]);
+
+  const handleInputChange = event => {
+    setSearchValue(event.target.value);
+
+    console.log('value is:', event.target.value);
+  };
   const handleHoverShoppingCartMenu = () => {
     setClickedShoppingCart(true);
   };
@@ -70,6 +94,13 @@ const Navbar = ({}) => {
   };
   const handleQuitAccount = () => {
     setClickedAccount(false);
+  };
+
+  const handleClickSearchBar = () => {
+    setClickedSearchBar(true);
+  };
+  const handleQuitSearchBar = () => {
+    setClickedSearchBar(false);
   };
 
   const handleClickLogin = () => {
@@ -237,6 +268,7 @@ const Navbar = ({}) => {
         >
           <div style={{ textAlign: "center", paddingLeft: "5px" }}>Market</div>
         </Link>
+        <div ref={searcBarRef} style={{minWidth: "35%"}}>
         <div
           style={{
             display: "flex",
@@ -248,35 +280,49 @@ const Navbar = ({}) => {
             borderRight: "2px solid " + config.BORDER_COLOR,
           }}
         >
-          <div style={{width: "100%", height: "auto", border: "solid 1px #c7c8cb",
-                borderRadius: "10px", margin: "10px", display: "flex"}}>
+          <div
+            style={{
+              width: "100%",
+              height: "auto",
+              border: "solid 1px #c7c8cb",
+              borderRadius: "10px",
+              margin: "10px",
+              display: "flex",
+            }}
+          >
             <input
+             onClick={handleClickSearchBar}
+             onChange={handleInputChange}
+             value={serachValue}
               style={{
                 minWidth: "80%",
                 height: "auto",
                 border: "none",
                 outline: "none",
                 borderRadius: "10px",
-                textIndent: "10px"
+                textIndent: "10px",
               }}
             ></input>
             <div
-          style={{
-            width: "100%",
-            height: "20px",
-            padding: "10px",
-            borderRadius: "10px",
-            backgroundColor: "#034C8E",
-            color: "white",
-            textAlign: "center",
-            margin: "0 auto",
-            cursor: "pointer",
-          }}
-        >
-          {" "}
-          Ara
-        </div>
+              style={{
+                width: "100%",
+                height: "20px",
+                padding: "10px",
+                borderRadius: "10px",
+                backgroundColor: "#034C8E",
+                color: "white",
+                textAlign: "center",
+                margin: "0 auto",
+                cursor: "pointer",
+              }}
+            >
+              {" "}
+              Ara
+            </div>
           </div>
+          
+        </div>
+        { clickedSearchBar ? <SearchBarItems serachValue={serachValue}></SearchBarItems> : ""}
         </div>
         <div
           style={{
@@ -293,38 +339,36 @@ const Navbar = ({}) => {
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
               textAlign: "center",
-              width: "100%",
+              width: "auto",
               height: "100%",
+              paddingRight: "10px",
               cursor: "pointer",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
             }}
           >
-            <div style={{paddingLeft: "20px"}}>
+            <div style={{ paddingLeft: "20px" }}>
               {selectedAddress?.address_details != undefined
                 ? JSON.parse(selectedAddress?.address_details).address_name
                 : "Teslimat Adresi Seçin"}
-                
             </div>
             <div style={{ height: "16px", width: "16px" }}>
-                  {" "}
-                  <svg
-                    role="img"
-                    aria-hidden="true"
-                    focusable="false"
-                    data-prefix="fas"
-                    data-icon="chevron-down"
-                    class="svg-inline--fa fa-chevron-down"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
-                    ></path>
-                  </svg>{" "}
-                </div>
+              {" "}
+              <svg
+                role="img"
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="chevron-down"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                ></path>
+              </svg>{" "}
+            </div>
           </div>
           {Array.isArray(addresses) && clickedAddresses ? (
             <ul
@@ -426,7 +470,6 @@ const Navbar = ({}) => {
               width="24"
               height="24"
               viewBox="0 0 24 24"
-              className="svg-stroke-container"
             >
               <g fill="none" fillRule="evenodd">
                 <circle
@@ -458,7 +501,7 @@ const Navbar = ({}) => {
                     {loggedInUser} asdsa
                   </div>{" "}
                 </div>
-                <div nClick={logout} style={{ height: "16px", width: "16px" }}>
+                <div style={{ height: "16px", width: "16px" }}>
                   {" "}
                   <svg
                     role="img"
@@ -466,7 +509,6 @@ const Navbar = ({}) => {
                     focusable="false"
                     data-prefix="fas"
                     data-icon="chevron-down"
-                    class="svg-inline--fa fa-chevron-down"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
                   >
