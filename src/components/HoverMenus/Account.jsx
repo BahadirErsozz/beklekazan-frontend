@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import config from "../../pages/Home/datas/config.json"
 import "./account.css"
 
-const Account = ({ }) => {
+const Account = ({ logout }) => {
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
 
   return (
@@ -43,23 +43,23 @@ const Account = ({ }) => {
           paddingTop: "10px",
         }}
       >
-        <div className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer" }}>
+        <Link to="/adreslerim" className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer" }}>
             <div style={{marginRight: "12px", maxHeight: "32px", maxWidth: "32px",minWidth: "32px", minHeight: "32px",backgroundImage:
                   "url('https://cdn-icons-png.flaticon.com/512/649/649931.png')",
                 backgroundSize: "100%",
                 aspectRatio: "1/1",
                 backgroundRepeat: "no-repeat",}}></div>
             <div style={{height: "fit-content", textAlign: "center" }}>Adreslerim</div>
-        </div>
-        <div className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer"  }}>
+        </Link>
+        <Link to="/siparislerim" className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer"  }}>
             <div style={{marginRight: "12px", maxHeight: "32px", maxWidth: "32px",minWidth: "32px", minHeight: "32px",backgroundImage:
                   "url('https://cdn-icons-png.flaticon.com/512/649/649931.png')",
                 backgroundSize: "100%",
                 aspectRatio: "1/1",
                 backgroundRepeat: "no-repeat",}}></div>
             <div style={{height: "fit-content", textAlign: "center" }}>Siparişlerim</div>
-        </div>
-        <div className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer"  }}>
+        </Link>
+        <div onClick={logout} className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer"  }}>
             <div style={{marginRight: "12px", maxHeight: "32px", maxWidth: "32px",minWidth: "32px", minHeight: "32px",backgroundImage:
                   "url('https://cdn-icons-png.flaticon.com/512/649/649931.png')",
                 backgroundSize: "100%",

@@ -4,6 +4,8 @@ import Login from "./pages/Login/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Product from "./pages/Product/Product";
 import Basket from "./pages/Basket/Basket";
+import Addresses from "./pages/Addresses/Addresses";
+import Orders from "./pages/Orders/Orders";
 
 function App() {
   return (
@@ -22,6 +24,12 @@ function App() {
           {" "}
         </Route>
         <Route path="sepetim" element={<Basket />}>
+          {" "}
+        </Route>
+        <Route path="adreslerim" element={<Addresses />}>
+          {" "}
+        </Route>
+        <Route path="siparislerim" element={<Orders />}>
           {" "}
         </Route>
       </Routes>

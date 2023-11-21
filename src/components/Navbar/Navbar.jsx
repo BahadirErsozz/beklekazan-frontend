@@ -13,6 +13,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { incrementupdateIsLoggedIn } from "../../redux/updateIsLoggedIn";
 import { incrementupdateOrders } from "../../redux/updateOrders";
 import { incrementupdateAddresses } from "../../redux/updateAddresses";
+import { setisLoggedIn } from "../../redux/isLoggedIn";
+import { setloggedInUser } from "../../redux/loggedInUser";
 import Account from "../HoverMenus/Account";
 import SearchBarItems from "../HoverMenus/SearchBarItems";
 
@@ -33,6 +35,9 @@ const Navbar = ({}) => {
   const updateAddresses = useSelector(
     (state) => state.updateAddresses.updateAddresses
   );
+  const updateIsLoggedIn = useSelector(
+    (state) => state.updateIsLoggedIn.updateIsLoggedIn
+  );
   const dispatch = useDispatch();
 
   const searcBarRef = useRef();
@@ -49,6 +54,21 @@ const Navbar = ({}) => {
   });
 
   useEffect(() => {
+    fetch("http://localhost:3000/users/isLoggedIn", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("isloggedin: " + data.isLoggedIn);
+        dispatch(setisLoggedIn({ isLoggedIn: data.isLoggedIn }));
+        dispatch(setloggedInUser({ loggedInUser: data.email }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [updateIsLoggedIn]);
+
+  useEffect(() => {
     fetch("http://localhost:3000/addresses", {
       credentials: "include",
     })
@@ -62,8 +82,6 @@ const Navbar = ({}) => {
           return element.selected == 1;
         });
         setSelectedAddress(selected_address);
-        console.log(selected_address);
-        console.log(addresses);
       })
       .catch((err) => {
         console.log(err);
@@ -523,7 +541,7 @@ const Navbar = ({}) => {
               <div onClick={handleClickLogin}> Giriş Yap / Kayıt Ol</div>
             )}
           </div>
-          {clickedAccount ? <Account></Account> : ""}
+          {clickedAccount && isLoggedIn ? <Account logout={logout}></Account> : ""}
         </div>
         <div
           onMouseEnter={handleHoverShoppingCartMenu}
