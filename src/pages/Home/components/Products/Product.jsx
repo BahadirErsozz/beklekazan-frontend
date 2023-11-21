@@ -75,7 +75,6 @@ const Product = ({ product, addItemToCart }) => {
           {product.name}
         </Link>
         <div style={{ marginBottom: "10px", fontWeight: "bold" }}>
-          {" "}
           {product.price} TL
         </div>
 

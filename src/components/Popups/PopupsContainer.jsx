@@ -16,7 +16,7 @@ const PopupsContainer = ({}) => {
     <>
       {clickedLogin ? <Login /> : ""}
       {clickedRegister ? <Register /> : ""}
-      {clickedAddress ? <Address createAddress={createAddress} /> : ""}
+      {clickedAddress ? <Address /> : ""}
     </>
   );
 };

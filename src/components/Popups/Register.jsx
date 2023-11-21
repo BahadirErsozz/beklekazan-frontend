@@ -36,7 +36,7 @@ const Register = ({}) => {
   };
 
   const updateEverything = () => {
-    dispatch(incrementupdateAddresses({}));
+
     dispatch(incrementupdateOrders({}));
   };
 

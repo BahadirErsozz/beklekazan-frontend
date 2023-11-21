@@ -6,6 +6,8 @@ import { setclickedRegister } from "../../redux/clickedRegister";
 import { setisLoggedIn } from "../../redux/isLoggedIn";
 import { setloggedInUser } from "../../redux/loggedInUser";
 import { incrementupdateIsLoggedIn } from "../../redux/updateIsLoggedIn";
+import { incrementupdateOrders } from "../../redux/updateOrders";
+import { incrementupdateAddresses } from "../../redux/updateAddresses";
 
 const Login = ({}) => {
   const [email, setEmail] = useState("");
@@ -23,7 +25,9 @@ const Login = ({}) => {
   const handleLogin = () => {
     login(email, password);
   };
-
+  const updateEverything = () => {
+    dispatch(incrementupdateOrders({}));
+  };
   const handleQuitLogin = () => {
     dispatch(setclickedLogin({ clickedLogin: false }));
   };
@@ -44,7 +48,7 @@ const Login = ({}) => {
     });
   };
   const login = async (email, password) => {
-    return await fetch("https://192.168.1.20:3000/users/login", {
+    return await fetch("http://localhost:3000/users/login", {
       method: "POST",
       credentials: "include",
       headers: {

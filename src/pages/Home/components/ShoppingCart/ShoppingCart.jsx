@@ -1,6 +1,7 @@
 import CartSummary from "./components/CartSummary";
 import ShoppingItems from "./components/ShoppingItems";
 import config from "../../datas/config.json";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 const ShoppingCart = ({ addOrder }) => {
@@ -53,7 +54,8 @@ const ShoppingCart = ({ addOrder }) => {
               0
             )}
           ></CartSummary>
-          <div
+          <Link
+          to="/sepetim"
             style={{
               textAlign: "center",
               backgroundColor: "#ea004b",
@@ -63,10 +65,11 @@ const ShoppingCart = ({ addOrder }) => {
               display: "flex",
               alignItems: "center",
               cursor: "pointer",
+              textDecoration: "none"
             }}
           >
-            <div onClick={addOrder}>Siparişi Tamamla</div>
-          </div>
+            <div>Siparişi Tamamla</div>
+          </Link>
         </div>
       </div>
     </>

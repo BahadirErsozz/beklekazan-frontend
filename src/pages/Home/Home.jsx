@@ -42,9 +42,7 @@ function Home() {
     (state) => state.updateIsLoggedIn.updateIsLoggedIn
   );
   const updateOrders = useSelector((state) => state.updateOrders.updateOrders);
-  const updateAddresses = useSelector(
-    (state) => state.updateAddresses.updateAddresses
-  );
+ 
 
   const dispatch = useDispatch();
 
@@ -54,7 +52,7 @@ function Home() {
 
   const [orders, setOrders] = useState([]);
   const [addresses, setAddresses] = useState([]);
-  const [updateAddreasses, setupdateAddresses] = useState(0);
+  const [updateProductCounts, setupdateProductCounts] = useState(0);
 
   useEffect(() => {
     fetch("http://localhost:3000/products", {
@@ -71,7 +69,7 @@ function Home() {
                 name: data[i].name,
                 id: uuidv4(),
                 price: data[i].price,
-                category: "Meyve",
+                category: data[i].category,
                 deadline: data[i].deadline,
               },
             ];
@@ -81,45 +79,7 @@ function Home() {
       .catch((err) => {
         console.log(err);
       });
-    setProducts([]);
-    for (let i = 0; i < 10; i++) {
-      setProducts((oldArray) => {
-        return [
-          ...oldArray,
-          {
-            name: "Yerli Muz 500 G",
-            id: uuidv4(),
-            linkId: "123",
-            price: 100.75,
-            category: "Meyve",
-            deadline: "20 Jul 2024 16:00:00 GMT",
-            sold_amount: "70/100",
-          },
-        ];
-      });
-    }
-
-    // setProducts(oldArray => {
-    //   return [...oldArray, {name: "elma", id: uuidv4(), price: 100, category: "Sebze"}]
-    // })
-    // setProducts(oldArray => {
-    //   return [...oldArray, {name: "çilek", id: uuidv4(), price: 100}]
-    // })
-    // setProducts(oldArray => {
-    //   return [...oldArray, {name: "muz", id: uuidv4(), price: 100}]
-    // })
-    // setProducts(oldArray => {
-    //   return [...oldArray, {name: "muz", id: uuidv4(), price: 100}]
-    // })
-    // setProducts(oldArray => {
-    //   return [...oldArray, {name: "muz", id: uuidv4(), price: 100}]
-    // })
-    // setProducts(oldArray => {
-    //   return [...oldArray, {name: "muz", id: uuidv4(), price: 100}]
-    // })
-    // setProducts(oldArray => {
-    //   return [...oldArray, {name: "muz", id: uuidv4(), price: 100}]
-    // })
+      setupdateProductCounts(updateProductCounts + 1)
   }, []);
   useEffect(() => {
     fetch("http://localhost:3000/users/isLoggedIn", {
@@ -136,19 +96,6 @@ function Home() {
       });
   }, [updateIsLoggedIn]);
 
-  useEffect(() => {
-    fetch("http://localhost:3000/addresses", {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setAddresses(data.addresses);
-        console.log(data.addresses);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [updateAddresses]);
 
   useEffect(() => {
     fetch("http://localhost:3000/orders", {
@@ -164,10 +111,6 @@ function Home() {
       });
   }, [updateOrders]);
 
-  const updateEverything = () => {
-    dispatch(incrementupdateAddresses({}));
-    dispatch(incrementupdateOrders({}));
-  };
   const handleClickLogin = () => {
     dispatch(setclickedLogin({ clickedLogin: true }));
     dispatch(setclickedRegister({ clickedRegister: false }));
@@ -226,55 +169,7 @@ function Home() {
     toast.info(mesage, {
       position: poisition,
     });
-  };
-
-  const logout = async () => {
-    return await fetch("http://localhost:3000/users/logout", {
-      method: "POST",
-      credentials: "include",
-    })
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error(response.status);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        dispatch(incrementupdateIsLoggedIn({}));
-        updateEverything();
-        console.log(data.status);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const createAddress = async (address_details) => {
-    return await fetch("http://localhost:3000/addresses", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        address_details: address_details,
-        created_at: Date.now(),
-      }),
-    })
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error(response.status);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        dispatch(incrementupdateAddresses({}));
-        dispatch(setclickedAddress({ clickedAddress: false }));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  }
 
   return (
     <>
@@ -307,7 +202,7 @@ function Home() {
             borderBottom: "solid 1px #dcdcdc",
           }}
         >
-          {Array.isArray(orders)
+          {/* {Array.isArray(orders)
             ? orders.map((product) => {
                 const product_status = product.order_status + "";
                 console.log(product_status);
@@ -319,7 +214,7 @@ function Home() {
                   </div>
                 );
               })
-            : ""}
+            : ""} */}
         </div>
         <div
           style={{
@@ -331,6 +226,7 @@ function Home() {
         >
           <LeftNavigation
             products={products}
+            updateProductCounts={updateProductCounts}
             setSelectedCategory={setSelectedCategory}
             selectedCategory={selectedCategory}
           ></LeftNavigation>

@@ -6,15 +6,17 @@ const LeftNavigationItem = ({
   setSelectedCategory,
   selectedCategory,
   products,
+  updateProductCounts
 }) => {
   const [productCount, setProductCount] = useState(0);
 
   useEffect(() => {
     calculateProductCount();
-  }, []);
+  }, [products]);
   const calculateProductCount = () => {
     setProductCount(
       products.filter((element) => {
+        console.log("title: " + title + " cat: " + element.category)
         return title == element.category || title == "All";
       }).length
     );

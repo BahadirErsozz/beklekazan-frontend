@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import LeftNavigationItem from "./LeftNavigationItem";
 
 const LeftNavigation = ({
+  updateProductCounts,
   products,
   setSelectedCategory,
   selectedCategory,
@@ -62,6 +63,7 @@ const LeftNavigation = ({
             setSelectedCategory={setSelectedCategory}
             selectedCategory={selectedCategory}
             products={products}
+            updateProductCounts={updateProductCounts}
           ></LeftNavigationItem>
           <LeftNavigationItem
             title={"Meyve"}
@@ -69,6 +71,7 @@ const LeftNavigation = ({
             setSelectedCategory={setSelectedCategory}
             selectedCategory={selectedCategory}
             products={products}
+            updateProductCounts={updateProductCounts}
           ></LeftNavigationItem>
         </div>
       </div>
