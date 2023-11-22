@@ -4,7 +4,7 @@ import config from "../../datas/config.json";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-const ShoppingCart = ({ addOrder }) => {
+const ShoppingCart = ({}) => {
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
   return (
     <>

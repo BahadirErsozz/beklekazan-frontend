@@ -9,13 +9,16 @@ import {
   addToShoppingCart,
   removeFromShoppingCart,
 } from "../../redux/shoppingCart";
+import { setAddresses } from "../../redux/addresses";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getProductById } from "../../redux/products";
 import edit from "./Assets/edit-3-svgrepo-com.png"
 import trash from "./Assets/trash-svgrepo-com.png"
 
 function Addresses() {
-  const [addresses, setAddresses] = useState([]);
+  const [addressaes, setAddresses] = useState([]);
+  const addresses = useSelector((state) => state.addresses.addresses);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,7 +29,7 @@ function Addresses() {
       .then((data) => {
         if (data.message != null) return
         console.log(data.addresses)
-        setAddresses(data.addresses);
+        dispatch(setAddresses({ address: data.addresses }));
       })
       .catch((err) => {
         console.log(err);

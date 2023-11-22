@@ -4,9 +4,74 @@ import PopupsContainer from "../../components/Popups/PopupsContainer";
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingItem from "./ShoppingItem/ShoppingItem";
 import { Link } from "react-router-dom";
+import { setclickedLogin } from "../../redux/clickedLogin";
+import { setclickedAddress } from "../../redux/clickedAddress";
+import { setclickedRegister } from "../../redux/clickedRegister";
 
 function Basket() {
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
+  const selectedAddress = useSelector((state) => state.selectedAddress.selectedAddress);
+
+  const showToastInfoMessage = (mesage, poisition) => {
+    toast.info(mesage, {
+      position: poisition,
+    });
+  };
+
+  const showToastErrorMessage = (mesage, poisition) => {
+    toast.error(mesage, {
+      position: poisition,
+    });
+  };
+
+  const handleClickLogin = () => {
+    dispatch(setclickedLogin({ clickedLogin: true }));
+    dispatch(setclickedRegister({ clickedRegister: false }));
+    dispatch(setclickedAddress({ clickedAddress: false }));
+  };
+
+  const addOrder = async () => {
+    if (!isLoggedIn) {
+      showToastInfoMessage(
+        "Sipariş vermeden önce giriş yapmalısınız",
+        toast.POSITION.TOP_CENTER
+      );
+      handleClickLogin();
+    } else {
+      return await fetch("http://localhost:3000/orders", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          shopping_cart: shoppingCart,
+          order_date: Date.now(),
+          order_status: 0,
+          order_address: "empty address",
+          address_id: selectedAddress,
+        }),
+      })
+        .then((res) => {
+          if (res.status !== 200) {
+            throw new Error(res.status);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log(shoppingCart);
+        })
+        .catch((err) => {
+          console.log(err)
+          showToastErrorMessage(
+            "Sipariş oluşturulurken bir hata oluştu",
+            toast.POSITION.TOP_CENTER
+          );
+        });
+    }
+  };
+
   return (
     <>
       <ToastContainer></ToastContainer>
@@ -120,6 +185,7 @@ function Basket() {
                 </div>
               </div>
               <div
+              onClick={addOrder}
                 style={{
                   minWidth: "175px",
                   maxWidth: "175px",

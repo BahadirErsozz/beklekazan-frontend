@@ -201,7 +201,7 @@ function Home() {
             borderBottom: "solid 1px #dcdcdc",
           }}
         >
-          {/* {Array.isArray(orders)
+          {Array.isArray(orders)
             ? orders.map((product) => {
                 const product_status = product.order_status + "";
                 console.log(product_status);
@@ -213,7 +213,7 @@ function Home() {
                   </div>
                 );
               })
-            : ""} */}
+            : ""}
         </div>
         <div
           style={{

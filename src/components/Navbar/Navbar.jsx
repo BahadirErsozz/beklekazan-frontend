@@ -15,6 +15,9 @@ import { incrementupdateOrders } from "../../redux/updateOrders";
 import { incrementupdateAddresses } from "../../redux/updateAddresses";
 import { setisLoggedIn } from "../../redux/isLoggedIn";
 import { setloggedInUser } from "../../redux/loggedInUser";
+import { setselectedAddress } from "../../redux/selectedAddress";
+import { setAddresses } from "../../redux/addresses";
+
 import Account from "../HoverMenus/Account";
 import SearchBarItems from "../HoverMenus/SearchBarItems";
 
@@ -23,13 +26,13 @@ const Navbar = ({}) => {
   const [clickedAccount, setClickedAccount] = useState(false);
   const [clickedSearchBar, setClickedSearchBar] = useState(false);
   const [shoppingCartTotal, setShoppingCartTotal] = useState(0);
-  const [addresses, setAddresses] = useState([]);
-  const [selectedAddress, setSelectedAddress] = useState({});
   const [clickedAddresses, setclickedAddresses] = useState(false);
   const [serachValue, setSearchValue] = useState("");
 
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
+  const addresses = useSelector((state) => state.addresses.addresses);
   const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
+  const selectedAddress = useSelector((state) => state.selectedAddress.selectedAddress);
   const loggedInUser = useSelector((state) => state.loggedInUser.loggedInUser);
   const clickedLogin = useSelector((state) => state.clickedLogin.clickedLogin);
   const updateAddresses = useSelector(
@@ -75,13 +78,12 @@ const Navbar = ({}) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.message != null) return
-        console.log(data.addresses)
-        setAddresses(data.addresses);
+        dispatch(setAddresses({ address: data.addresses }));
         const selected_address = data.addresses.find((element) => {
           console.log(element);
           return element.selected == 1;
         });
-        setSelectedAddress(selected_address);
+        dispatch(setselectedAddress({ selectedAddress: selected_address }));
       })
       .catch((err) => {
         console.log(err);
@@ -150,48 +152,7 @@ const Navbar = ({}) => {
     const selected_address = addresses?.find((element) => {
       element.id == address_id;
     });
-    setSelectedAddress(selected_address);
-  };
-
-  const addOrder = async () => {
-    if (!isLoggedIn) {
-      showToastInfoMessage(
-        "Sipariş vermeden önce giriş yapmalısınız",
-        toast.POSITION.TOP_CENTER
-      );
-      handleClickLogin();
-    } else {
-      return await fetch("http://localhost:3000/orders", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          shopping_cart: shoppingCart,
-          order_date: Date.now(),
-          order_status: 0,
-          order_address: "empty address",
-          address_id: selectedAddress,
-        }),
-      })
-        .then((res) => {
-          if (res.status !== 200) {
-            throw new Error(res.status);
-          }
-          return res.json();
-        })
-        .then((data) => {
-          setupdateOrders(updateOrders + 1);
-          console.log(shoppingCart);
-        })
-        .catch((err) => {
-          showToastErrorMessage(
-            "Sipariş oluşturulurken bir hata oluştu",
-            toast.POSITION.TOP_CENTER
-          );
-        });
-    }
+    dispatch(setselectedAddress({ selectedAddress: selected_address }));
   };
 
   const selectAddress = async (address_id) => {
@@ -589,7 +550,7 @@ const Navbar = ({}) => {
             Sepetim
             <div style={{ width: "100%" }}>{shoppingCartTotal} TL</div>
           </div>
-          {clickedShoppingCart ? <ShoppingCart addOrder={addOrder} /> : ""}
+          {clickedShoppingCart ? <ShoppingCart/> : ""}
         </div>
       </div>
     </>
