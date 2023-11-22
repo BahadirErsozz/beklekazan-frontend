@@ -1,19 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
-export const addressesSlice = createSlice({
+export const ordersSlice = createSlice({
   name: "orders",
   initialState: {
-    addresses: [],
+    orders: [],
   },
   reducers: {
-    setAddresses: (state, { payload }) => {
-      state.addresses = payload.address
+    setOrders: (state, { payload }) => {
+      state.orders = payload.orders
     },
   },
 });
 
-export const { setAddresses } =
-addressesSlice.actions;
+export const { setOrders } =
+ordersSlice.actions;
 
-export default addressesSlice.reducer;
+export default ordersSlice.reducer;

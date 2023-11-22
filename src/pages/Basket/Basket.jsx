@@ -7,11 +7,40 @@ import { Link } from "react-router-dom";
 import { setclickedLogin } from "../../redux/clickedLogin";
 import { setclickedAddress } from "../../redux/clickedAddress";
 import { setclickedRegister } from "../../redux/clickedRegister";
+import { useState, useEffect, useRef } from "react";
 
 function Basket() {
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
   const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
   const selectedAddress = useSelector((state) => state.selectedAddress.selectedAddress);
+
+  const [shoppingCartTotal, setShoppingCartTotal] = useState(0);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/addresses", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message != null) return
+        dispatch(setAddresses({ address: data.addresses }));
+        const selected_address = data.addresses.find((element) => {
+          console.log(element);
+          return element.selected == 1;
+        });
+        dispatch(setselectedAddress({ selectedAddress: selected_address }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  useEffect(() => {
+    setShoppingCartTotal(
+      shoppingCart?.reduce((total, element) => {
+        return total + element.price * element.count;
+      }, 0)
+    );
+  }, [shoppingCart]);
 
   const showToastInfoMessage = (mesage, poisition) => {
     toast.info(mesage, {
@@ -47,6 +76,7 @@ function Basket() {
         },
         body: JSON.stringify({
           shopping_cart: shoppingCart,
+          order_total: shoppingCartTotal,
           order_date: Date.now(),
           order_status: 0,
           order_address: "empty address",

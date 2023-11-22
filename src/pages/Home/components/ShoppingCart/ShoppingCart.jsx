@@ -1,6 +1,6 @@
 import CartSummary from "./components/CartSummary";
 import ShoppingItems from "./components/ShoppingItems";
-import config from "../../datas/config.json";
+import config from "../../../../config.json";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 

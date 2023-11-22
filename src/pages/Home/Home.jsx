@@ -14,7 +14,7 @@ import Register from "../../components/Popups/Register";
 import Address from "../../components/Popups/Address";
 import GotoCart from "./components/GotoCart/GotoCart";
 import PopupsContainer from "../../components/Popups/PopupsContainer";
-import config from "./datas/config.json";
+import config from "../../config.json";
 
 import { setisLoggedIn } from "../../redux/isLoggedIn";
 import { setloggedInUser } from "../../redux/loggedInUser";
@@ -26,6 +26,7 @@ import { incrementupdateOrders } from "../../redux/updateOrders";
 import { incrementupdateAddresses } from "../../redux/updateAddresses";
 import { addToProducts } from "../../redux/products";
 import { resetProducts } from "../../redux/products";
+//import { setOrders } from "../../redux/orders";
 
 function Home() {
   const [produacts, setProducts] = useState([]);
@@ -45,7 +46,7 @@ function Home() {
   );
   const updateOrders = useSelector((state) => state.updateOrders.updateOrders);
   const products = useSelector((state) => state.products.products);
- 
+  //const orders = useSelector((state) => state.products.products);
 
   const dispatch = useDispatch();
 
@@ -102,7 +103,7 @@ function Home() {
     })
       .then((res) => res.json())
       .then((dataa) => {
-        console.log("hey" + dataa);
+        console.log(dataa.orders[0].order_details);
         setOrders(dataa.orders);
       })
       .catch((err) => {

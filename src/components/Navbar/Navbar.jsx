@@ -1,4 +1,4 @@
-import config from "../../pages/Home/datas/config.json";
+import config from "../../config.json";
 import ShoppingCart from "../../pages/Home/components/ShoppingCart/ShoppingCart";
 import Login from "../Popups/Login";
 import { Link } from "react-router-dom";

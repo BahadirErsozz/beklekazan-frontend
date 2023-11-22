@@ -6,6 +6,7 @@ import Product from "./pages/Product/Product";
 import Basket from "./pages/Basket/Basket";
 import Addresses from "./pages/Addresses/Addresses";
 import Orders from "./pages/Orders/Orders";
+import Order from "./pages/Order/Order";
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
           {" "}
         </Route>
         <Route path="siparislerim" element={<Orders />}>
+          {" "}
+        </Route>
+        <Route path="siparis/:orderId" element={<Order />}>
           {" "}
         </Route>
       </Routes>

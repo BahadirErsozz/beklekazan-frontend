@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import config from "../../pages/Home/datas/config.json"
+import config from "../../config.json"
 
 const SearchBarItems = ({ serachValue }) => {
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);

@@ -11,6 +11,7 @@ import updateOrdersReducer from "./updateOrders";
 import updateAddressesReducer from "./updateAddresses";
 import productsReducer from "./products";
 import addressesReducer from "./addresses";
+import ordersReducer from "./orders";
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ export const store = configureStore({
     updateOrders: updateOrdersReducer,
     updateAddresses: updateAddressesReducer,
     products: productsReducer,
-    addresses: addressesReducer
+    addresses: addressesReducer,
+    orders: ordersReducer
   },
 });
