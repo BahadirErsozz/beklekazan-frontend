@@ -46,12 +46,11 @@ const SearchBarItems = ({ serachValue }) => {
           return (
             product.name.toLowerCase().replaceAll(" ", "").includes(serachValue.toLowerCase().replaceAll(" ", "")) ?
             <Link to={"product/" + product.id} key={product.id} style={{textDecoration: "none", color: "black"}}>
-            <div className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer" }}>
-            <div style={{marginRight: "12px", maxHeight: "32px", maxWidth: "32px",minWidth: "32px", minHeight: "32px",backgroundImage:
-                  "url('https://cdn-icons-png.flaticon.com/512/649/649931.png')",
-                backgroundSize: "100%",
-                aspectRatio: "1/1",
-                backgroundRepeat: "no-repeat",}}></div>
+            <div className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "64px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer" }}>
+            <img
+            src={"http://localhost:3000/products/product/" + product.id + "/image"}
+            style={{ minWidth: "48px", maxWidth: "48px", minHeight: "48px", maxHeight: "48px", marginRight: "12px" }}
+          ></img>
             <div style={{height: "fit-content", textAlign: "center" }}>{product.name}</div>
         </div>
         </Link>
