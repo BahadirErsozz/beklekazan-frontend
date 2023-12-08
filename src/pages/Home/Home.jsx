@@ -183,7 +183,7 @@ function Home() {
         }}
       >
         <Navbar />
-        <div
+        {/* <div
           style={{
             backgroundImage:
               "url(https://images.deliveryhero.io/image/fd-tr/LH/g3w6-hero.jpg)",
@@ -192,7 +192,7 @@ function Home() {
             width: "100%",
             backgroundSize: "cover",
           }}
-        ></div>
+        ></div> */}
         <div
           style={{
             height: "69px",
@@ -202,7 +202,7 @@ function Home() {
             borderBottom: "solid 1px #dcdcdc",
           }}
         >
-          {Array.isArray(orders)
+          {/* {Array.isArray(orders)
             ? orders.map((product) => {
                 const product_status = product.order_status + "";
                 console.log(product_status);
@@ -214,7 +214,7 @@ function Home() {
                   </div>
                 );
               })
-            : ""}
+            : ""} */}
         </div>
         <div
           style={{
