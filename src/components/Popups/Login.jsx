@@ -9,6 +9,10 @@ import { incrementupdateIsLoggedIn } from "../../redux/updateIsLoggedIn";
 import { incrementupdateOrders } from "../../redux/updateOrders";
 import { incrementupdateAddresses } from "../../redux/updateAddresses";
 
+import user from "../Navbar/Assets/user.png";
+import close from "./Assets/close.png";
+import google from "./Assets/google.png";
+
 const Login = ({}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -108,13 +112,18 @@ const Login = ({}) => {
             marginLeft: "auto",
             borderStyle: "",
             borderRadius: "50%",
-            height: "10%",
+            height: "7%",
             aspectRatio: "1 / 1",
             backgroundSize: "100%",
-            backgroundImage:
-              "url(https://thumbs.dreamstime.com/b/red-cross-symbol-icon-as-delete-remove-fail-failure-incorr-incorrect-answer-89999776.jpg)",
+            backgroundImage: `url(${close})`,
           }}
         ></div>
+        <div
+          style={{ textAlign: "center", fontSize: "20px", fontWeight: "600" }}
+        >
+          {" "}
+          Giriş Yap
+        </div>
         <div style={{ padding: "2em", paddingBottom: "0px" }}>
           E-Mail
           <input
@@ -129,6 +138,8 @@ const Login = ({}) => {
               alignContent: "center",
               display: "flex",
               border: "1px solid #d2d8d8",
+              borderRadius: "10px",
+              marginTop: "3px",
             }}
           ></input>
           Parola
@@ -143,6 +154,8 @@ const Login = ({}) => {
               alignContent: "center",
               display: "flex",
               border: "1px solid #d2d8d8",
+              borderRadius: "10px",
+              marginTop: "3px",
             }}
           ></input>
         </div>
@@ -162,17 +175,56 @@ const Login = ({}) => {
           onClick={handleLogin}
           style={{
             width: "70%",
+            height: "30px",
             borderStyle: "solid",
             marginLeft: "15%",
             marginRight: "15%",
             textAlign: "center",
             padding: "10px 0px",
-            backgroundColor: "#ea004b",
+            backgroundColor: "#034C8E",
             color: "white",
+            borderRadius: "10px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
           }}
         >
-          {" "}
-          Giriş Yap
+          <div style={{ height: "fit-content" }}>Giriş Yap</div>
+        </div>
+        <div style={{ textAlign: "center", margin: "10px 0" }}>Ya da</div>
+
+        <div
+          onClick={handleLogin}
+          style={{
+            width: "70%",
+            height: "30px",
+            borderStyle: "solid",
+            marginLeft: "15%",
+            marginRight: "15%",
+            textAlign: "center",
+            padding: "10px 0px",
+            backgroundColor: "#de5602",
+            color: "white",
+            borderRadius: "10px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              minHeight: "24px",
+              minWidth: "24px",
+              maxHeight: "24px",
+              maxWidth: "24px",
+              backgroundSize: "100%",
+              aspectRatio: "1/1",
+              backgroundImage: `url(${google})`,
+              backgroundColor: "white",
+            }}
+          ></div>
+          <div style={{ height: "fit-content" }}>Google ile Giriş Yap</div>
         </div>
 
         <div

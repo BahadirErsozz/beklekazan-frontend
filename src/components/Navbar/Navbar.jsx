@@ -21,8 +21,8 @@ import { setAddresses } from "../../redux/addresses";
 import Account from "../HoverMenus/Account";
 import SearchBarItems from "../HoverMenus/SearchBarItems";
 
-import location from "./Assets/location.png"
-import user from "./Assets/user.png"
+import location from "./Assets/location.png";
+import user from "./Assets/user.png";
 
 const Navbar = ({}) => {
   const [clickedShoppingCart, setClickedShoppingCart] = useState(false);
@@ -35,7 +35,9 @@ const Navbar = ({}) => {
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
   const addresses = useSelector((state) => state.addresses.addresses);
   const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
-  const selectedAddress = useSelector((state) => state.selectedAddress.selectedAddress);
+  const selectedAddress = useSelector(
+    (state) => state.selectedAddress.selectedAddress
+  );
   const loggedInUser = useSelector((state) => state.loggedInUser.loggedInUser);
   const clickedLogin = useSelector((state) => state.clickedLogin.clickedLogin);
   const updateAddresses = useSelector(
@@ -48,15 +50,15 @@ const Navbar = ({}) => {
 
   const searcBarRef = useRef();
 
-  const handleClickOutside = e => {
+  const handleClickOutside = (e) => {
     if (!searcBarRef.current.contains(e.target)) {
       setClickedSearchBar(false);
     }
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   });
 
   useEffect(() => {
@@ -80,7 +82,7 @@ const Navbar = ({}) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.message != null) return
+        if (data.message != null) return;
         dispatch(setAddresses({ address: data.addresses }));
         const selected_address = data.addresses.find((element) => {
           console.log(element);
@@ -100,10 +102,10 @@ const Navbar = ({}) => {
     );
   }, [shoppingCart]);
 
-  const handleInputChange = event => {
+  const handleInputChange = (event) => {
     setSearchValue(event.target.value);
 
-    console.log('value is:', event.target.value);
+    console.log("value is:", event.target.value);
   };
   const handleHoverShoppingCartMenu = () => {
     setClickedShoppingCart(true);
@@ -234,6 +236,7 @@ const Navbar = ({}) => {
           backgroundColor: "white",
           zIndex: "1000",
           padding: "0px 7rem",
+          maxWidth: "100vh",
         }}
       >
         <Link
@@ -250,61 +253,64 @@ const Navbar = ({}) => {
         >
           <div style={{ textAlign: "center", paddingLeft: "5px" }}>Market</div>
         </Link>
-        <div ref={searcBarRef} style={{minWidth: "35%"}}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            minWidth: "35%",
-            justifyContent: "center",
-            textDecoration: "none",
-            color: "black",
-            borderRight: "2px solid " + config.BORDER_COLOR,
-          }}
-        >
+        <div ref={searcBarRef} style={{ minWidth: "35%" }}>
           <div
             style={{
-              width: "100%",
-              height: "auto",
-              border: "solid 1px #c7c8cb",
-              borderRadius: "10px",
-              margin: "10px",
               display: "flex",
+              alignItems: "center",
+              minWidth: "35%",
+              justifyContent: "center",
+              textDecoration: "none",
+              color: "black",
+              borderRight: "2px solid " + config.BORDER_COLOR,
             }}
           >
-            <input
-             onClick={handleClickSearchBar}
-             onChange={handleInputChange}
-             value={serachValue}
-              style={{
-                minWidth: "80%",
-                height: "auto",
-                border: "none",
-                outline: "none",
-                borderRadius: "10px",
-                textIndent: "10px",
-              }}
-            ></input>
             <div
               style={{
                 width: "100%",
-                height: "20px",
-                padding: "10px",
+                height: "auto",
+                border: "solid 1px #c7c8cb",
                 borderRadius: "10px",
-                backgroundColor: "#034C8E",
-                color: "white",
-                textAlign: "center",
-                margin: "0 auto",
-                cursor: "pointer",
+                margin: "10px",
+                display: "flex",
               }}
             >
-              {" "}
-              Ara
+              <input
+                onClick={handleClickSearchBar}
+                onChange={handleInputChange}
+                value={serachValue}
+                style={{
+                  minWidth: "80%",
+                  height: "auto",
+                  border: "none",
+                  outline: "none",
+                  borderRadius: "10px",
+                  textIndent: "10px",
+                }}
+              ></input>
+              <div
+                style={{
+                  width: "100%",
+                  height: "20px",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  backgroundColor: "#034C8E",
+                  color: "white",
+                  textAlign: "center",
+                  margin: "0 auto",
+                  cursor: "pointer",
+                }}
+              >
+                {" "}
+                Ara
+              </div>
             </div>
           </div>
-          
-        </div>
-        { clickedSearchBar ? <SearchBarItems serachValue={serachValue}></SearchBarItems> : ""}
+          {clickedSearchBar ? (
+            <SearchBarItems serachValue={serachValue}></SearchBarItems>
+          ) : (
+            ""
+          )}
         </div>
         <div
           style={{
@@ -315,8 +321,7 @@ const Navbar = ({}) => {
             borderRight: "2px solid " + config.BORDER_COLOR,
             flexGrow: "0.6",
           }}
-        > 
-        
+        >
           <div
             onClick={handleClickAddresses}
             style={{
@@ -329,14 +334,31 @@ const Navbar = ({}) => {
               cursor: "pointer",
               justifyContent: "space-between",
             }}
-          > 
-          <div style={{display: "flex", paddingRight: "40px"}}>
-            <img src={location} style={{maxWidth: "28px", maxHeight: "28px", marginLeft: "10px"}}/>
-            <div style={{ paddingLeft: "20px", whiteSpace: "nowrap" }}>
-              {selectedAddress?.address_details != undefined
-                ? (<><div>Teslimat Adresi</div><div>{JSON.parse(selectedAddress?.address_details).address_name} </div></>)
-                : "Teslimat Adresi Seçin"}
-            </div>
+          >
+            <div style={{ display: "flex", paddingRight: "40px" }}>
+              <img
+                src={location}
+                style={{
+                  maxWidth: "28px",
+                  maxHeight: "28px",
+                  marginLeft: "10px",
+                }}
+              />
+              <div style={{ paddingLeft: "20px", whiteSpace: "nowrap" }}>
+                {selectedAddress?.address_details != undefined ? (
+                  <>
+                    <div>Teslimat Adresi</div>
+                    <div>
+                      {
+                        JSON.parse(selectedAddress?.address_details)
+                          .address_name
+                      }{" "}
+                    </div>
+                  </>
+                ) : (
+                  "Teslimat Adresi Seçin"
+                )}
+              </div>
             </div>
             <div style={{ height: "16px", width: "16px" }}>
               {" "}
@@ -451,7 +473,14 @@ const Navbar = ({}) => {
               justifyContent: "space-between",
             }}
           >
-            <img src={user} style={{maxWidth: "28px", maxHeight: "28px", marginLeft: "10px"}}/>
+            <img
+              src={user}
+              style={{
+                maxWidth: "28px",
+                maxHeight: "28px",
+                marginLeft: "10px",
+              }}
+            />
             {isLoggedIn ? (
               <>
                 <div style={{ height: "100%", paddingTop: "20px" }}>
@@ -489,7 +518,11 @@ const Navbar = ({}) => {
               <div onClick={handleClickLogin}> Giriş Yap / Kayıt Ol</div>
             )}
           </div>
-          {clickedAccount && isLoggedIn ? <Account logout={logout}></Account> : ""}
+          {clickedAccount && isLoggedIn ? (
+            <Account logout={logout}></Account>
+          ) : (
+            ""
+          )}
         </div>
         <div
           onMouseEnter={handleHoverShoppingCartMenu}
@@ -537,7 +570,7 @@ const Navbar = ({}) => {
             Sepetim
             <div style={{ width: "100%" }}>{shoppingCartTotal} TL</div>
           </div>
-          {clickedShoppingCart ? <ShoppingCart/> : ""}
+          {clickedShoppingCart ? <ShoppingCart /> : ""}
         </div>
       </div>
     </>
