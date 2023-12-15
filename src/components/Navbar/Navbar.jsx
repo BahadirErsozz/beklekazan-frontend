@@ -226,7 +226,7 @@ const Navbar = ({}) => {
     <>
       <div
         style={{
-          width: "auto",
+          minWidth: "100vh",
           height: "64px",
           display: "flex",
           position: "sticky",
@@ -236,7 +236,6 @@ const Navbar = ({}) => {
           backgroundColor: "white",
           zIndex: "1000",
           padding: "0px 7rem",
-          maxWidth: "100vh",
         }}
       >
         <Link

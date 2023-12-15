@@ -60,6 +60,54 @@ function Home() {
 
   useEffect(() => {
     dispatch(resetProducts({}));
+    // dispatch(
+    //   addToProducts({
+    //     product: {
+    //       name: "Muz",
+    //       id: uuidv4(),
+    //       price: "100",
+    //       category: "Meyve",
+    //       deadline: "20 Jul 2024 16:00:00 GMT",
+    //     },
+    //   })
+    // );
+
+    // dispatch(
+    //   addToProducts({
+    //     product: {
+    //       name: "Muz",
+    //       id: uuidv4(),
+    //       price: "100",
+    //       category: "Meyve",
+    //       deadline: "20 Jul 2024 16:00:00 GMT",
+    //     },
+    //   })
+    // );
+
+    // dispatch(
+    //   addToProducts({
+    //     product: {
+    //       name: "Muz",
+    //       id: uuidv4(),
+    //       price: "100",
+    //       category: "Meyve",
+    //       deadline: "20 Jul 2024 16:00:00 GMT",
+    //     },
+    //   })
+    // );
+
+    // dispatch(
+    //   addToProducts({
+    //     product: {
+    //       name: "Muz",
+    //       id: uuidv4(),
+    //       price: "100",
+    //       category: "Meyve",
+    //       deadline: "20 Jul 2024 16:00:00 GMT",
+    //     },
+    //   })
+    // );
+
     fetch("http://localhost:3000/products", {
       credentials: "include",
     })
@@ -72,14 +120,14 @@ function Home() {
             price: data[i].price,
             category: data[i].category,
             deadline: data[i].deadline,
-          }
+          };
           dispatch(addToProducts({ product: product }));
         }
       })
       .catch((err) => {
         console.log(err);
       });
-      setupdateProductCounts(updateProductCounts + 1)
+    setupdateProductCounts(updateProductCounts + 1);
   }, []);
   useEffect(() => {
     fetch("http://localhost:3000/users/isLoggedIn", {
@@ -95,7 +143,6 @@ function Home() {
         console.log(err);
       });
   }, [updateIsLoggedIn]);
-
 
   useEffect(() => {
     fetch("http://localhost:3000/orders", {
@@ -169,7 +216,7 @@ function Home() {
     toast.info(mesage, {
       position: poisition,
     });
-  }
+  };
 
   return (
     <>

@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
 
 import { setclickedAddress } from "../../redux/clickedAddress";
 import { incrementupdateAddresses } from "../../redux/updateAddresses";
+
+import close from "./Assets/close.png";
 
 const Address = ({}) => {
   const [city, setCity] = useState("");
@@ -63,6 +66,18 @@ const Address = ({}) => {
     setPhoneNumber(event.target.value);
   };
 
+  const showToastSuccessMessage = (mesage, poisition) => {
+    toast.success(mesage, {
+      position: poisition,
+    });
+  };
+
+  const showToastErrorMessage = (mesage, poisition) => {
+    toast.error(mesage, {
+      position: poisition,
+    });
+  };
+
   const handleCreateAddress = () => {
     const address_details = {
       city: city,
@@ -105,9 +120,16 @@ const Address = ({}) => {
       .then((data) => {
         dispatch(incrementupdateAddresses({}));
         dispatch(setclickedAddress({ clickedAddress: false }));
+        showToastSuccessMessage(
+          "Adres başarıyla eklendi!",
+          toast.POSITION.TOP_CENTER
+        );
       })
       .catch((err) => {
-        console.log(err);
+        showToastErrorMessage(
+          "Adres eklerken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+          toast.POSITION.TOP_CENTER
+        );
       });
   };
   return (
@@ -117,16 +139,15 @@ const Address = ({}) => {
           display: "flex",
           flexDirection: "column",
           position: "fixed",
-          borderRadius: "0.25em",
-          top: "10%",
+          top: "15%",
           right: "25%",
           zIndex: "9999",
           height: "auto",
           maxHeight: "80%",
           width: "50%",
           backgroundColor: "white",
-          borderStyle: "solid",
-          borderColor: "#cacaca",
+          borderRadius: "0.25em",
+          boxShadow: "0 0.1rem 0.5rem rgba(0,0,0,.15)",
         }}
       >
         <div style={{ display: "flex" }}>
@@ -145,8 +166,7 @@ const Address = ({}) => {
               minHeight: "30px",
               aspectRatio: "1 / 1",
               backgroundSize: "100%",
-              backgroundImage:
-                "url(https://thumbs.dreamstime.com/b/red-cross-symbol-icon-as-delete-remove-fail-failure-incorr-incorrect-answer-89999776.jpg)",
+              backgroundImage: `url(${close})`,
             }}
           ></div>
         </div>
@@ -183,6 +203,7 @@ const Address = ({}) => {
                     alignContent: "center",
                     display: "flex",
                     border: "1px solid #d2d8d8",
+                    marginTop: "3px",
                   }}
                 />
               </div>
@@ -200,6 +221,7 @@ const Address = ({}) => {
                     alignContent: "center",
                     display: "flex",
                     border: "1px solid #d2d8d8",
+                    marginTop: "3px",
                   }}
                 />
               </div>
@@ -227,6 +249,7 @@ const Address = ({}) => {
                     alignContent: "center",
                     display: "flex",
                     border: "1px solid #d2d8d8",
+                    marginTop: "3px",
                   }}
                 />
               </div>
@@ -244,6 +267,7 @@ const Address = ({}) => {
                     alignContent: "center",
                     display: "flex",
                     border: "1px solid #d2d8d8",
+                    marginTop: "3px",
                   }}
                 />
               </div>
@@ -270,6 +294,7 @@ const Address = ({}) => {
                     alignContent: "center",
                     display: "flex",
                     border: "1px solid #d2d8d8",
+                    marginTop: "3px",
                   }}
                 />
               </div>
@@ -287,6 +312,7 @@ const Address = ({}) => {
                     alignContent: "center",
                     display: "flex",
                     border: "1px solid #d2d8d8",
+                    marginTop: "3px",
                   }}
                 />
               </div>
@@ -304,6 +330,7 @@ const Address = ({}) => {
                 alignContent: "center",
                 display: "flex",
                 border: "1px solid #d2d8d8",
+                marginTop: "3px",
               }}
             />
             <label> Adres Başlığı</label>
@@ -319,12 +346,14 @@ const Address = ({}) => {
                 alignContent: "center",
                 display: "flex",
                 border: "1px solid #d2d8d8",
+                marginTop: "3px",
               }}
             />
             <label
               style={{
                 borderBottom: "1px solid #d2d8d8",
                 marginBottom: "10px",
+                paddingBottom: "3px",
               }}
             >
               {" "}
@@ -352,6 +381,7 @@ const Address = ({}) => {
                     alignContent: "center",
                     display: "flex",
                     border: "1px solid #d2d8d8",
+                    marginTop: "3px",
                   }}
                 />
               </div>
@@ -369,6 +399,7 @@ const Address = ({}) => {
                     alignContent: "center",
                     display: "flex",
                     border: "1px solid #d2d8d8",
+                    marginTop: "3px",
                   }}
                 />
               </div>
@@ -385,6 +416,7 @@ const Address = ({}) => {
                 alignContent: "center",
                 display: "flex",
                 border: "1px solid #d2d8d8",
+                marginTop: "3px",
               }}
             />
           </div>
@@ -399,7 +431,7 @@ const Address = ({}) => {
               padding: "10px 0px",
               marginTop: "20px",
               marginBottom: "20px",
-              backgroundColor: "#ea004b",
+              backgroundColor: "#034C8E",
               color: "white",
             }}
           >
