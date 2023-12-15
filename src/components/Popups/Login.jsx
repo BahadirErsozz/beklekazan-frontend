@@ -8,6 +8,7 @@ import { setloggedInUser } from "../../redux/loggedInUser";
 import { incrementupdateIsLoggedIn } from "../../redux/updateIsLoggedIn";
 import { incrementupdateOrders } from "../../redux/updateOrders";
 import { incrementupdateAddresses } from "../../redux/updateAddresses";
+import { ToastContainer, toast } from "react-toastify";
 
 import user from "../Navbar/Assets/user.png";
 import close from "./Assets/close.png";
@@ -51,6 +52,7 @@ const Login = ({}) => {
       position: poisition,
     });
   };
+
   const login = async (email, password) => {
     return await fetch("http://localhost:3000/users/login", {
       method: "POST",
@@ -79,7 +81,7 @@ const Login = ({}) => {
       })
       .catch((err) => {
         showToastErrorMessage(
-          "Giriş yaparken bir hata oluştu",
+          "Giriş yaparken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
           toast.POSITION.TOP_CENTER
         );
       });
@@ -97,11 +99,9 @@ const Login = ({}) => {
           top: "15%",
           right: "30%",
           zIndex: "9999",
-          height: "70%",
+          height: "75%",
           width: "40%",
           backgroundColor: "white",
-          borderStyle: "",
-          borderColor: "#cacaca",
         }}
       >
         <div
@@ -112,7 +112,7 @@ const Login = ({}) => {
             marginLeft: "auto",
             borderStyle: "",
             borderRadius: "50%",
-            height: "7%",
+            height: "35px",
             aspectRatio: "1 / 1",
             backgroundSize: "100%",
             backgroundImage: `url(${close})`,
@@ -132,7 +132,7 @@ const Login = ({}) => {
             style={{
               marginBottom: "32px",
               width: "calc(100% - 70px)",
-              padding: "16px 20px 16px 50px",
+              padding: "14px 20px 14px 50px",
               left: "15%",
               alignItems: "center",
               alignContent: "center",
@@ -140,15 +140,17 @@ const Login = ({}) => {
               border: "1px solid #d2d8d8",
               borderRadius: "10px",
               marginTop: "3px",
+              fontSize: "large",
             }}
           ></input>
           Parola
           <input
             onChange={handlePasswordChange}
+            type="password"
             value={password}
             style={{
               width: "calc(100% - 70px)",
-              padding: "16px 20px 16px 50px",
+              padding: "14px 20px 14px 50px",
               left: "15%",
               alignItems: "center",
               alignContent: "center",
@@ -156,6 +158,7 @@ const Login = ({}) => {
               border: "1px solid #d2d8d8",
               borderRadius: "10px",
               marginTop: "3px",
+              fontSize: "large",
             }}
           ></input>
         </div>
@@ -187,13 +190,14 @@ const Login = ({}) => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            cursor: "pointer",
           }}
         >
           <div style={{ height: "fit-content" }}>Giriş Yap</div>
         </div>
-        <div style={{ textAlign: "center", margin: "10px 0" }}>Ya da</div>
+        {/* <div style={{ textAlign: "center", margin: "10px 0" }}>Ya da</div> */}
 
-        <div
+        {/* <div
           onClick={handleLogin}
           style={{
             width: "70%",
@@ -225,7 +229,7 @@ const Login = ({}) => {
             }}
           ></div>
           <div style={{ height: "fit-content" }}>Google ile Giriş Yap</div>
-        </div>
+        </div> */}
 
         <div
           onClick={handleClickRegister}
