@@ -7,10 +7,14 @@ import { setclickedRegister } from "../../redux/clickedRegister";
 import { incrementupdateIsLoggedIn } from "../../redux/updateIsLoggedIn";
 import { incrementupdateOrders } from "../../redux/updateOrders";
 import { incrementupdateAddresses } from "../../redux/updateAddresses";
+import { ToastContainer, toast } from "react-toastify";
+
+import close from "./Assets/close.png";
 
 const Register = ({}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordRepeat, setPasswordRepeat] = useState("");
 
   const dispatch = useDispatch();
 
@@ -18,11 +22,34 @@ const Register = ({}) => {
     setPassword(event.target.value);
   };
 
+  const handlePasswordRepeatChange = (event) => {
+    setPasswordRepeat(event.target.value);
+  };
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
   const handleRegister = () => {
-    register(email, password);
+    if (password == passwordRepeat) {
+      register(email, password);
+    } else {
+      showToastErrorMessage(
+        "Girdiğiniz şifreler eşleşmedi. Tekrar deneyin.",
+        toast.POSITION.TOP_CENTER
+      );
+    }
+  };
+
+  const showToastSuccessMessage = (mesage, poisition) => {
+    toast.success(mesage, {
+      position: poisition,
+    });
+  };
+
+  const showToastErrorMessage = (mesage, poisition) => {
+    toast.error(mesage, {
+      position: poisition,
+    });
   };
 
   const handleQuitRegister = () => {
@@ -36,7 +63,6 @@ const Register = ({}) => {
   };
 
   const updateEverything = () => {
-
     dispatch(incrementupdateOrders({}));
   };
 
@@ -59,9 +85,16 @@ const Register = ({}) => {
         dispatch(incrementupdateIsLoggedIn({}));
         dispatch(setclickedRegister({ clickedRegister: false }));
         updateEverything();
+        showToastSuccessMessage(
+          "Başarıyla kayıt olundu!",
+          toast.POSITION.TOP_CENTER
+        );
       })
       .catch((err) => {
-        console.log(err);
+        showToastErrorMessage(
+          "Kayıt olurken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+          toast.POSITION.TOP_CENTER
+        );
       });
   };
 
@@ -69,6 +102,7 @@ const Register = ({}) => {
     <>
       <div
         style={{
+          boxShadow: "0 0.1rem 0.5rem rgba(0,0,0,.15)",
           display: "flex",
           flexDirection: "column",
           position: "fixed",
@@ -76,11 +110,9 @@ const Register = ({}) => {
           top: "15%",
           right: "30%",
           zIndex: "9999",
-          height: "70%",
+          height: "75%",
           width: "40%",
           backgroundColor: "white",
-          borderStyle: "solid",
-          borderColor: "#cacaca",
         }}
       >
         <div
@@ -91,13 +123,18 @@ const Register = ({}) => {
             marginLeft: "auto",
             borderStyle: "",
             borderRadius: "50%",
-            height: "10%",
+            height: "35px",
             aspectRatio: "1 / 1",
             backgroundSize: "100%",
-            backgroundImage:
-              "url(https://thumbs.dreamstime.com/b/red-cross-symbol-icon-as-delete-remove-fail-failure-incorr-incorrect-answer-89999776.jpg)",
+            backgroundImage: `url(${close})`,
           }}
         ></div>
+        <div
+          style={{ textAlign: "center", fontSize: "20px", fontWeight: "600" }}
+        >
+          {" "}
+          Kayıt Ol
+        </div>
         <div style={{ padding: "2em", paddingBottom: "0px" }}>
           E-Mail
           <input
@@ -106,42 +143,53 @@ const Register = ({}) => {
             style={{
               marginBottom: "32px",
               width: "calc(100% - 70px)",
-              padding: "16px 20px 16px 50px",
+              padding: "14px 20px 14px 50px",
               left: "15%",
               alignItems: "center",
               alignContent: "center",
               display: "flex",
               border: "1px solid #d2d8d8",
+              borderRadius: "10px",
+              marginTop: "3px",
+              fontSize: "large",
             }}
           ></input>
           Parola
           <input
             onChange={handlePasswordChange}
+            type="password"
             value={password}
             style={{
               marginBottom: "32px",
               width: "calc(100% - 70px)",
-              padding: "16px 20px 16px 50px",
+              padding: "14px 20px 14px 50px",
               left: "15%",
               alignItems: "center",
               alignContent: "center",
               display: "flex",
               border: "1px solid #d2d8d8",
+              borderRadius: "10px",
+              marginTop: "3px",
+              fontSize: "large",
             }}
           ></input>
           Parolayı Doğrula
           <input
-            onChange={handlePasswordChange}
-            value={password}
+            onChange={handlePasswordRepeatChange}
+            type="password"
+            value={passwordRepeat}
             style={{
               marginBottom: "38px",
               width: "calc(100% - 70px)",
-              padding: "16px 20px 16px 50px",
+              padding: "14px 20px 14px 50px",
               left: "15%",
               alignItems: "center",
               alignContent: "center",
               display: "flex",
               border: "1px solid #d2d8d8",
+              borderRadius: "10px",
+              marginTop: "3px",
+              fontSize: "large",
             }}
           ></input>
         </div>
@@ -149,17 +197,22 @@ const Register = ({}) => {
           onClick={handleRegister}
           style={{
             width: "70%",
+            height: "30px",
             borderStyle: "solid",
             marginLeft: "15%",
             marginRight: "15%",
             textAlign: "center",
             padding: "10px 0px",
-            backgroundColor: "#ea004b",
+            backgroundColor: "#034C8E",
             color: "white",
+            borderRadius: "10px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            cursor: "pointer",
           }}
         >
-          {" "}
-          Kayıt ol
+          <div style={{ height: "fit-content" }}>Kayıt Ol</div>
         </div>
 
         <div
