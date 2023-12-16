@@ -43,7 +43,7 @@ const Account = ({ logout }) => {
           paddingTop: "10px",
         }}
       >
-        <Link to="/adreslerim" className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer" }}>
+        <Link to="/adreslerim" className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer", textDecoration: "none", color: "black" }}>
             <div style={{marginRight: "12px", maxHeight: "32px", maxWidth: "32px",minWidth: "32px", minHeight: "32px",backgroundImage:
                   "url('https://cdn-icons-png.flaticon.com/512/649/649931.png')",
                 backgroundSize: "100%",
@@ -51,7 +51,7 @@ const Account = ({ logout }) => {
                 backgroundRepeat: "no-repeat",}}></div>
             <div style={{height: "fit-content", textAlign: "center" }}>Adreslerim</div>
         </Link>
-        <Link to="/siparislerim" className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer"  }}>
+        <Link to="/siparislerim" className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer", textDecoration: "none", color: "black"  }}>
             <div style={{marginRight: "12px", maxHeight: "32px", maxWidth: "32px",minWidth: "32px", minHeight: "32px",backgroundImage:
                   "url('https://cdn-icons-png.flaticon.com/512/649/649931.png')",
                 backgroundSize: "100%",
@@ -59,7 +59,7 @@ const Account = ({ logout }) => {
                 backgroundRepeat: "no-repeat",}}></div>
             <div style={{height: "fit-content", textAlign: "center" }}>Siparişlerim</div>
         </Link>
-        <div onClick={logout} className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer"  }}>
+        <div onClick={logout} className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "48px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer", textDecoration: "none", color: "black"  }}>
             <div style={{marginRight: "12px", maxHeight: "32px", maxWidth: "32px",minWidth: "32px", minHeight: "32px",backgroundImage:
                   "url('https://cdn-icons-png.flaticon.com/512/649/649931.png')",
                 backgroundSize: "100%",

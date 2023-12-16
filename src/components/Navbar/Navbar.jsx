@@ -20,6 +20,7 @@ import { setAddresses } from "../../redux/addresses";
 
 import Account from "../HoverMenus/Account";
 import SearchBarItems from "../HoverMenus/SearchBarItems";
+import Addresses from "../HoverMenus/Addresses";
 
 import location from "./Assets/location.png";
 import user from "./Assets/user.png";
@@ -29,6 +30,7 @@ const Navbar = ({}) => {
   const [clickedAccount, setClickedAccount] = useState(false);
   const [clickedSearchBar, setClickedSearchBar] = useState(false);
   const [shoppingCartTotal, setShoppingCartTotal] = useState(0);
+  const [update, setUpdate] = useState(0);
   const [clickedAddresses, setclickedAddresses] = useState(false);
   const [serachValue, setSearchValue] = useState("");
 
@@ -85,7 +87,6 @@ const Navbar = ({}) => {
         if (data.message != null) return;
         dispatch(setAddresses({ address: data.addresses }));
         const selected_address = data.addresses.find((element) => {
-          console.log(element);
           return element.selected == 1;
         });
         dispatch(setselectedAddress({ selectedAddress: selected_address }));
@@ -153,36 +154,6 @@ const Navbar = ({}) => {
     dispatch(incrementupdateOrders({}));
   };
 
-  const updateSelectedAddress = (address_id) => {
-    const selected_address = addresses?.find((element) => {
-      element.id == address_id;
-    });
-    dispatch(setselectedAddress({ selectedAddress: selected_address }));
-  };
-
-  const selectAddress = async (address_id) => {
-    await fetch("http://localhost:3000/addresses/select", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ address_id: address_id }),
-    })
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error(res.status);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        updateSelectedAddress(address_id);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const handleClickAddresses = () => {
     console.log(addresses);
     if (!isLoggedIn) {
@@ -199,7 +170,13 @@ const Navbar = ({}) => {
       return;
     }
     setclickedAddresses(!clickedAddresses);
-    console.log(clickedAddresses);
+  };
+
+  const handleHoverAddresses = () => {
+    setclickedAddresses(true);
+  };
+  const handleQuitAddresses = () => {
+    setclickedAddresses(false);
   };
 
   const logout = async () => {
@@ -250,7 +227,7 @@ const Navbar = ({}) => {
             borderRight: "2px solid " + config.BORDER_COLOR,
           }}
         >
-          <div style={{ textAlign: "center", paddingLeft: "5px" }}>Market</div>
+          <div style={{ textAlign: "center", paddingLeft: "5px" }}>Bekle Kazan</div>
         </Link>
         <div ref={searcBarRef} style={{ minWidth: "35%" }}>
           <div
@@ -312,17 +289,19 @@ const Navbar = ({}) => {
           )}
         </div>
         <div
+        onMouseEnter={handleHoverAddresses}
+        onMouseLeave={handleQuitAddresses}
           style={{
             display: "block",
             alignItems: "center",
-            minWidth: "auto",
+            maxWidth: "225px",
             justifyContent: "center",
             borderRight: "2px solid " + config.BORDER_COLOR,
             flexGrow: "0.6",
           }}
         >
           <div
-            onClick={handleClickAddresses}
+            
             style={{
               display: "flex",
               alignItems: "center",
@@ -377,7 +356,12 @@ const Navbar = ({}) => {
               </svg>{" "}
             </div>
           </div>
-          {Array.isArray(addresses) && clickedAddresses ? (
+          {clickedAddresses ? (
+            <Addresses setUpdate={setUpdate} ></Addresses>
+          ) : (
+            ""
+          )}
+          {/* {Array.isArray(addresses) && clickedAddresses ? (
             <ul
               style={{
                 marginTop: "10px",
@@ -453,7 +437,7 @@ const Navbar = ({}) => {
             </ul>
           ) : (
             ""
-          )}
+          )} */}
         </div>
         <div
           onMouseEnter={handleHoverAccount}

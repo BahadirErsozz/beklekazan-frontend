@@ -13,6 +13,7 @@ import Login from "../../components/Popups/Login";
 import Register from "../../components/Popups/Register";
 import Address from "../../components/Popups/Address";
 import GotoCart from "./components/GotoCart/GotoCart";
+import ContactUs from "./components/ContactUs/ContactUs";
 import PopupsContainer from "../../components/Popups/PopupsContainer";
 import config from "../../config.json";
 
@@ -60,17 +61,31 @@ function Home() {
 
   useEffect(() => {
     dispatch(resetProducts({}));
-    // dispatch(
-    //   addToProducts({
-    //     product: {
-    //       name: "Muz",
-    //       id: uuidv4(),
-    //       price: "100",
-    //       category: "Meyve",
-    //       deadline: "20 Jul 2024 16:00:00 GMT",
-    //     },
-    //   })
-    // );
+    dispatch(
+      addToProducts({
+        product: {
+          name: "Raf Etiketi",
+          id: uuidv4(),
+          price: "35.99",
+          category: "AraçBakim",
+          deadline: "20 Jul 2024 16:00:00 GMT",
+          leftAmount:  Math.floor((1703188364 - (Date.now() / 1000)) / 3600)
+        },
+      })
+    );
+
+    dispatch(
+      addToProducts({
+        product: {
+          name: "Karton Araç Kokusu",
+          id: uuidv4(),
+          price: "15",
+          category: "AraçBakim",
+          deadline: "20 Jul 2024 16:00:00 GMT",
+          leftAmount:  Math.floor((1703188364 - (Date.now() / 1000)) / 1200)
+        },
+      })
+    );
 
     // dispatch(
     //   addToProducts({
@@ -120,6 +135,7 @@ function Home() {
             price: data[i].price,
             category: data[i].category,
             deadline: data[i].deadline,
+            leftAmount: 13
           };
           dispatch(addToProducts({ product: product }));
         }
@@ -283,6 +299,7 @@ function Home() {
           ></ProductList>
         </div>
         <GotoCart></GotoCart>
+        <ContactUs></ContactUs>
       </div>
     </>
   );

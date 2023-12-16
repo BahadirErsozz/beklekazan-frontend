@@ -49,7 +49,7 @@ const ShoppingItem = ({ shoppingItem }) => {
         <div style={{ display: "flex" }}>
           <div style={{ width: "70%" }}>
             <img
-              src="https://images.migrosone.com/sanalmarket/product/28290036/28290036-6a65f9-1650x1650.jpg"
+              src={"http://localhost:3000/products/product/" + shoppingItem.id + "/image"}
               style={{
                 width: "100%",
                 height: "100%",

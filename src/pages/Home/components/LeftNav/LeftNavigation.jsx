@@ -58,6 +58,14 @@ const LeftNavigation = ({
             Tüm Kategoriler ({products.length})
           </div>
           <LeftNavigationItem
+            title={"AraçBakim"}
+            text={"Araç Bakım"}
+            setSelectedCategory={setSelectedCategory}
+            selectedCategory={selectedCategory}
+            products={products}
+            updateProductCounts={updateProductCounts}
+          ></LeftNavigationItem>
+          <LeftNavigationItem
             title={"Sebze"}
             text={"Sebze"}
             setSelectedCategory={setSelectedCategory}

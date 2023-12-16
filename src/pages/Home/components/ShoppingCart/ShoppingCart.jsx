@@ -58,7 +58,7 @@ const ShoppingCart = ({}) => {
           to="/sepetim"
             style={{
               textAlign: "center",
-              backgroundColor: "#ea004b",
+              backgroundColor: "#034C8E",
               color: "white",
               height: "30px",
               justifyContent: "center",

@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToShoppingCart } from "../../../../redux/shoppingCart";
 import { Link } from "react-router-dom";
 
+import rafEtiketi from "./Asstets/raf-etiketi.png"
+import otoKokusu from "./Asstets/oto-kokusu.jpg"
+
 import Timer from "./Timer";
 
 const Product = ({ product, addItemToCart }) => {
@@ -49,7 +52,8 @@ const Product = ({ product, addItemToCart }) => {
           borderRadius: "8px",
         }}
       >
-        <Timer deadline={product.deadline}></Timer>
+        {/* <Timer deadline={product.deadline}></Timer> */}
+        <div style={{marginBottom: "10px"}}>Kalan Ürün Sayısı: {product.leftAmount}</div>
         <Link
           to={"product/" + product.id}
           style={{
@@ -59,7 +63,8 @@ const Product = ({ product, addItemToCart }) => {
           }}
         >
           <img
-            src={"http://localhost:3000/products/product/" + product.id + "/image"}
+          src={product.name  == "Raf Etiketi" ? rafEtiketi : otoKokusu}
+            // src={"http://localhost:3000/products/product/" + product.id + "/image"}
             style={{ width: "100%", height: "100%", background: "transparent" }}
           ></img>
         </Link>
