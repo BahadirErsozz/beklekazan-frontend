@@ -11,6 +11,7 @@ const LeftNavigation = ({
   const setSelectedCategoryHandler = () => {
     setSelectedCategory("All");
   };
+  const categories = [];
   return (
     <>
       <div
@@ -57,30 +58,22 @@ const LeftNavigation = ({
           >
             Tüm Kategoriler ({products.length})
           </div>
-          <LeftNavigationItem
-            title={"AraçBakim"}
-            text={"Araç Bakım"}
-            setSelectedCategory={setSelectedCategory}
-            selectedCategory={selectedCategory}
-            products={products}
-            updateProductCounts={updateProductCounts}
-          ></LeftNavigationItem>
-          <LeftNavigationItem
-            title={"Sebze"}
-            text={"Sebze"}
-            setSelectedCategory={setSelectedCategory}
-            selectedCategory={selectedCategory}
-            products={products}
-            updateProductCounts={updateProductCounts}
-          ></LeftNavigationItem>
-          <LeftNavigationItem
-            title={"Meyve"}
-            text={"Meyve"}
-            setSelectedCategory={setSelectedCategory}
-            selectedCategory={selectedCategory}
-            products={products}
-            updateProductCounts={updateProductCounts}
-          ></LeftNavigationItem>
+          {products.map((product) => {
+            if (!categories.includes(product.category)) {
+              categories.push(product.category);
+              return (
+                <LeftNavigationItem
+                  key={product.id}
+                  title={product.category}
+                  text={product.category}
+                  setSelectedCategory={setSelectedCategory}
+                  selectedCategory={selectedCategory}
+                  products={products}
+                  updateProductCounts={updateProductCounts}
+                ></LeftNavigationItem>
+              );
+            }
+          })}
         </div>
       </div>
     </>
