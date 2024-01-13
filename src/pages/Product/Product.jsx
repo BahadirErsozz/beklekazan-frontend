@@ -1,6 +1,8 @@
 import { useState, useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import config from "../../config.json";
+
 import Navbar from "../../components/Navbar/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import PopupsContainer from "../../components/Popups/PopupsContainer";
@@ -35,19 +37,21 @@ function Product() {
     );
   };
   useEffect(() => {
-    fetch("http://localhost:3000/products/product/" + productId, {
+    fetch(config.BACKEND_URL + "products/product/" + productId, {
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
-        const product = {
+        const productNew = {
           name: data[0].name,
           id: uuidv4(),
           price: data[0].price,
           category: data[0].category,
           deadline: data[0].deadline,
-        }
-        setProduct(product);
+          leftAmount: data[0].leftAmount,
+          totalAmount: data[0].totalAmount,
+        };
+        setProduct(productNew);
       })
       .catch((err) => {
         console.log(err);
@@ -86,7 +90,9 @@ function Product() {
             }}
           >
             <img
-              src={"http://localhost:3000/products/product/" + productId + "/image"}
+              src={
+                config.BACKEND_URL + "products/product/" + productId + "/image"
+              }
               style={{
                 width: "100%",
                 height: "100%",
@@ -146,7 +152,8 @@ function Product() {
                   marginBottom: "10px",
                 }}
               >
-                {product?.sold_amount} Kişi Bu Ürünü Satın Aldı!
+                Kalan Ürün Sayısı: {product?.leftAmount} /{" "}
+                {product?.totalAmount}
               </div>
             </div>
             <div

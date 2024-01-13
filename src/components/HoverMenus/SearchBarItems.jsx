@@ -1,14 +1,13 @@
-
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import config from "../../config.json"
+import config from "../../config.json";
 
 const SearchBarItems = ({ serachValue }) => {
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
   const products = useSelector((state) => state.products.products);
   return (
     <>
-    <div
+      <div
         style={{
           position: "relative",
           minWidth: "220px",
@@ -43,19 +42,49 @@ const SearchBarItems = ({ serachValue }) => {
         }}
       >
         {products.map((product) => {
-          return (
-            product.name.toLowerCase().replaceAll(" ", "").includes(serachValue.toLowerCase().replaceAll(" ", "")) ?
-            <Link to={"product/" + product.id} key={product.id} style={{textDecoration: "none", color: "black"}}>
-            <div className="Account-menu-item" style={{ width: "auto", padding: "0px 16px", height: "64px", display: "flex", alignItems: "center", flexDirection: "row", cursor: "pointer" }}>
-            <img
-            src={"http://localhost:3000/products/product/" + product.id + "/image"}
-            style={{ minWidth: "48px", maxWidth: "48px", minHeight: "48px", maxHeight: "48px", marginRight: "12px" }}
-          ></img>
-            <div style={{height: "fit-content", textAlign: "center" }}>{product.name}</div>
-        </div>
-        </Link>
-        : ""
-            
+          return product.name
+            .toLowerCase()
+            .replaceAll(" ", "")
+            .includes(serachValue.toLowerCase().replaceAll(" ", "")) ? (
+            <Link
+              to={"product/" + product.id}
+              key={product.id}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <div
+                className="Account-menu-item"
+                style={{
+                  width: "auto",
+                  padding: "0px 16px",
+                  height: "64px",
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  cursor: "pointer",
+                }}
+              >
+                <img
+                  src={
+                    config.BACKEND_URL +
+                    "products/product/" +
+                    product.id +
+                    "/image"
+                  }
+                  style={{
+                    minWidth: "48px",
+                    maxWidth: "48px",
+                    minHeight: "48px",
+                    maxHeight: "48px",
+                    marginRight: "12px",
+                  }}
+                ></img>
+                <div style={{ height: "fit-content", textAlign: "center" }}>
+                  {product.name}
+                </div>
+              </div>
+            </Link>
+          ) : (
+            ""
           );
         })}
       </div>

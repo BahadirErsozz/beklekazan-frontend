@@ -3,6 +3,7 @@ import {
   addToShoppingCart,
   removeFromShoppingCart,
 } from "../../../../../redux/shoppingCart";
+import config from "../../../../../config.json";
 
 const ShoppingItem = ({ shoppingItem }) => {
   const dispatch = useDispatch();
@@ -49,7 +50,12 @@ const ShoppingItem = ({ shoppingItem }) => {
         <div style={{ display: "flex" }}>
           <div style={{ width: "70%" }}>
             <img
-              src={"http://localhost:3000/products/product/" + shoppingItem.id + "/image"}
+              src={
+                config.BACKEND_URL +
+                "products/product/" +
+                shoppingItem.id +
+                "/image"
+              }
               style={{
                 width: "100%",
                 height: "100%",

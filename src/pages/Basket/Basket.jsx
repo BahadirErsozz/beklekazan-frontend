@@ -1,3 +1,5 @@
+import config from "../../config.json";
+
 import Navbar from "../../components/Navbar/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import PopupsContainer from "../../components/Popups/PopupsContainer";
@@ -12,17 +14,19 @@ import { useState, useEffect, useRef } from "react";
 function Basket() {
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
   const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
-  const selectedAddress = useSelector((state) => state.selectedAddress.selectedAddress);
+  const selectedAddress = useSelector(
+    (state) => state.selectedAddress.selectedAddress
+  );
 
   const [shoppingCartTotal, setShoppingCartTotal] = useState(0);
 
   useEffect(() => {
-    fetch("http://localhost:3000/addresses", {
+    fetch(config.BACKEND_URL + "addresses", {
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.message != null) return
+        if (data.message != null) return;
         dispatch(setAddresses({ address: data.addresses }));
         const selected_address = data.addresses.find((element) => {
           console.log(element);
@@ -68,7 +72,7 @@ function Basket() {
       );
       handleClickLogin();
     } else {
-      return await fetch("http://localhost:3000/orders", {
+      return await fetch(config.BACKEND_URL + "orders", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -93,7 +97,7 @@ function Basket() {
           console.log(shoppingCart);
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
           showToastErrorMessage(
             "Sipariş oluşturulurken bir hata oluştu",
             toast.POSITION.TOP_CENTER
@@ -215,7 +219,7 @@ function Basket() {
                 </div>
               </div>
               <div
-              onClick={addOrder}
+                onClick={addOrder}
                 style={{
                   minWidth: "175px",
                   maxWidth: "175px",

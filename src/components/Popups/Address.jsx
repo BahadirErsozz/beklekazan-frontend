@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import config from "../../config.json";
 
 import { setclickedAddress } from "../../redux/clickedAddress";
 import { incrementupdateAddresses } from "../../redux/updateAddresses";
@@ -100,7 +101,7 @@ const Address = ({}) => {
   };
 
   const createAddress = async (address_details) => {
-    return await fetch("http://localhost:3000/addresses", {
+    return await fetch(config.BACKEND_URL + "addresses", {
       method: "POST",
       credentials: "include",
       headers: {

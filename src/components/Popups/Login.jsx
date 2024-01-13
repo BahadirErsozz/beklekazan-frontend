@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import config from "../../config.json";
+
 import { setclickedLogin } from "../../redux/clickedLogin";
 import { setclickedAddress } from "../../redux/clickedAddress";
 import { setclickedRegister } from "../../redux/clickedRegister";
@@ -54,7 +56,7 @@ const Login = ({}) => {
   };
 
   const login = async (email, password) => {
-    return await fetch("http://localhost:3000/users/login", {
+    return await fetch(config.BACKEND_URL + "users/login", {
       method: "POST",
       credentials: "include",
       headers: {

@@ -4,5 +4,6 @@
     "Sipariş hazırlanıyor",
     "Sipariş teslim edildi"
   ],
-  "BORDER_COLOR": "#dcdcdc"
+  "BORDER_COLOR": "#dcdcdc",
+  "BACKEND_URL": "http://api.beklekazan.com.tr:3000/"
 }

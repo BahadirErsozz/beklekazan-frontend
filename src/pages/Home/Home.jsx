@@ -61,40 +61,28 @@ function Home() {
 
   useEffect(() => {
     dispatch(resetProducts({}));
-    dispatch(
-      addToProducts({
-        product: {
-          name: "Raf Etiketi",
-          id: uuidv4(),
-          price: "35.99",
-          category: "AraçBakim",
-          deadline: "20 Jul 2024 16:00:00 GMT",
-          leftAmount:  Math.floor((1703188364 - (Date.now() / 1000)) / 3600)
-        },
-      })
-    );
-
-    dispatch(
-      addToProducts({
-        product: {
-          name: "Karton Araç Kokusu",
-          id: uuidv4(),
-          price: "15",
-          category: "AraçBakim",
-          deadline: "20 Jul 2024 16:00:00 GMT",
-          leftAmount:  Math.floor((1703188364 - (Date.now() / 1000)) / 1200)
-        },
-      })
-    );
+    // dispatch(
+    //   addToProducts({
+    //     product: {
+    //       name: "Raf Etiketi",
+    //       id: uuidv4(),
+    //       price: "35",
+    //       category: "AraçBakim",
+    //       deadline: "20 Jul 2024 16:00:00 GMT",
+    //       leftAmount: Math.floor((1703188364 - Date.now() / 1000) / 3600),
+    //     },
+    //   })
+    // );
 
     // dispatch(
     //   addToProducts({
     //     product: {
-    //       name: "Muz",
+    //       name: "Karton Araç Kokusu",
     //       id: uuidv4(),
-    //       price: "100",
-    //       category: "Meyve",
+    //       price: "15",
+    //       category: "AraçBakim",
     //       deadline: "20 Jul 2024 16:00:00 GMT",
+    //       leftAmount: Math.floor((1703188364 - Date.now() / 1000) / 1200),
     //     },
     //   })
     // );
@@ -123,8 +111,21 @@ function Home() {
     //   })
     // );
 
-    fetch("http://localhost:3000/products", {
+    // dispatch(
+    //   addToProducts({
+    //     product: {
+    //       name: "Muz",
+    //       id: uuidv4(),
+    //       price: "100",
+    //       category: "Meyve",
+    //       deadline: "20 Jul 2024 16:00:00 GMT",
+    //     },
+    //   })
+    // );
+
+    fetch(config.BACKEND_URL + "products", {
       credentials: "include",
+      mode: "cors",
     })
       .then((res) => res.json())
       .then((data) => {
@@ -135,7 +136,8 @@ function Home() {
             price: data[i].price,
             category: data[i].category,
             deadline: data[i].deadline,
-            leftAmount: 13
+            leftAmount: data[i].leftAmount,
+            totalAmount: data[i].totalAmount,
           };
           dispatch(addToProducts({ product: product }));
         }
@@ -145,8 +147,9 @@ function Home() {
       });
     setupdateProductCounts(updateProductCounts + 1);
   }, []);
+
   useEffect(() => {
-    fetch("http://localhost:3000/users/isLoggedIn", {
+    fetch(config.BACKEND_URL + "users/isLoggedIn", {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -161,7 +164,7 @@ function Home() {
   }, [updateIsLoggedIn]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/orders", {
+    fetch(config.BACKEND_URL + "orders", {
       credentials: "include",
     })
       .then((res) => res.json())

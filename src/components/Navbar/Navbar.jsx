@@ -64,7 +64,7 @@ const Navbar = ({}) => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:3000/users/isLoggedIn", {
+    fetch(config.BACKEND_URL + "users/isLoggedIn", {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -79,7 +79,7 @@ const Navbar = ({}) => {
   }, [updateIsLoggedIn]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/addresses", {
+    fetch(config.BACKEND_URL + "addresses", {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -180,7 +180,7 @@ const Navbar = ({}) => {
   };
 
   const logout = async () => {
-    return await fetch("http://localhost:3000/users/logout", {
+    return await fetch(config.BACKEND_URL + "users/logout", {
       method: "POST",
       credentials: "include",
     })
@@ -227,7 +227,9 @@ const Navbar = ({}) => {
             borderRight: "2px solid " + config.BORDER_COLOR,
           }}
         >
-          <div style={{ textAlign: "center", paddingLeft: "5px" }}>Bekle Kazan</div>
+          <div style={{ textAlign: "center", paddingLeft: "5px" }}>
+            Bekle Kazan
+          </div>
         </Link>
         <div ref={searcBarRef} style={{ minWidth: "35%" }}>
           <div
@@ -289,8 +291,8 @@ const Navbar = ({}) => {
           )}
         </div>
         <div
-        onMouseEnter={handleHoverAddresses}
-        onMouseLeave={handleQuitAddresses}
+          onMouseEnter={handleHoverAddresses}
+          onMouseLeave={handleQuitAddresses}
           style={{
             display: "block",
             alignItems: "center",
@@ -301,7 +303,6 @@ const Navbar = ({}) => {
           }}
         >
           <div
-            
             style={{
               display: "flex",
               alignItems: "center",
@@ -357,7 +358,7 @@ const Navbar = ({}) => {
             </div>
           </div>
           {clickedAddresses ? (
-            <Addresses setUpdate={setUpdate} ></Addresses>
+            <Addresses setUpdate={setUpdate}></Addresses>
           ) : (
             ""
           )}

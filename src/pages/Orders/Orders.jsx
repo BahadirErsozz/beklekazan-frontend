@@ -13,15 +13,16 @@ import { v4 as uuidv4 } from "uuid";
 function Orders() {
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
   const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
-  const selectedAddress = useSelector((state) => state.selectedAddress.selectedAddress);
+  const selectedAddress = useSelector(
+    (state) => state.selectedAddress.selectedAddress
+  );
   const addresses = useSelector((state) => state.addresses.addresses);
   const updateOrders = useSelector((state) => state.updateOrders.updateOrders);
 
   const [orders, setOrders] = useState([]);
-  
 
   useEffect(() => {
-    fetch("http://localhost:3000/orders", {
+    fetch(config.BACKEND_URL + "orders", {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -32,7 +33,6 @@ function Orders() {
         console.log(err.message);
       });
   }, [updateOrders]);
-
 
   const showToastInfoMessage = (mesage, poisition) => {
     toast.info(mesage, {
@@ -51,7 +51,6 @@ function Orders() {
     dispatch(setclickedRegister({ clickedRegister: false }));
     dispatch(setclickedAddress({ clickedAddress: false }));
   };
-
 
   return (
     <>
@@ -85,90 +84,146 @@ function Orders() {
             >
               {orders.map((order) => {
                 const order_status = order.order_status + "";
-                const date = new Date(order.order_date)
+                const date = new Date(order.order_date);
                 const order_details = JSON.parse(order.order_details);
-                return(
-                  
-                 <div
-                 key={uuidv4()}
-                 style={{
-                   minWidth: "90%",
-                   maxWidth: "90%",
-                   height: "auto",
-                   padding: "8px",
-                   border: "1px solid #dcdcdc",
-                   borderRadius: "8px",
-                   textAlign: "center",
-                   margin: "12px auto",
-                 }}
-               >
-                <div
-                style={{
-                  width: "100%",
-                  height: "fit-content",
-                  display: "flex",
-                  justifyContent: "space-between"
-                 
-                }}
-              >
-                
-                <div style={{font: "600 15px Inter,sans-serif",}}> {"Sipariş No: " + order.order_id }</div> 
-                <div>{config.ORDER_STATUS[order_status]}</div>
-                
-              </div>
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "space-between"
-                 
-                }}
-              >
-                <div style={{font: "400 15px Inter,sans-serif",maxWidth: "100%", whiteSpace: "initial", wordWrap: "break-word", marginTop: "10px"}}> {date.toISOString().slice(0, 10) }</div> 
-              </div>
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "space-between"
-                 
-                }}
-              >
-                <div style={{font: "400 15px Inter,sans-serif",maxWidth: "100%", whiteSpace: "initial", wordWrap: "break-word", marginTop: "10px"}}> {"Sepetteki Ürünler (" + order_details.shopping_cart.length + ")" }</div> 
-              </div>
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                }}
-              >
-                {order_details.shopping_cart.map((cartItem) => {
-                  return (<img src={"http://localhost:3000/products/product/" + cartItem.id + "/image"} style={{maxWidth: "24px", maxHeight: "24px", marginRight: "10px"}}/>   )
-                })}
-                
-              </div>
-              
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "space-between"
-                 
-                }}
-              >
-                
-                <div style={{font: "600 15px Inter,sans-serif",maxWidth: "100%", whiteSpace: "initial", wordWrap: "break-word", marginTop: "10px"}}> {"Toplam Tutar: " + order_details.order_total + " TL"}</div> 
-                <Link to={"/siparis/" + order.order_id} style={{font: "400 15px Inter,sans-serif",maxWidth: "100%", backgroundColor: "#f1f2f5", borderRadius: "10px", padding: "5px", cursor: "pointer", color: "black", textDecoration: "none"}}> {"Sipariş Detayı >"}</Link> 
-              </div>
-              </div>
-              )
-             })}
+                return (
+                  <div
+                    key={uuidv4()}
+                    style={{
+                      minWidth: "90%",
+                      maxWidth: "90%",
+                      height: "auto",
+                      padding: "8px",
+                      border: "1px solid #dcdcdc",
+                      borderRadius: "8px",
+                      textAlign: "center",
+                      margin: "12px auto",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "fit-content",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div style={{ font: "600 15px Inter,sans-serif" }}>
+                        {" "}
+                        {"Sipariş No: " + order.order_id}
+                      </div>
+                      <div>{config.ORDER_STATUS[order_status]}</div>
+                    </div>
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div
+                        style={{
+                          font: "400 15px Inter,sans-serif",
+                          maxWidth: "100%",
+                          whiteSpace: "initial",
+                          wordWrap: "break-word",
+                          marginTop: "10px",
+                        }}
+                      >
+                        {" "}
+                        {date.toISOString().slice(0, 10)}
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div
+                        style={{
+                          font: "400 15px Inter,sans-serif",
+                          maxWidth: "100%",
+                          whiteSpace: "initial",
+                          wordWrap: "break-word",
+                          marginTop: "10px",
+                        }}
+                      >
+                        {" "}
+                        {"Sepetteki Ürünler (" +
+                          order_details.shopping_cart.length +
+                          ")"}
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                      }}
+                    >
+                      {order_details.shopping_cart.map((cartItem) => {
+                        return (
+                          <img
+                            src={
+                              "http://localhost:3000/products/product/" +
+                              cartItem.id +
+                              "/image"
+                            }
+                            style={{
+                              maxWidth: "24px",
+                              maxHeight: "24px",
+                              marginRight: "10px",
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div
+                        style={{
+                          font: "600 15px Inter,sans-serif",
+                          maxWidth: "100%",
+                          whiteSpace: "initial",
+                          wordWrap: "break-word",
+                          marginTop: "10px",
+                        }}
+                      >
+                        {" "}
+                        {"Toplam Tutar: " + order_details.order_total + " TL"}
+                      </div>
+                      <Link
+                        to={"/siparis/" + order.order_id}
+                        style={{
+                          font: "400 15px Inter,sans-serif",
+                          maxWidth: "100%",
+                          backgroundColor: "#f1f2f5",
+                          borderRadius: "10px",
+                          padding: "5px",
+                          cursor: "pointer",
+                          color: "black",
+                          textDecoration: "none",
+                        }}
+                      >
+                        {" "}
+                        {"Sipariş Detayı >"}
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            
           </div>
         </div>
       ) : (

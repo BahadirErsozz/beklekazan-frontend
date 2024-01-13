@@ -15,7 +15,7 @@ function Order() {
   const [orderDate, setOrderDate] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    fetch("http://localhost:3000/orders/" + orderId, {
+    fetch(config.BACKEND_URL + "orders/" + orderId, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -205,21 +205,34 @@ function Order() {
                     <>
                       {" "}
                       <div style={{ paddingTop: "40%" }}>{cartItem.count}</div>
-                      <div style={{display: "flex"}}>
-                      <img
-                        src={
-                          "http://localhost:3000/products/product/" +
-                          cartItem.id +
-                          "/image"
-                        }
-                        style={{
-                          maxWidth: "96px",
-                          maxHeight: "96px",
-                          marginRight: "10px",
-                        }}
-                      />
-                      <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between", marginBottom: "30px"}}><div style={{font: "600 16px Inter,sans-serif",}}>{cartItem.name}</div><div style={{font: "600 1rem Inter,sans-serif",}}>{cartItem.price + " TL"}</div></div>
-                      
+                      <div style={{ display: "flex" }}>
+                        <img
+                          src={
+                            "http://localhost:3000/products/product/" +
+                            cartItem.id +
+                            "/image"
+                          }
+                          style={{
+                            maxWidth: "96px",
+                            maxHeight: "96px",
+                            marginRight: "10px",
+                          }}
+                        />
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                            marginBottom: "30px",
+                          }}
+                        >
+                          <div style={{ font: "600 16px Inter,sans-serif" }}>
+                            {cartItem.name}
+                          </div>
+                          <div style={{ font: "600 1rem Inter,sans-serif" }}>
+                            {cartItem.price + " TL"}
+                          </div>
+                        </div>
                       </div>
                     </>
                   );

@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToShoppingCart } from "../../../../redux/shoppingCart";
 import { Link } from "react-router-dom";
+import config from "../../../../config.json";
 
-import rafEtiketi from "./Asstets/raf-etiketi.png"
-import otoKokusu from "./Asstets/oto-kokusu.jpg"
+import rafEtiketi from "./Asstets/raf-etiketi.png";
+import otoKokusu from "./Asstets/oto-kokusu.jpg";
 
 import Timer from "./Timer";
 
@@ -52,8 +53,10 @@ const Product = ({ product, addItemToCart }) => {
           borderRadius: "8px",
         }}
       >
-        {/* <Timer deadline={product.deadline}></Timer> */}
-        <div style={{marginBottom: "10px"}}>Kalan Ürün Sayısı: {product.leftAmount}</div>
+        <Timer deadline={product.deadline}></Timer>
+        <div style={{ marginBottom: "10px" }}>
+          Kalan Ürün Sayısı: {product.leftAmount} / {product.totalAmount}
+        </div>
         <Link
           to={"product/" + product.id}
           style={{
@@ -63,8 +66,9 @@ const Product = ({ product, addItemToCart }) => {
           }}
         >
           <img
-          src={product.name  == "Raf Etiketi" ? rafEtiketi : otoKokusu}
-            // src={"http://localhost:3000/products/product/" + product.id + "/image"}
+            src={
+              config.BACKEND_URL + "products/product/" + product.id + "/image"
+            }
             style={{ width: "100%", height: "100%", background: "transparent" }}
           ></img>
         </Link>
