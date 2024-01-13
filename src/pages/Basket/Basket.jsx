@@ -172,7 +172,7 @@ function Basket() {
                     Sepet Özeti
                   </div>
                   <div style={{ font: ".875rem/1.43 Inter,sans-serif" }}>
-                    2 ürün
+                    {shoppingCart?.length} Çeşit ürün
                   </div>
                 </div>
                 <div
@@ -186,7 +186,7 @@ function Basket() {
                     Toplam Tutar
                   </div>
                   <div style={{ font: ".875rem/1.43 Inter,sans-serif" }}>
-                    98,50 TL
+                    {shoppingCartTotal}
                   </div>
                 </div>
                 <div
@@ -200,7 +200,7 @@ function Basket() {
                     Toplam İndirim
                   </div>
                   <div style={{ font: ".875rem/1.43 Inter,sans-serif" }}>
-                    -18,50 TL
+                    0 TL
                   </div>
                 </div>
                 <div
@@ -214,7 +214,7 @@ function Basket() {
                     Ödenecek Tutar
                   </div>
                   <div style={{ font: "600 1rem Inter,sans-serif" }}>
-                    80,00 TL
+                    {shoppingCartTotal}
                   </div>
                 </div>
               </div>
