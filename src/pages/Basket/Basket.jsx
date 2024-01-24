@@ -186,7 +186,7 @@ function Basket() {
                     Toplam Tutar
                   </div>
                   <div style={{ font: ".875rem/1.43 Inter,sans-serif" }}>
-                    {shoppingCartTotal}
+                    {shoppingCartTotal} TL
                   </div>
                 </div>
                 <div
@@ -214,7 +214,7 @@ function Basket() {
                     Ödenecek Tutar
                   </div>
                   <div style={{ font: "600 1rem Inter,sans-serif" }}>
-                    {shoppingCartTotal}
+                    {shoppingCartTotal} TL
                   </div>
                 </div>
               </div>

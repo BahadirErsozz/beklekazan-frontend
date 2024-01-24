@@ -105,8 +105,10 @@ function Home() {
     //       name: "Muz",
     //       id: uuidv4(),
     //       price: "100",
-    //       category: "Meyve",
+    //       category: "Sebze",
     //       deadline: "20 Jul 2024 16:00:00 GMT",
+    //       leftAmount: 130,
+    //       totalAmount: 230,
     //     },
     //   })
     // );
@@ -114,11 +116,13 @@ function Home() {
     // dispatch(
     //   addToProducts({
     //     product: {
-    //       name: "Muz",
+    //       name: "Elme",
     //       id: uuidv4(),
     //       price: "100",
     //       category: "Meyve",
     //       deadline: "20 Jul 2024 16:00:00 GMT",
+    //       leftAmount: 100,
+    //       totalAmount: 300,
     //     },
     //   })
     // );
