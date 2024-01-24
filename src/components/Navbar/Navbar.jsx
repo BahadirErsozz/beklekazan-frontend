@@ -519,7 +519,6 @@ const Navbar = ({}) => {
             height: "100%",
             marginRight: "0",
             borderLeft: "2px solid " + config.BORDER_COLOR,
-            cursor: "pointer",
           }}
         >
           <div
@@ -554,7 +553,7 @@ const Navbar = ({}) => {
             Sepetim
             <div style={{ width: "100%" }}>{shoppingCartTotal} TL</div>
           </div>
-          {clickedShoppingCart ? <ShoppingCart /> : ""}
+          {clickedShoppingCart || true ? <ShoppingCart /> : ""}
         </div>
       </div>
     </>

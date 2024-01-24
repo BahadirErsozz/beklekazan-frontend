@@ -45,10 +45,12 @@ const ShoppingItem = ({ shoppingItem }) => {
           borderBottom: "solid",
           borderColor: "#dcdcdc",
           borderBottomWidth: "1px",
+          paddingBottom: "10px",
+          marginBottom: "10px",
         }}
       >
-        <div style={{ display: "flex" }}>
-          <div style={{ width: "70%" }}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div style={{ width: "auto", display: "flex" }}>
             <img
               src={
                 config.BACKEND_URL +
@@ -57,11 +59,16 @@ const ShoppingItem = ({ shoppingItem }) => {
                 "/image"
               }
               style={{
-                width: "100%",
-                height: "100%",
+                width: "60px",
+                height: "60px",
                 background: "transparent",
               }}
             ></img>
+            <div>
+              <div style={{ textAlign: "center", marginLeft: "15px" }}>
+                {shoppingItem.name}
+              </div>
+            </div>
           </div>
           <div
             style={{
@@ -73,29 +80,34 @@ const ShoppingItem = ({ shoppingItem }) => {
               flexDirection: "column",
             }}
           >
-            <div>{shoppingItem.name}</div>
-            <div>{shoppingItem.price}</div>
+            <div>{shoppingItem.price * shoppingItem.count} TL </div>
             <div
               style={{
                 display: "flex",
                 height: "30px",
                 width: "70%",
-                border: "solid",
                 alignItems: "center",
                 textAlign: "center",
                 alignSelf: "center",
+                borderRadius: "4px",
+                borderStyle: "solid",
+                borderWidth: "1px",
+                borderColor: config.BORDER_COLOR,
+                marginTop: "5px",
               }}
             >
               <div
                 onClick={removeItemFromCartHandler}
                 style={{
                   width: "33%",
-                  borderRight: "solid",
                   height: "100%",
                   textAlign: "center",
                   justifyContent: "center",
                   alignItems: "center",
                   display: "flex",
+                  cursor: "pointer",
+                  borderRight: "1px solid",
+                  borderColor: config.BORDER_COLOR,
                 }}
               >
                 {" "}
@@ -104,18 +116,22 @@ const ShoppingItem = ({ shoppingItem }) => {
               <div
                 style={{
                   width: "33%",
-                  borderRight: "solid",
                   height: "100%",
                   textAlign: "center",
                   justifyContent: "center",
                   alignItems: "center",
                   display: "flex",
+                  borderRight: "1px solid",
+                  borderColor: config.BORDER_COLOR,
                 }}
               >
                 {" "}
                 {shoppingItem.count}{" "}
               </div>
-              <div onClick={addItemToCartHandler} style={{ width: "33%" }}>
+              <div
+                onClick={addItemToCartHandler}
+                style={{ width: "33%", cursor: "pointer" }}
+              >
                 {" "}
                 +{" "}
               </div>

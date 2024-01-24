@@ -39,36 +39,51 @@ const ShoppingCart = ({}) => {
           backgroundColor: "white",
           boxShadow: "0 0.3rem 2rem rgba(0,0,0,.1)",
           borderRight: "solid 0px black",
-          paddingBottom: "10px",
+          padding: "18px 0",
+          marginRight: "10px",
         }}
       >
         <div style={{ width: "auto", margin: "0px 10px" }}>
-          <div style={{ width: "100%", height: "auto", textAlign: "center" }}>
-            {shoppingCart?.length > 0 ? <div>Sepetiniz</div> : ""}
-            <div style={{ margin: "10px 0px" }}>Sepetinize ürün ekleyin</div>
+          <div
+            style={{
+              width: "100%",
+              height: "auto",
+              textAlign: "center",
+              marginBottom: "48px",
+            }}
+          >
+            <div style={{ fontSize: "18px", fontWeight: "600" }}>Sepetiniz</div>
+            {shoppingCart?.length > 0 ? (
+              ""
+            ) : (
+              <div style={{ margin: "10px 0px" }}>Sepetinize ürün ekleyin</div>
+            )}
           </div>
           <ShoppingItems></ShoppingItems>
           <CartSummary
             totalPrice={shoppingCart?.reduce(
-              (partialSum, a) => partialSum + a.price,
+              (partialSum, a) =>
+                partialSum + parseInt(a.price) * parseInt(a.count),
               0
             )}
           ></CartSummary>
           <Link
-          to="/sepetim"
+            to="/sepetim"
             style={{
               textAlign: "center",
               backgroundColor: "#034C8E",
               color: "white",
-              height: "30px",
+              height: "50px",
               justifyContent: "center",
               display: "flex",
               alignItems: "center",
               cursor: "pointer",
-              textDecoration: "none"
+              textDecoration: "none",
+              borderRadius: "8px",
+              margin: "10px 10px",
             }}
           >
-            <div>Siparişi Tamamla</div>
+            <div style={{ fontSize: "18px" }}>Siparişi Tamamla</div>
           </Link>
         </div>
       </div>
