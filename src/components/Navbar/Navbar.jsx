@@ -477,7 +477,7 @@ const Navbar = ({}) => {
                       overflow: "hidden",
                     }}
                   >
-                    {loggedInUser} asdsa
+                    {loggedInUser}
                   </div>{" "}
                 </div>
                 <div style={{ height: "16px", width: "16px" }}>
@@ -553,7 +553,7 @@ const Navbar = ({}) => {
             Sepetim
             <div style={{ width: "100%" }}>{shoppingCartTotal} TL</div>
           </div>
-          {clickedShoppingCart || true ? <ShoppingCart /> : ""}
+          {clickedShoppingCart ? <ShoppingCart /> : ""}
         </div>
       </div>
     </>

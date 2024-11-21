@@ -17,6 +17,7 @@ import { getProductById } from "../../redux/products";
 function Product() {
   let { productId } = useParams();
   const [product, setProduct] = useState({});
+  const [videoMenuIsOpen, setVideoMenuIsOpen] = useState(false);
   const shoppingCart = useSelector((state) => state.shoppingCart.shoppingCart);
   const dispatch = useDispatch();
 
@@ -29,6 +30,10 @@ function Product() {
         itemExists: itemExists,
       })
     );
+  };
+
+  const clickVideoMenuHandler = () => {
+    setVideoMenuIsOpen(!videoMenuIsOpen);
   };
 
   const itemExistsOnCart = () => {
@@ -50,6 +55,7 @@ function Product() {
           deadline: data[0].deadline,
           leftAmount: data[0].leftAmount,
           totalAmount: data[0].totalAmount,
+          videoID: data[0].videoID,
         };
         setProduct(productNew);
       })
@@ -156,6 +162,42 @@ function Product() {
                 {product?.totalAmount}
               </div>
             </div>
+            {product?.videoID == "" ? (
+              ""
+            ) : (
+              <div
+                style={{
+                  borderBottom: "1px solid rgba(0,0,0,.12)",
+                  padding: "12px",
+                  height: "auto",
+                }}
+              >
+                <div
+                  onClick={clickVideoMenuHandler}
+                  style={{
+                    font: "1rem/1.5 Inter,sans-serif",
+                    cursor: "pointer",
+                    marginBottom: "10px",
+                    height: "100%",
+                  }}
+                >
+                  Ürün Videosunu İzlemek İçin Tıklayınız
+                  {videoMenuIsOpen ? (
+                    <iframe
+                      src={"https://www.youtube.com/embed/" + product?.videoID}
+                      frameborder="0"
+                      allow="autoplay; encrypted-media"
+                      allowfullscreen
+                      title="video"
+                      style={{ width: "100%", aspectRatio: "16 / 9" }}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+            )}
+
             <div
               onClick={addItemToCartHandler}
               style={{

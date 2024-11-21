@@ -12,6 +12,8 @@ import updateAddressesReducer from "./updateAddresses";
 import productsReducer from "./products";
 import addressesReducer from "./addresses";
 import ordersReducer from "./orders";
+import announcementReducer from "./announcements";
+import chatsReducer from "./chats";
 
 export const store = configureStore({
   reducer: {
@@ -27,6 +29,8 @@ export const store = configureStore({
     updateAddresses: updateAddressesReducer,
     products: productsReducer,
     addresses: addressesReducer,
-    orders: ordersReducer
+    orders: ordersReducer,
+    announcements: announcementReducer,
+    chats: chatsReducer,
   },
 });

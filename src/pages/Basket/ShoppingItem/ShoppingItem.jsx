@@ -56,7 +56,7 @@ const ShoppingItem = ({ shoppingItem }) => {
             height: "100%",
           }}
         >
-          <div style={{}}>
+          <div style={{ display: "flex" }}>
             <img
               src={
                 config.BACKEND_URL +
@@ -70,6 +70,11 @@ const ShoppingItem = ({ shoppingItem }) => {
                 background: "transparent",
               }}
             ></img>
+            <div>
+              <div style={{ textAlign: "center", marginLeft: "15px" }}>
+                {shoppingItem.name}
+              </div>
+            </div>
           </div>
           <div
             style={{
@@ -81,29 +86,34 @@ const ShoppingItem = ({ shoppingItem }) => {
               flexDirection: "column",
             }}
           >
-            <div>{shoppingItem.name}</div>
-            <div>{shoppingItem.price}</div>
+            <div>{shoppingItem.price * shoppingItem.count} TL</div>
             <div
               style={{
                 display: "flex",
                 height: "30px",
                 width: "70%",
-                border: "solid",
                 alignItems: "center",
                 textAlign: "center",
                 alignSelf: "center",
+                borderRadius: "4px",
+                borderStyle: "solid",
+                borderWidth: "1px",
+                borderColor: config.BORDER_COLOR,
+                marginTop: "5px",
               }}
             >
               <div
                 onClick={removeItemFromCartHandler}
                 style={{
                   width: "33%",
-                  borderRight: "solid",
                   height: "100%",
                   textAlign: "center",
                   justifyContent: "center",
                   alignItems: "center",
                   display: "flex",
+                  cursor: "pointer",
+                  borderRight: "1px solid",
+                  borderColor: config.BORDER_COLOR,
                 }}
               >
                 {" "}
@@ -112,18 +122,22 @@ const ShoppingItem = ({ shoppingItem }) => {
               <div
                 style={{
                   width: "33%",
-                  borderRight: "solid",
                   height: "100%",
                   textAlign: "center",
                   justifyContent: "center",
                   alignItems: "center",
                   display: "flex",
+                  borderRight: "1px solid",
+                  borderColor: config.BORDER_COLOR,
                 }}
               >
                 {" "}
                 {shoppingItem.count}{" "}
               </div>
-              <div onClick={addItemToCartHandler} style={{ width: "33%" }}>
+              <div
+                onClick={addItemToCartHandler}
+                style={{ width: "33%", cursor: "pointer" }}
+              >
                 {" "}
                 +{" "}
               </div>

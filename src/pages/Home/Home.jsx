@@ -26,7 +26,12 @@ import { incrementupdateIsLoggedIn } from "../../redux/updateIsLoggedIn";
 import { incrementupdateOrders } from "../../redux/updateOrders";
 import { incrementupdateAddresses } from "../../redux/updateAddresses";
 import { addToProducts } from "../../redux/products";
+import { addToAnnouncements } from "../../redux/announcements";
+import { addToChats } from "../../redux/chats";
 import { resetProducts } from "../../redux/products";
+import { resetAnnouncements } from "../../redux/announcements";
+import Announcements from "./components/Announcements/Announcements";
+import Chats from "./components/Chats/Chats";
 //import { setOrders } from "../../redux/orders";
 
 function Home() {
@@ -47,6 +52,10 @@ function Home() {
   );
   const updateOrders = useSelector((state) => state.updateOrders.updateOrders);
   const products = useSelector((state) => state.products.products);
+  const announcements = useSelector(
+    (state) => state.announcements.announcements
+  );
+  const chats = useSelector((state) => state.chats.chats);
   //const orders = useSelector((state) => state.products.products);
 
   const dispatch = useDispatch();
@@ -61,6 +70,64 @@ function Home() {
 
   useEffect(() => {
     dispatch(resetProducts({}));
+    dispatch(resetAnnouncements({}));
+
+    fetch(config.BACKEND_URL + "chats/getActiveChats", {
+      credentials: "include",
+      mode: "cors",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        for (let i = 0; i < data.length; i++) {
+          const chat = {
+            title: data[i].title,
+            id: data[i].chat_id,
+            message: data[i].message,
+            date_created: data[i].date_created
+              .replace("T", " ")
+              .substring(0, data[i].date_created.length - 2),
+            username: data[i].email,
+          };
+          dispatch(addToChats({ chat: chat }));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    fetch(config.BACKEND_URL + "announcements/getActiveAnnouncements", {
+      credentials: "include",
+      mode: "cors",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        for (let i = 0; i < data.length; i++) {
+          const announcement = {
+            title: data[i].title,
+            id: data[i].announcement_id,
+            text: data[i].text,
+            date: data[i].date,
+            image_path: data[i].image_path,
+          };
+          dispatch(addToAnnouncements({ announcement: announcement }));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // setAnnouncements([
+    //   {
+    //     title: "test",
+    //     date: "27/10/2024 10:01",
+    //     text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    //   },
+    //   { title: "test2", date: "27/10/2024 10:01" },
+    //   { title: "test3", date: "27/10/2024 10:01" },
+    //   { title: "test4", date: "27/10/2024 10:01" },
+    //   { title: "test5", date: "27/10/2024 10:01" },
+    //   { title: "test6", date: "27/10/2024 10:01" },
+    //   { title: "test7", date: "27/10/2024 10:01" },
+    // ]);
     // dispatch(
     //   addToProducts({
     //     product: {
@@ -240,7 +307,9 @@ function Home() {
       position: poisition,
     });
   };
-
+  const productTemplate = (product) => {
+    return <div> test {product.name} test</div>;
+  };
   return (
     <>
       <ToastContainer></ToastContainer>
@@ -253,6 +322,7 @@ function Home() {
         }}
       >
         <Navbar />
+
         {/* <div
           style={{
             backgroundImage:
@@ -263,16 +333,18 @@ function Home() {
             backgroundSize: "cover",
           }}
         ></div> */}
-        <div
-          style={{
-            height: "69px",
-            display: "block",
-            width: "100%",
-            backgroundSize: "cover",
-            borderBottom: "solid 1px #dcdcdc",
-          }}
-        >
-          {/* {Array.isArray(orders)
+        {announcements.length > 0 ? (
+          <div
+            style={{
+              height: "200px",
+              display: "block",
+              width: "100%",
+              backgroundSize: "cover",
+              borderBottom: "solid 1px #dcdcdc",
+            }}
+          >
+            <Announcements announcements={announcements}></Announcements>
+            {/* {Array.isArray(orders)
             ? orders.map((product) => {
                 const product_status = product.order_status + "";
                 console.log(product_status);
@@ -285,26 +357,49 @@ function Home() {
                 );
               })
             : ""} */}
-        </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              height: "69px",
+              display: "block",
+              width: "100%",
+              backgroundSize: "cover",
+              borderBottom: "solid 1px #dcdcdc",
+            }}
+          ></div>
+        )}
+
         <div
           style={{
-            display: "flex",
             height: "100%",
             width: "80%",
             margin: "0 auto",
           }}
         >
-          <LeftNavigation
-            products={products}
-            updateProductCounts={updateProductCounts}
-            setSelectedCategory={setSelectedCategory}
-            selectedCategory={selectedCategory}
-          ></LeftNavigation>
-          <ProductList
-            products={products}
-            selectedCategory={selectedCategory}
-          ></ProductList>
+          <div style={{ display: "flex" }}>
+            <LeftNavigation
+              products={products}
+              updateProductCounts={updateProductCounts}
+              setSelectedCategory={setSelectedCategory}
+              selectedCategory={selectedCategory}
+            ></LeftNavigation>
+            <ProductList
+              products={products}
+              selectedCategory={selectedCategory}
+            ></ProductList>
+          </div>
+          <div
+            style={{
+              marginTop: "50px",
+              border: "solid 1px #dcdcdc",
+              padding: "10px",
+            }}
+          >
+            <Chats chats={chats}></Chats>
+          </div>
         </div>
+
         <GotoCart></GotoCart>
         <ContactUs></ContactUs>
       </div>
